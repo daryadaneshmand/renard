@@ -46,3 +46,12 @@ Checks, with Playwright installed outside the repo (`NODE_PATH=<dir>/node_module
 `s` runs head to tail along the body; `d` runs out along a fin ray, measured inside the silhouette, so rays keep the station they grew from. Phase accumulates, so tempo changes never jump. The mesh is inflated from the body curves and depth tested, so the fish occludes itself. Paired fins hinge, tip behind root. Per-type defaults are in `TYPES` in `tools/bake.py`.
 
 **Ground and line color** on the bench come from the plate (`assets/fish/index.json`). The water's look is Darya's call.
+
+## The water
+
+`index.html` is the piece. Its look is one block of constants at the top of that file: ground, line, strength, weight, motion. `water.js` holds the rest: each fish gets one long path that begins and ends where it cannot be seen, either past the window's side or so far off that haze has taken it. Nothing knows about the window's edges, so nothing can turn at one.
+
+- `i` switches color and ink.
+- `?arrive=1` is one fish, one crossing, then an empty, still window with the render loop stopped. `?fish=<slug>` picks the fish, `?credit` shows the credit line.
+- `?seed=<n>` repeats a run. `?manual=1` is for tools/water_check.cjs: no loop, driven by script.
+- `prefers-reduced-motion` gives near-still drift with two fish.

@@ -2,6 +2,7 @@
 <html lang="en">
 <meta charset="utf-8">
 <title>Renard: rig bench</title>
+<link rel="icon" href="data:,">
 <style>
   /* bench only: this is not the piece */
   html, body { margin: 0; background: #e1d3bd; font: 12px/1.4 ui-monospace, Menlo, monospace; color: #292725; }
@@ -80,6 +81,7 @@ function readback(partIndex) {
   setSwim(gl, T, cur);
   gl.uniformMatrix4fv(T.u.u_model, false, model);
   gl.uniform2f(T.u.u_hingeN, m.hingeN[0], m.hingeN[1]);
+  gl.uniform1f(T.u.u_flap, cur.swim.flap * m.lift);
   const buf = gl.createBuffer();
   gl.bindBuffer(gl.TRANSFORM_FEEDBACK_BUFFER, buf);
   gl.bufferData(gl.TRANSFORM_FEEDBACK_BUFFER, m.verts * 16, gl.STREAM_READ);
@@ -97,7 +99,7 @@ function readback(partIndex) {
   gl.getBufferSubData(gl.TRANSFORM_FEEDBACK_BUFFER, 0, out);
   gl.bindBuffer(gl.TRANSFORM_FEEDBACK_BUFFER, null);
   gl.deleteBuffer(buf);
-  return { clip: Array.from(out), vp: Array.from(vp), model: Array.from(model), phase: cur.phase, swim: cur.swim, hingeN: m.hingeN };
+  return { clip: Array.from(out), vp: Array.from(vp), model: Array.from(model), phase: cur.phase, swim: cur.swim, hingeN: m.hingeN, lift: m.lift };
 }
 
 async function setFish(slug) {

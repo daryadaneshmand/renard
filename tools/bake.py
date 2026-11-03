@@ -27,11 +27,11 @@ FLOATS = 8         # x y u v s d z r
 
 # Per body type. Wavelength and amplitude in body lengths; tempo in cycles per second.
 TYPES = {
-    'eel':      dict(wavelength=.72, amplitude=.065, tempo=.42, envelope=1.0, head=.12, lag=1.0, flex=.14, thick=.42, flap=.22),
+    'eel':      dict(wavelength=.72, amplitude=.085, tempo=.42, envelope=1.0, head=.12, lag=1.0, flex=.14, thick=.42, flap=.22),
     'disc':     dict(wavelength=1.5, amplitude=.075, tempo=.34, envelope=3.0, head=.00, lag=2.2, flex=.20, thick=.20, flap=.30),
-    'deep':     dict(wavelength=1.2, amplitude=.095, tempo=.42, envelope=2.6, head=.02, lag=1.8, flex=.22, thick=.28, flap=.30),
-    'wrasse':   dict(wavelength=1.05, amplitude=.100, tempo=.50, envelope=2.2, head=.03, lag=1.6, flex=.22, thick=.36, flap=.30),
-    'fusiform': dict(wavelength=1.0, amplitude=.105, tempo=.58, envelope=2.4, head=.03, lag=1.4, flex=.24, thick=.38, flap=.30),
+    'deep':     dict(wavelength=1.2, amplitude=.075, tempo=.42, envelope=2.6, head=.02, lag=1.8, flex=.18, thick=.28, flap=.30),
+    'wrasse':   dict(wavelength=1.05, amplitude=.080, tempo=.50, envelope=2.2, head=.03, lag=1.6, flex=.18, thick=.36, flap=.30),
+    'fusiform': dict(wavelength=1.0, amplitude=.080, tempo=.58, envelope=2.4, head=.03, lag=1.4, flex=.18, thick=.38, flap=.30),
 }
 
 def load_alpha(path, size):
@@ -227,6 +227,13 @@ def bake_fish(d):
         trif = np.stack([a, b, c, b, e, c], 1).astype(np.uint32).ravel()
         entry = add(vf, trif)
         entry['hinge_n'] = [float(sgn * n[0]), float(-n[1])]
+        # Cap the lift so what the fin uncovers stays within fin['reveal'] plate px at a steep yaw.
+        # A fin that hangs free of the body uncovers nothing, so it keeps the full lift.
+        over = float((ndi.map_coordinates(F['z'], np.vstack([py_ / FIELD - .5, px_ / FIELD - .5]), order=1) > 1e-4).mean())
+        flap = dict(TYPES.get(rig.get('type', 'wrasse'), TYPES['wrasse']), **rig.get('swim_override', {}))['flap']
+        tip = float(r.max()) * L
+        lift = 1.0 if over < .3 else min(1.0, fin.get('reveal', 14) / (tip * np.sin(np.radians(45)) * flap))
+        entry['lift'] = round(lift, 3)
         mesh['fins'].append(entry)
 
     with open(f'{d}/mesh.bin', 'wb') as fp:
@@ -240,7 +247,7 @@ def bake_fish(d):
     with open(f'{d}/rig.json', 'w') as fp:
         json.dump(rig, fp, indent=1)
     print(f"{rig['slug']:24s} L={L:6.0f} cell={cell:4.1f} body v={mesh['body']['verts']:6d} t={mesh['body']['idx'] // 3:6d} torn={torn:4d} "
-          f"fins={[e['verts'] for e in mesh['fins']]}  s[{v[:, 4].min():.2f},{v[:, 4].max():.2f}] d<{v[:, 5].max():.2f} z<{v[:, 6].max():.3f} {os.path.getsize(f'{d}/mesh.bin') // 1024}K")
+          f"fins={[(e['verts'], e['lift']) for e in mesh['fins']]}  s[{v[:, 4].min():.2f},{v[:, 4].max():.2f}] d<{v[:, 5].max():.2f} z<{v[:, 6].max():.3f} {os.path.getsize(f'{d}/mesh.bin') // 1024}K")
     return rig
 
 def main():

@@ -17,7 +17,7 @@ def smoothstep(a, b, x):
     t = np.clip((x - a) / (b - a), 0, 1)
     return t * t * (3 - 2 * t)
 
-def expected(v, sw, phase, hinge, model, vp):
+def expected(v, sw, phase, hinge, model, vp, lift=1):
     x, y, s0, d, z, r = v[:, 0], v[:, 1], v[:, 4], v[:, 5], v[:, 6], v[:, 7]
     s = np.clip(s0, 1e-4, 1)
     k = 2 * np.pi / sw['wavelength']
@@ -35,7 +35,7 @@ def expected(v, sw, phase, hinge, model, vp):
     py = y.copy()
     pz = sw['thick'] * z + off
     if hinge[0] or hinge[1]:
-        al = sw['flap'] * (.5 + .5 * np.sin(.5 * phase - 2 * lag * r))
+        al = sw['flap'] * lift * (.5 + .5 * np.sin(.5 * phase - 2 * lag * r))
         m = r > 0
         px = px - np.where(m, hinge[0] * r * (1 - np.cos(al)), 0)
         py = py - np.where(m, hinge[1] * r * (1 - np.cos(al)), 0)
@@ -60,7 +60,7 @@ def main():
             e = rig['mesh']['body'] if r['part'] < 0 else rig['mesh']['fins'][r['part']]
             v = np.frombuffer(bin_, np.float32, e['verts'] * rig['mesh']['floats'], e['vert_off']).reshape(-1, rig['mesh']['floats']).astype(np.float64)
             got = np.array(r['clip'], float).reshape(-1, 4)
-            want = expected(v, r['swim'], r['phase'], r['hingeN'], r['model'], r['vp'])
+            want = expected(v, r['swim'], r['phase'], r['hingeN'], r['model'], r['vp'], r.get('lift', 1))
             # in normalised device units: the size that would move a pixel
             gn, wn = got[:, :3] / got[:, 3:], want[:, :3] / want[:, 3:]
             err = max(err, float(np.abs(gn[:, :2] - wn[:, :2]).max()))

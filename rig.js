@@ -46,19 +46,25 @@ export const FS = `#version 300 es
 precision highp float;
 in vec2 v_uv;
 uniform sampler2D u_color, u_ink;
-uniform float u_look, u_haze;
-uniform vec3 u_paper, u_inkc, u_ground;
+uniform float u_look, u_haze, u_opacity, u_veil;
+uniform vec3 u_paper, u_inkc, u_ground, u_linec;
+uniform sampler2D u_water;
+uniform vec2 u_res;
 uniform int u_pass;
 out vec4 o;
 void main() {
   vec4 c = texture(u_color, v_uv);
   float a = c.a;
   if (u_pass == 0) { if (a < 0.995) discard; a = 1.0; }
-  else if (a >= 0.995 || a < 0.004) discard;
+  else if (u_pass == 1) { if (a >= 0.995 || a < 0.004) discard; }
+  else if (a < 0.004) discard;
   float l = texture(u_ink, v_uv).a;
   vec3 ink = mix(u_paper, u_inkc, l);
   vec3 rgb = mix(c.rgb, ink, u_look);
   rgb = mix(rgb, u_ground, u_haze);
+  // far fish sit behind the water's own lines
+  if (u_veil > 0.0) rgb = mix(rgb, u_linec, texture(u_water, gl_FragCoord.xy / u_res).r * u_veil);
+  a *= u_opacity;
   o = vec4(rgb * a, a);
 }`;
 
@@ -78,6 +84,14 @@ export function makeProgram(gl, feedback) {
   ['a_pos', 'a_uv', 'a_s', 'a_d', 'a_z', 'a_r'].forEach((n, i) => gl.bindAttribLocation(pr, i, n));
   gl.linkProgram(pr);
   if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(pr));
+  // something valid on the water's unit, for pages with no water
+  if (!gl._waterDummy) {
+    gl._waterDummy = gl.createTexture();
+    gl.activeTexture(gl.TEXTURE2);
+    gl.bindTexture(gl.TEXTURE_2D, gl._waterDummy);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array(4));
+    gl.activeTexture(gl.TEXTURE0);
+  }
   const u = {};
   const n = gl.getProgramParameter(pr, gl.ACTIVE_UNIFORMS);
   for (let i = 0; i < n; i++) {
@@ -87,9 +101,15 @@ export function makeProgram(gl, feedback) {
   return { pr, u };
 }
 
-async function texture(gl, url, aniso) {
+async function texture(gl, url, aniso, maxTex) {
   const blob = await (await fetch(url)).blob();
-  const bmp = await createImageBitmap(blob, { premultiplyAlpha: 'none', colorSpaceConversion: 'none' });
+  const opt = { premultiplyAlpha: 'none', colorSpaceConversion: 'none' };
+  let bmp = await createImageBitmap(blob, opt);
+  if (maxTex && Math.max(bmp.width, bmp.height) > maxTex) {
+    const k = maxTex / Math.max(bmp.width, bmp.height), w = Math.round(bmp.width * k), h = Math.round(bmp.height * k);
+    bmp.close();
+    bmp = await createImageBitmap(blob, { ...opt, resizeWidth: w, resizeHeight: h, resizeQuality: 'high' });
+  }
   const t = gl.createTexture();
   gl.bindTexture(gl.TEXTURE_2D, t);
   gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
@@ -121,21 +141,20 @@ function part(gl, bin, e, floats) {
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ib);
   gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(bin, e.idx_off, e.idx), gl.STATIC_DRAW);
   gl.bindVertexArray(null);
-  return { vao, count: e.idx, verts: e.verts, hingeN: e.hinge_n || [0, 0] };
+  return { vao, count: e.idx, verts: e.verts, hingeN: e.hinge_n || [0, 0], lift: e.lift ?? 1 };
 }
 
-export async function loadFish(gl, base, slug) {
+export async function loadFish(gl, base, slug, { maxTex } = {}) {
   const dir = `${base}/${slug}`;
   const rig = await (await fetch(`${dir}/rig.json`)).json();
   const bin = await (await fetch(`${dir}/mesh.bin`)).arrayBuffer();
   const aniso = gl.getExtension('EXT_texture_filter_anisotropic');
-  const f = floats => floats;
   const fl = rig.mesh.floats;
   const fish = {
     slug, rig,
     body: part(gl, bin, rig.mesh.body, fl),
-    color: await texture(gl, `${dir}/color.png`, aniso),
-    ink: await texture(gl, `${dir}/ink.png`, aniso),
+    color: await texture(gl, `${dir}/color.png`, aniso, maxTex),
+    ink: await texture(gl, `${dir}/ink.png`, aniso, maxTex),
     fins: [],
     swim: { ...rig.swim },
     phase: 0,
@@ -144,8 +163,8 @@ export async function loadFish(gl, base, slug) {
   for (let i = 0; i < rig.mesh.fins.length; i++) {
     fish.fins.push({
       ...part(gl, bin, rig.mesh.fins[i], fl),
-      color: await texture(gl, `${dir}/fin${i}-color.png`, aniso),
-      ink: await texture(gl, `${dir}/fin${i}-ink.png`, aniso),
+      color: await texture(gl, `${dir}/fin${i}-color.png`, aniso, maxTex),
+      ink: await texture(gl, `${dir}/fin${i}-ink.png`, aniso, maxTex),
     });
   }
   return fish;
@@ -165,35 +184,44 @@ export function setSwim(gl, P, fish) {
 }
 
 // Opaque first so the fish occludes itself in the depth buffer, soft edge on top.
-export function drawFish(gl, P, fish, model, look, haze) {
-  const u = P.u;
+// A fish fading into distance lays its depth down first, then blends once, so it never shows its own back.
+export function drawFish(gl, P, fish, model, look, haze, { opacity = 1, veil = 0 } = {}) {
+  const u = P.u, sw = fish.swim;
   gl.useProgram(P.pr);
   setSwim(gl, P, fish);
   gl.uniformMatrix4fv(u.u_model, false, model);
   gl.uniform1f(u.u_look, look);
   gl.uniform1f(u.u_haze, haze);
+  gl.uniform1f(u.u_opacity, opacity);
+  gl.uniform1f(u.u_veil, veil);
   gl.uniform1i(u.u_color, 0);
   gl.uniform1i(u.u_ink, 1);
+  gl.uniform1i(u.u_water, 2);
   const one = (m, color, ink) => {
     gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, color);
     gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, ink);
     gl.uniform2f(u.u_hingeN, m.hingeN[0], m.hingeN[1]);
+    gl.uniform1f(u.u_flap, sw.flap * m.lift);
     gl.bindVertexArray(m.vao);
     gl.drawElements(gl.TRIANGLES, m.count, gl.UNSIGNED_INT, 0);
+  };
+  const all = () => {
+    one(fish.body, fish.color, fish.ink);
+    for (const f of fish.fins) one(f, f.color, f.ink);
   };
   gl.enable(gl.DEPTH_TEST);
   gl.depthFunc(gl.LEQUAL);
   gl.disable(gl.BLEND);
   gl.depthMask(true);
   gl.uniform1i(u.u_pass, 0);
-  one(fish.body, fish.color, fish.ink);
-  for (const f of fish.fins) one(f, f.color, f.ink);
+  if (opacity < 0.999) gl.colorMask(false, false, false, false);
+  all();
+  gl.colorMask(true, true, true, true);
   gl.enable(gl.BLEND);
   gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
   gl.depthMask(false);
-  gl.uniform1i(u.u_pass, 1);
-  one(fish.body, fish.color, fish.ink);
-  for (const f of fish.fins) one(f, f.color, f.ink);
+  gl.uniform1i(u.u_pass, opacity < 0.999 ? 2 : 1);
+  all();
   gl.depthMask(true);
   gl.disable(gl.BLEND);
   gl.bindVertexArray(null);

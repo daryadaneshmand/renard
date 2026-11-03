@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Renard</title>
+<link rel="icon" href="data:,">
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; }
+  canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+  #credit { position: fixed; right: 12px; bottom: 9px; font: italic 11px/1.3 Georgia, 'Times New Roman', serif; opacity: .42; pointer-events: none; }
+</style>
+<canvas id="water" aria-label="Louis Renard's fish, from his 1754 plates, swimming in open water"></canvas>
+<div id="credit">Louis Renard, 1754 edition, via Polona and Wikimedia Commons</div>
+<script type="module">
+// ================================================================================================
+// THE WATER'S LOOK. A placeholder: this is Darya's call. Everything about its color is in this block.
+// Values are from the plate: ground is his paper, line is his ink.
+const LOOK = {
+  ground: [0.882, 0.827, 0.741],   // the water itself; distant fish dissolve into this
+  line:   [0.161, 0.153, 0.145],   // the engraved lines moving through it
+  lineStrength: 0.24,              // how dark the lines print, 0 to 1
+  lineWeight: 1.0,                 // how heavy the burin is
+  lineMotion: 1.0,                 // how fast they drift
+};
+// ================================================================================================
+import { start } from './water.js';
+const q = new URLSearchParams(location.search);
+const credit = document.getElementById('credit');
+credit.style.color = `rgb(${LOOK.line.map(v => Math.round(v * 255)).join(',')})`;
+// A single crossing shows nothing else, unless asked. See README for the query options.
+if (q.has('arrive') && !q.has('credit')) credit.style.display = 'none';
+start(document.getElementById('water'), LOOK, q);
+</script>
+</html>

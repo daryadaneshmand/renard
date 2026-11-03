@@ -123,7 +123,7 @@
  },
  "swim": {
   "wavelength": 0.72,
-  "amplitude": 0.065,
+  "amplitude": 0.085,
   "tempo": 0.42,
   "envelope": 1.0,
   "head": 0.12,

@@ -113,10 +113,15 @@ def unmix(rgb, de, m, paper_rgb, f_hi=22.0):
 # ---------------------------------------------------------------- line
 def line_layer(L, chroma, m, cfg):
     """His engraved line as continuous alpha. Thin darks by black top-hat, plus filled solids."""
-    Ls = ndi.gaussian_filter(L, 0.6)
-    closed = ndi.grey_closing(Ls, footprint=morphology.disk(6))
+    Ls = ndi.gaussian_filter(L, cfg.get('blur', 0.6))
+    closed = ndi.grey_closing(Ls, footprint=morphology.disk(cfg.get('reach', 6)))
     hat = closed - Ls
     line = np.clip((hat - cfg['hat_lo']) / (cfg['hat_hi'] - cfg['hat_lo']), 0, 1)
+    if 'coarse' in cfg:
+        # For a fish drawn in wash lines: its broad strokes, from the plate, under a lighter hatch
+        b, r, lo, hi = cfg['coarse']
+        Lb = ndi.gaussian_filter(L, b)
+        line = np.maximum(line, np.clip((ndi.grey_closing(Lb, footprint=morphology.disk(r)) - Lb - lo) / (hi - lo), 0, 1))
     # solids: truly dark, low chroma. The painted blacks are blotchy, so close and fill small gaps.
     dark = (Ls < cfg['black_L']) & (chroma < cfg['black_C'])
     dark = morphology.remove_small_objects(dark, max_size=10)
@@ -356,7 +361,7 @@ def cut_fish(A, lbl, prop, entry, corr, plate, outdir, ink_rgb):
     # ink
     L = Lab[..., 0]
     chroma = np.hypot(Lab[..., 1], Lab[..., 2])
-    ink, solid = line_layer(L, chroma, m, CFG)
+    ink, solid = line_layer(L, chroma, m, {**CFG, **corr.get('ink', {})})
     outer = np.clip(ndi.gaussian_filter(ndi.binary_dilation(m, iterations=1).astype(np.float32), .7) * 1.6, 0, 1)
     ink = ink * outer
 

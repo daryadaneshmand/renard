@@ -103,7 +103,7 @@ function readback(partIndex) {
 }
 
 async function setFish(slug) {
-  fishes[slug] = fishes[slug] || await loadFish(gl, base, slug);
+  fishes[slug] = fishes[slug] || await loadFish(gl, base, slug, { keep: true });
   cur = fishes[slug];
   sel.value = slug;
   buildKnobs();
@@ -156,10 +156,10 @@ function tick(now) {
 }
 requestAnimationFrame(tick);
 
-// All rigs at once, overlapping, each forced to finish: frame time with all 10 loaded.
+// All rigs at once, overlapping, each forced to finish: frame time with all of them loaded.
 async function perfAll(w, h, n = 180, look = 0) {
   S.playing = false;
-  for (const f of index.fish) { fishes[f] = fishes[f] || await loadFish(gl, base, f); }
+  for (const f of index.fish) { fishes[f] = fishes[f] || await loadFish(gl, base, f, { keep: true }); }
   size(w, h);
   const list = index.fish.map(f => fishes[f]);
   const px = new Uint8Array(4);

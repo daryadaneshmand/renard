@@ -101,7 +101,7 @@ const save = (file, url) => fs.writeFileSync(file, Buffer.from(url.split(',')[1]
         const clip = B.readback(-1).clip;
         // the farthest vertex out along the tail
         let k = 0, best = -1e9;
-        const fl = new Float32Array(f.bin, f.rig.mesh.body.vert_off, f.rig.mesh.body.verts * f.rig.mesh.floats);
+        const fl = f.floats;
         for (let i = 0; i < f.rig.mesh.body.verts; i += 7) if (fl[i * 8] > best) { best = fl[i * 8]; k = i; }
         const x = clip[k * 4] / clip[k * 4 + 3];
         log.push({ n, phase: f.phase, x, tempo: f.swim.tempo });

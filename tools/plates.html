@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Renard plates: pick the order</title>
+<link rel="icon" href="data:,">
+<style>
+  :root { color-scheme: light; font: 13px/1.35 -apple-system, system-ui, sans-serif; color: #222; }
+  body { margin: 0; padding: 14px 14px 90px; background: #f4f4f4; }
+  h1 { font-size: 15px; font-weight: 600; line-height: 1.3; margin: 0 0 2px; }
+  p { margin: 0 0 12px; color: #666; }
+  #grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
+  .plate { position: relative; padding: 0; border: 2px solid transparent; border-radius: 4px; background: #fff; cursor: pointer; overflow: hidden; text-align: left; font: inherit; color: inherit; }
+  .plate img { display: block; width: 100%; aspect-ratio: 3396 / 5185; object-fit: cover; background: #e6e6e6; }
+  .plate.picked { border-color: #222; }
+  .plate.has { cursor: default; }
+  .plate.has img { opacity: .45; }
+  .id { display: block; padding: 4px 6px; color: #666; font-variant-numeric: tabular-nums; }
+  .badge { position: absolute; top: 6px; left: 6px; min-width: 24px; height: 24px; padding: 0 6px; box-sizing: border-box; border-radius: 12px; background: #222; color: #fff; font-size: 13px; font-weight: 600; line-height: 24px; text-align: center; }
+  .note { position: absolute; top: 6px; left: 6px; padding: 2px 7px; border-radius: 10px; background: #fff; color: #444; font-size: 11px; }
+  .zoom { position: absolute; top: 6px; right: 6px; width: 24px; height: 24px; border-radius: 12px; background: #fff; color: #222; text-align: center; font-size: 16px; line-height: 24px; text-decoration: none; }
+  #bar { position: fixed; left: 0; right: 0; bottom: 0; display: flex; gap: 10px; align-items: center; padding: 10px 14px; background: #fff; border-top: 1px solid #ccc; }
+  #order { flex: 1; min-width: 0; font-variant-numeric: tabular-nums; white-space: nowrap; overflow-x: auto; color: #444; }
+  button.act { padding: 7px 12px; font: inherit; border: 1px solid #888; border-radius: 4px; background: #fff; cursor: pointer; }
+  button.act.main { background: #222; border-color: #222; color: #fff; }
+</style>
+<h1>Pick the order</h1>
+<p>Click plates in the order you want them swimming. Click again to take one out. The + opens it larger. Faded plates are already done or in progress. Some pages are only text, so skip those.</p>
+<div id="grid"></div>
+<div id="bar">
+  <div id="order"></div>
+  <button class="act" id="clear">Clear</button>
+  <button class="act main" id="copy">Copy order</button>
+</div>
+<script type="module">
+const HAVE = { '7198037': 'swimming', '7198104': 'in progress', '7198504': 'in progress' };
+const KEY = 'renard-plate-order';
+const files = await (await fetch('commons-files.json')).json();
+const ids = files.map(f => f.title.match(/\((\d+)\)/)[1]);
+let order = JSON.parse(localStorage.getItem(KEY) || '[]').filter(id => ids.includes(id));
+
+const grid = document.getElementById('grid');
+const cells = new Map();
+ids.forEach((id, i) => {
+  const b = document.createElement('div');
+  b.className = 'plate' + (HAVE[id] ? ' has' : '');
+  b.tabIndex = HAVE[id] ? -1 : 0;
+  b.setAttribute('role', 'button');
+  b.innerHTML = `<img loading="lazy" alt="Plate ${id}" src="../cache/thumbs/${id}.jpg"><span class="id">${i + 1} &middot; ${id}</span>` +
+    (HAVE[id] ? `<span class="note">${HAVE[id]}</span>` : '') +
+    `<a class="zoom" href="../cache/thumbs/${id}.jpg" target="_blank" rel="noopener" aria-label="Open plate ${id} larger">+</a>`;
+  b.querySelector('.zoom').addEventListener('click', e => e.stopPropagation());
+  if (!HAVE[id]) {
+    const toggle = () => {
+      order = order.includes(id) ? order.filter(x => x !== id) : [...order, id];
+      draw();
+    };
+    b.addEventListener('click', toggle);
+    b.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+  }
+  grid.append(b);
+  cells.set(id, b);
+});
+
+function draw() {
+  localStorage.setItem(KEY, JSON.stringify(order));
+  for (const [id, b] of cells) {
+    b.querySelector('.badge')?.remove();
+    const at = order.indexOf(id);
+    b.classList.toggle('picked', at >= 0);
+    if (at >= 0) {
+      const s = document.createElement('span');
+      s.className = 'badge';
+      s.textContent = at + 1;
+      b.append(s);
+    }
+  }
+  document.getElementById('order').textContent = order.length ? order.join(', ') : 'Nothing picked yet';
+}
+draw();
+
+document.getElementById('clear').addEventListener('click', () => { order = []; draw(); });
+const copy = document.getElementById('copy');
+copy.addEventListener('click', async () => {
+  await navigator.clipboard.writeText(order.join(', '));
+  copy.textContent = 'Copied';
+  setTimeout(() => { copy.textContent = 'Copy order'; }, 1400);
+});
+</script>
+</html>

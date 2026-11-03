@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Turn each fish's rig into a mesh the shader can swim.
 
-    python -I tools/bake.py [--plate 7198037] [--only slug ...]
+    python -I tools/bake.py [--plate 7198104] [--only slug ...]
 
 For every vertex of a fine grid over the cutout:
   s   station along the body: 0 at the head line, 1 at the tail start. Off the body it is the
@@ -10,7 +10,11 @@ For every vertex of a fine grid over the cutout:
   z   inflation from the body curves, in body lengths before the per-fish thickness.
   r   on a paired fin only: distance from the hinge, in body lengths.
 Space: x in body lengths, 0 at mid-body, +x toward the tail; y up.
-Layout of mesh.bin and its offsets are recorded in rig.json under "mesh".
+
+mesh.bin holds no positions or triangles: the mesh is a regular grid, so one bit per cell says
+which cells exist and the rest follows. After the bits come s, d, z, r as 16-bit values per vertex.
+Each is left out when it is constant. rig.json "mesh" records the grid and the ranges; read_part
+below and decodePart in rig.js must agree.
 """
 import argparse, glob, json, os, struct, sys
 import numpy as np
@@ -34,6 +38,51 @@ TYPES = {
     'fusiform': dict(wavelength=1.0, amplitude=.080, tempo=.58, envelope=2.4, head=.03, lag=1.4, flex=.18, thick=.38, flap=.30),
 }
 
+QUANT = 65535
+
+def write_part(keep, attrs):
+    """Encode one mesh part. attrs: name to float array, one value per vertex."""
+    bits = np.packbits(keep.ravel()).tobytes()
+    if len(bits) % 2:
+        bits += b'\0'
+    out, ranges = [bits], {}
+    for k in ('s', 'd', 'z', 'r'):
+        a = attrs[k].astype(np.float64)
+        lo, hi = float(a.min()), float(a.max())
+        ranges[k] = [lo, hi]
+        if hi > lo:
+            out.append(np.round((a - lo) / (hi - lo) * QUANT).astype(np.uint16).tobytes())
+    return b''.join(out), ranges
+
+def read_part(buf, e, space):
+    """The floats x y u v s d z r and the triangles of one part, as the shader gets them."""
+    nx, ny = e['nx'], e['ny']
+    n = (nx * ny + 7) // 8
+    keep = np.unpackbits(np.frombuffer(buf, np.uint8, n, e['off']))[:nx * ny].reshape(ny, nx).astype(bool)
+    pos = e['off'] + n + (n % 2)
+    used = np.zeros((ny + 1, nx + 1), bool)
+    jj, ii = np.nonzero(keep)
+    for dj, di in ((0, 0), (0, 1), (1, 0), (1, 1)):
+        used[jj + dj, ii + di] = True
+    vy, vx = np.nonzero(used)
+    vid = -np.ones(used.shape, np.int64)
+    vid[vy, vx] = np.arange(len(vy))
+    px, py = e['x0'] + vx * e['w'] / nx, e['y0'] + vy * e['h'] / ny
+    v = np.zeros((len(vy), FLOATS), np.float32)
+    v[:, 0] = space['sgn'] * (px - space['cx']) / space['L']
+    v[:, 1] = -(py - space['cy']) / space['L']
+    v[:, 2] = (px - e['x0']) / e['w']
+    v[:, 3] = (py - e['y0']) / e['h']
+    for col, k in ((4, 's'), (5, 'd'), (6, 'z'), (7, 'r')):
+        lo, hi = e['range'][k]
+        if hi > lo:
+            v[:, col] = lo + np.frombuffer(buf, np.uint16, len(vy), pos).astype(np.float64) / QUANT * (hi - lo)
+            pos += 2 * len(vy)
+        else:
+            v[:, col] = lo
+    a, b, c, f = vid[jj, ii], vid[jj, ii + 1], vid[jj + 1, ii], vid[jj + 1, ii + 1]
+    return v, np.stack([a, b, c, b, f, c], 1).astype(np.uint32).ravel()
+
 def load_alpha(path, size):
     a = Image.open(path).convert('RGBA').getchannel('A')
     return np.asarray(a.resize(size, Image.BILINEAR)).astype(np.float32) / 255
@@ -42,11 +91,11 @@ def plate_alpha(d, rig):
     """Body and fin alpha at plate resolution."""
     W, H = rig['size_plate']
     ox, oy = rig['origin']
-    body = load_alpha(f'{d}/color.png', (W, H))
+    body = load_alpha(f'{d}/color.webp', (W, H))
     fins = []
     for i, fin in enumerate(rig['fins']):
         x, y, w, h = fin['box']
-        a = load_alpha(f'{d}/fin{i}-color.png', (w, h))
+        a = load_alpha(f'{d}/fin{i}-color.webp', (w, h))
         fins.append((x - ox, y - oy, w, h, a))
     return body, fins
 
@@ -182,13 +231,17 @@ def bake_fish(d):
     v[:, 6] = f['z'].reshape(ny, nx)[vy, vx]
     a, b, c, e = vid[jj, ii], vid[jj, ii + 1], vid[jj + 1, ii], vid[jj + 1, ii + 1]
     tri = np.stack([a, b, c, b, e, c], 1).astype(np.uint32).ravel()
-    def add(v, tri):
+    space = dict(sgn=sgn, cx=float(cx), cy=float(cy), L=float(L))
+    def add(v, tri, keep, x0_, y0_, w_, h_):
         nonlocal pos
-        entry = dict(vert_off=pos, verts=len(v), idx_off=pos + v.nbytes, idx=len(tri))
-        chunks.extend([v.tobytes(), tri.tobytes()])
-        pos += v.nbytes + tri.nbytes
+        ny_, nx_ = keep.shape
+        data, ranges = write_part(keep, dict(s=v[:, 4], d=v[:, 5], z=v[:, 6], r=v[:, 7]))
+        entry = dict(off=pos, nx=nx_, ny=ny_, x0=float(x0_), y0=float(y0_), w=float(w_), h=float(h_),
+                     verts=len(v), idx=len(tri), range=ranges)
+        chunks.append(data)
+        pos += len(data)
         return entry
-    mesh = dict(body=add(v, tri), fins=[], L=L, cell=cell, torn=torn, floats=FLOATS)
+    mesh = dict(body=add(v, tri, keep, 0, 0, W, H), fins=[], L=L, cell=cell, torn=torn, floats=FLOATS, space=space)
 
     # Paired fins, each its own mesh, with z taken from the body they lie on
     for k, (fx, fy, fw_, fh_, fa) in enumerate(fins):
@@ -225,7 +278,7 @@ def bake_fish(d):
         vf[:, 7] = r
         a, b, c, e = vid_[jj_, ii_], vid_[jj_, ii_ + 1], vid_[jj_ + 1, ii_], vid_[jj_ + 1, ii_ + 1]
         trif = np.stack([a, b, c, b, e, c], 1).astype(np.uint32).ravel()
-        entry = add(vf, trif)
+        entry = add(vf, trif, keep_, fx, fy, fw_, fh_)
         entry['hinge_n'] = [float(sgn * n[0]), float(-n[1])]
         # Cap the lift so what the fin uncovers stays within fin['reveal'] plate px at a steep yaw.
         # A fin that hangs free of the body uncovers nothing, so it keeps the full lift.
@@ -242,29 +295,36 @@ def bake_fish(d):
     rig['mesh'] = mesh
     rig['swim'] = dict(TYPES.get(rig.get('type', 'wrasse'), TYPES['wrasse']), **rig.get('swim_override', {}))
     # extents in fish space, for framing
-    allv = np.frombuffer(chunks[0], np.float32).reshape(-1, FLOATS)
-    rig['extent'] = [float(allv[:, 0].min()), float(allv[:, 0].max()), float(allv[:, 1].min()), float(allv[:, 1].max())]
+    rig['extent'] = [float(v[:, 0].min()), float(v[:, 0].max()), float(v[:, 1].min()), float(v[:, 1].max())]
     with open(f'{d}/rig.json', 'w') as fp:
         json.dump(rig, fp, indent=1)
     print(f"{rig['slug']:24s} L={L:6.0f} cell={cell:4.1f} body v={mesh['body']['verts']:6d} t={mesh['body']['idx'] // 3:6d} torn={torn:4d} "
           f"fins={[(e['verts'], e['lift']) for e in mesh['fins']]}  s[{v[:, 4].min():.2f},{v[:, 4].max():.2f}] d<{v[:, 5].max():.2f} z<{v[:, 6].max():.3f} {os.path.getsize(f'{d}/mesh.bin') // 1024}K")
     return rig
 
+def shipped_bytes(d):
+    return sum(os.path.getsize(os.path.join(d, f)) for f in os.listdir(d))
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--root', default=f'{ROOT}/assets/fish')
+    ap.add_argument('--plate', help='only this plate id')
     ap.add_argument('--only', nargs='*')
     a = ap.parse_args()
-    meta = json.load(open(sorted(glob.glob(f'{a.root}/plate-*.json'))[0]))
-    rigs = []
-    for slug in meta['fish']:
-        if a.only and slug not in a.only:
+    plates = [json.load(open(f)) for f in sorted(glob.glob(f'{a.root}/plate-*.json'))]
+    for meta in plates:
+        if a.plate and meta['id'] != a.plate:
             continue
-        rigs.append(bake_fish(f'{a.root}/{slug}'))
-    if not a.only:
-        idx = dict(paper=meta['paper'], ink=meta['ink'], credit=meta['credit'], fish=meta['fish'])
-        with open(f'{a.root}/index.json', 'w') as fp:
-            json.dump(idx, fp, indent=1)
+        for slug in meta['fish']:
+            if a.only and slug not in a.only:
+                continue
+            bake_fish(f'{a.root}/{slug}')
+    # Paper and ink stay the first plate's: they are what the bench and the line look print with.
+    fish = [s for m in plates for s in m['fish']]
+    idx = dict(paper=plates[0]['paper'], ink=plates[0]['ink'], credit=plates[0]['credit'], fish=fish,
+               bytes={s: shipped_bytes(f'{a.root}/{s}') for s in fish if os.path.exists(f'{a.root}/{s}/mesh.bin')})
+    with open(f'{a.root}/index.json', 'w') as fp:
+        json.dump(idx, fp, indent=1)
 
 if __name__ == '__main__':
     main()

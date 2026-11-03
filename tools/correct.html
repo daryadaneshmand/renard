@@ -53,10 +53,10 @@ async function load(slug) {
   // the body as stored, with each lifted fin laid back on it, so the fish reads whole
   const off = document.createElement('canvas'); off.width = pw; off.height = ph;
   const o = off.getContext('2d');
-  o.drawImage(await loadImg(`${dir}/color.png`), 0, 0, pw, ph);
+  o.drawImage(await loadImg(`${dir}/color.webp`), 0, 0, pw, ph);
   for (let i = 0; i < rig.fins.length; i++) {
     const b = rig.fins[i].box;
-    o.drawImage(await loadImg(`${dir}/fin${i}-color.png`), b[0] - rig.origin[0], b[1] - rig.origin[1], b[2], b[3]);
+    o.drawImage(await loadImg(`${dir}/fin${i}-color.webp`), b[0] - rig.origin[0], b[1] - rig.origin[1], b[2], b[3]);
   }
   img = off;
   c.width = Math.round(pw * zoom); c.height = Math.round(ph * zoom);

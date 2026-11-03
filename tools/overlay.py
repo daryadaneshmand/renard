@@ -21,7 +21,7 @@ def main():
     if a.plate:
         im = Image.open(a.plate).convert('RGB').crop((x0, y0, x0 + w, y0 + h))
     else:
-        c = Image.open(a.dir + '/color.png').convert('RGBA')
+        c = Image.open(a.dir + '/color.webp').convert('RGBA')
         c = c.resize((pw, ph), Image.LANCZOS) if rig['tex_scale'] != 1 else c
         bg = Image.new('RGBA', c.size, (60, 70, 130, 255)); bg.alpha_composite(c)
         im = bg.convert('RGB').crop((x0 - ox, y0 - oy, x0 - ox + w, y0 - oy + h))

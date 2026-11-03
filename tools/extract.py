@@ -5,8 +5,9 @@
 
 Reads   manifests/<id>.json      names and facing, written by hand
         corrections/<id>.json    hand-made fixes (optional), see correct.html
-Writes  assets/fish/<slug>/color.png  his color, straight alpha, edge unmixed from the paper
-        assets/fish/<slug>/ink.png    his line, ink color with alpha; solid blacks stay filled
+                                 body, head, tail, fins, cut and clear polygons, trim, solid, fill_body, ink
+Writes  assets/fish/<slug>/color.webp  his color, straight alpha, edge unmixed from the paper
+        assets/fish/<slug>/ink.webp    his line, ink color with alpha; solid blacks stay filled
         assets/fish/<slug>/rig.json   body curves, head, tail, paired fins, facing
 """
 import argparse, json, os, re, sys, time, urllib.parse, urllib.request
@@ -18,6 +19,7 @@ from skimage import color, measure, morphology, segmentation
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 UA = 'renard-water/0.1 (art piece; https://github.com/daryadaneshmand/renard) python-urllib'
 MAX_TEX = 2048
+TEX_QUALITY = 90
 
 # ---------------------------------------------------------------- source
 def plate_id(title):
@@ -134,6 +136,27 @@ def line_layer(L, chroma, m, cfg):
     sol = np.clip(ndi.gaussian_filter(solid.astype(np.float32), 0.7) * 1.5 - 0.25, 0, 1)
     ink = np.maximum(line, sol)
     return ink, solid
+
+def black_edges(L, chroma, m, cfg, open_r=3, reach=7, step=22):
+    """How sharp the edges of a fish's dark shapes are, area weighted, 0 to 1.
+
+    Painted black stops at a hard edge. A dark wash fades, so the same threshold leaves blotches.
+    Below WASH_EDGES the darks on this fish are wash, and only near-black counts as solid.
+    """
+    Ls = ndi.gaussian_filter(L, cfg.get('blur', 0.6))
+    core = ndi.binary_opening((Ls < cfg['black_L']) & (chroma < cfg['black_C']) & m, morphology.disk(open_r))
+    lbl, n = ndi.label(core)
+    if not n:
+        return 1.0
+    rise = ndi.maximum_filter(Ls, footprint=morphology.disk(reach)) - Ls
+    rim = core & ~ndi.binary_erosion(core) & ndi.binary_erosion(m, iterations=8)   # the silhouette says nothing
+    idx = np.arange(1, n + 1)
+    area, count = ndi.sum(core, lbl, idx), ndi.sum(rim, lbl, idx)
+    sharp = ndi.sum(rim & (rise > step), lbl, idx) / np.maximum(count, 1)
+    big = (area > 400) & (count > 8)
+    return float((sharp[big] * area[big]).sum() / area[big].sum()) if big.any() else 1.0
+
+WASH_EDGES, WASH_BLACK_L = .43, 20.0
 
 # ---------------------------------------------------------------- body fit
 def edge_curves(m):
@@ -305,7 +328,12 @@ def pushpull(rgb, known):
         fill = np.where(w[..., None] > 0, cur, up)
     return np.where(known[..., None], rgb, fill)
 
-def to_png(path, rgb, a, scale):
+def to_tex(path, rgb, a, scale, lossy=False):
+    """WebP. Alpha is always lossless, and color under zero alpha is kept, since filtering reads it.
+
+    Color layers are lossy at quality 90: compared at real size and 3x on the finest hatch in Fol. 3,
+    the line survives and the fish is about a quarter of its PNG. Ink layers are lossless.
+    """
     arr = np.dstack([np.clip(rgb, 0, 1), np.clip(a, 0, 1)])
     img = Image.fromarray((arr * 255 + .5).astype('uint8'), 'RGBA')
     if scale != 1:
@@ -313,8 +341,14 @@ def to_png(path, rgb, a, scale):
         size = (round(arr.shape[1] * scale), round(arr.shape[0] * scale))
         out = [np.asarray(Image.fromarray(arr[..., i].astype(np.float32)).resize(size, Image.LANCZOS)) for i in range(4)]
         img = Image.fromarray((np.clip(np.dstack(out), 0, 1) * 255 + .5).astype('uint8'), 'RGBA')
-    img.save(path, optimize=False, compress_level=6)
+    if lossy:
+        img.save(path, 'WEBP', quality=TEX_QUALITY, alpha_quality=100, exact=True, method=6)
+    else:
+        img.save(path, 'WEBP', lossless=True, quality=100, exact=True, method=6)
     return img.size
+
+CLEAR_DE = 14.0
+TRIM_DE, TRIM_DEPTH = 14.0, 45
 
 def cut_fish(A, lbl, prop, entry, corr, plate, outdir, ink_rgb):
     a0, c0, a1, c1 = prop.bbox
@@ -356,12 +390,42 @@ def cut_fish(A, lbl, prop, entry, corr, plate, outdir, ink_rgb):
     m = ndi.binary_fill_holes(m)
     for poly in corr.get('cut', []):
         m &= ~poly_mask(m.shape, poly, origin)
+    for poly in corr.get('clear', []):
+        # Paper that a caption closed off from the page reads as fish. Inside this polygon anything
+        # the color of paper goes, so the edge follows the engraving and no hand has to trace it.
+        m &= ~(poly_mask(m.shape, poly, origin) & (de < CLEAR_DE))
+    if corr.get('trim'):
+        # Paper that came along with the fish: scraps on thin parts, fringes, foxing. Walk in from
+        # outside through anything the color of paper. The engraved outline stops it, and so does
+        # the body, so pale panels and pale bellies stay. Depth is capped in case an outline has a gap.
+        t = corr['trim'] if isinstance(corr['trim'], dict) else {}
+        allowed = ~ndi.binary_erosion(bm, iterations=5)
+        for poly in t.get('open', []):      # paper seen through the fish, such as an open mouth
+            allowed |= poly_mask(m.shape, poly, origin)
+        paperish = m & (de < t.get('de', TRIM_DE)) & allowed
+        for poly in t.get('keep', []):
+            paperish &= ~poly_mask(m.shape, poly, origin)
+        rim = ndi.binary_dilation(~m, iterations=1) & paperish
+        m &= ~ndi.binary_dilation(rim, iterations=t.get('depth', TRIM_DEPTH), mask=paperish)
+        m = clean_specks(m, de)
+    if corr.get('cut') or corr.get('clear') or corr.get('trim'):
+        # a cut can leave crumbs of the caption: only the fish itself stays
+        cl, cn = ndi.label(m)
+        if cn > 1:
+            m = cl == (np.argmax(np.bincount(cl.ravel())[1:]) + 1)
 
     f, alpha = unmix(rgb, de, m, paper)
     # ink
     L = Lab[..., 0]
     chroma = np.hypot(Lab[..., 1], Lab[..., 2])
-    ink, solid = line_layer(L, chroma, m, {**CFG, **corr.get('ink', {})})
+    ink_cfg = {**CFG, **corr.get('ink', {})}
+    if plate.get('black_test') and 'black_L' not in corr.get('ink', {}):
+        # opt in per plate: the plates rigged before this test keep the fixed threshold
+        edges = black_edges(L, chroma, m, ink_cfg)
+        if edges < WASH_EDGES:
+            ink_cfg['black_L'] = WASH_BLACK_L
+        print(f"  {entry['name']}: dark edges {edges:.2f}, {'wash' if edges < WASH_EDGES else 'painted'}")
+    ink, solid = line_layer(L, chroma, m, ink_cfg)
     outer = np.clip(ndi.gaussian_filter(ndi.binary_dilation(m, iterations=1).astype(np.float32), .7) * 1.6, 0, 1)
     ink = ink * outer
 
@@ -379,8 +443,8 @@ def cut_fish(A, lbl, prop, entry, corr, plate, outdir, ink_rgb):
         fa, fi = alpha * soft, ink * soft
         ys, xs = np.where(soft > .01)
         y0, y1, x0, x1 = ys.min(), ys.max() + 1, xs.min(), xs.max() + 1
-        to_png(f'{outdir}/fin{i}-color.png', f[y0:y1, x0:x1], fa[y0:y1, x0:x1], scale)
-        to_png(f'{outdir}/fin{i}-ink.png', np.broadcast_to(ink_rgb, (y1 - y0, x1 - x0, 3)), fi[y0:y1, x0:x1], scale)
+        to_tex(f'{outdir}/fin{i}-color.webp', f[y0:y1, x0:x1], fa[y0:y1, x0:x1], scale, lossy=True)
+        to_tex(f'{outdir}/fin{i}-ink.webp', np.broadcast_to(ink_rgb, (y1 - y0, x1 - x0, 3)), fi[y0:y1, x0:x1], scale)
         fin['box'] = [int(x0 + ox), int(y0 + oy), int(x1 - x0), int(y1 - y0)]
     if all_fin.any():
         grown = ndi.binary_dilation(all_fin, iterations=3)
@@ -396,8 +460,8 @@ def cut_fish(A, lbl, prop, entry, corr, plate, outdir, ink_rgb):
         # keep the rest of the silhouette exact, take the fin's line away
         body_ink = ink * (1 - soft)
 
-    size = to_png(f'{outdir}/color.png', body_rgb, body_a, scale)
-    to_png(f'{outdir}/ink.png', np.broadcast_to(ink_rgb, ink.shape + (3,)), body_ink, scale)
+    size = to_tex(f'{outdir}/color.webp', body_rgb, body_a, scale, lossy=True)
+    to_tex(f'{outdir}/ink.webp', np.broadcast_to(ink_rgb, ink.shape + (3,)), body_ink, scale)
     rig['tex_size'] = list(size)
     with open(f'{outdir}/rig.json', 'w') as fp:
         json.dump(rig, fp, indent=1)
@@ -470,14 +534,14 @@ def run(title, only=None, out_root=None, report=True):
             problems.append((e['name'], f"same component as {used[best.label]}: merged"))
         used.setdefault(best.label, e['name'])
         slug = slugify(e['name'])
-        if only and slug not in only:
+        if (only and slug not in only) or e.get('skip'):
             continue
         corr = corrections.get(slug, {})
         rig, dbg = cut_fish(A, lbl, best, e, corr, manifest, f'{out_root}/{slug}', ink_rgb)
         results.append((rig, dbg))
     unclaimed = [p for p in props if p.label not in used]
     meta = dict(title=title, id=pid, paper=[float(v) for v in paper_rgb], ink=[float(v) for v in ink_rgb],
-                fish=[r[0]['slug'] for r in results], credit='Louis Renard, 1754 edition, via Polona and Wikimedia Commons')
+                fish=[slugify(e['name']) for e in manifest['fish'] if not e.get('skip')], credit='Louis Renard, 1754 edition, via Polona and Wikimedia Commons')
     os.makedirs(out_root, exist_ok=True)
     with open(f'{out_root}/plate-{pid}.json', 'w') as fp:
         json.dump(meta, fp, indent=1)

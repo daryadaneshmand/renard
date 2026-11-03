@@ -102,7 +102,9 @@ export function makeProgram(gl, feedback) {
 }
 
 async function texture(gl, url, aniso, maxTex) {
-  const blob = await (await fetch(url)).blob();
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`${res.status} ${url}`);
+  const blob = await res.blob();
   const opt = { premultiplyAlpha: 'none', colorSpaceConversion: 'none' };
   let bmp = await createImageBitmap(blob, opt);
   if (maxTex && Math.max(bmp.width, bmp.height) > maxTex) {
@@ -125,13 +127,60 @@ async function texture(gl, url, aniso, maxTex) {
   return t;
 }
 
-function part(gl, bin, e, floats) {
+// mesh.bin holds one bit per grid cell, then s, d, z, r as 16-bit values per vertex, each left out
+// when constant. Positions, uvs and triangles follow from the grid. tools/bake.py read_part agrees.
+const FLOATS = 8;
+function decodePart(bin, e, sp) {
+  const { nx, ny, verts } = e;
+  const nb = (nx * ny + 7) >> 3;
+  const bits = new Uint8Array(bin, e.off, nb);
+  const has = (i, j) => { const k = j * nx + i; return bits[k >> 3] & (128 >> (k & 7)); };
+  const W = nx + 1;
+  const vid = new Int32Array(W * (ny + 1)).fill(-1);
+  for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) {
+    if (has(i, j)) { const k = j * W + i; vid[k] = vid[k + 1] = vid[k + W] = vid[k + W + 1] = 0; }
+  }
+  const v = new Float32Array(verts * FLOATS);
+  let n = 0;
+  for (let j = 0; j <= ny; j++) for (let i = 0; i <= nx; i++) {
+    const k = j * W + i;
+    if (vid[k] < 0) continue;
+    vid[k] = n;
+    const px = e.x0 + i * e.w / nx, py = e.y0 + j * e.h / ny, o = n * FLOATS;
+    v[o] = sp.sgn * (px - sp.cx) / sp.L;
+    v[o + 1] = -(py - sp.cy) / sp.L;
+    v[o + 2] = (px - e.x0) / e.w;
+    v[o + 3] = (py - e.y0) / e.h;
+    n++;
+  }
+  let pos = e.off + nb + (nb & 1);
+  ['s', 'd', 'z', 'r'].forEach((name, c) => {
+    const [lo, hi] = e.range[name];
+    if (hi > lo) {
+      const q = new Uint16Array(bin, pos, verts), k = (hi - lo) / 65535;
+      for (let i = 0; i < verts; i++) v[i * FLOATS + 4 + c] = lo + q[i] * k;
+      pos += 2 * verts;
+    } else {
+      for (let i = 0; i < verts; i++) v[i * FLOATS + 4 + c] = lo;
+    }
+  });
+  const idx = new Uint32Array(e.idx);
+  let m = 0;
+  for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) {
+    if (!has(i, j)) continue;
+    const k = j * W + i, a = vid[k], b = vid[k + 1], c = vid[k + W], d = vid[k + W + 1];
+    idx[m++] = a; idx[m++] = b; idx[m++] = c; idx[m++] = b; idx[m++] = d; idx[m++] = c;
+  }
+  return { v, idx };
+}
+
+function part(gl, { v, idx }, e) {
   const vao = gl.createVertexArray();
   gl.bindVertexArray(vao);
   const vb = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, vb);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(bin, e.vert_off, e.verts * floats), gl.STATIC_DRAW);
-  const stride = floats * 4;
+  gl.bufferData(gl.ARRAY_BUFFER, v, gl.STATIC_DRAW);
+  const stride = FLOATS * 4;
   const attr = (i, size, off) => {
     gl.enableVertexAttribArray(i);
     gl.vertexAttribPointer(i, size, gl.FLOAT, false, stride, off * 4);
@@ -139,35 +188,43 @@ function part(gl, bin, e, floats) {
   attr(0, 2, 0); attr(1, 2, 2); attr(2, 1, 4); attr(3, 1, 5); attr(4, 1, 6); attr(5, 1, 7);
   const ib = gl.createBuffer();
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ib);
-  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(bin, e.idx_off, e.idx), gl.STATIC_DRAW);
+  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, idx, gl.STATIC_DRAW);
   gl.bindVertexArray(null);
-  return { vao, count: e.idx, verts: e.verts, hingeN: e.hinge_n || [0, 0], lift: e.lift ?? 1 };
+  return { vao, vb, ib, count: e.idx, verts: e.verts, hingeN: e.hinge_n || [0, 0], lift: e.lift ?? 1 };
 }
 
-export async function loadFish(gl, base, slug, { maxTex } = {}) {
+// keep: hold the body's vertex floats in JS too, for the bench and the checks. The water does not.
+export async function loadFish(gl, base, slug, { maxTex, keep } = {}) {
   const dir = `${base}/${slug}`;
-  const rig = await (await fetch(`${dir}/rig.json`)).json();
-  const bin = await (await fetch(`${dir}/mesh.bin`)).arrayBuffer();
+  const get = u => fetch(u).then(r => { if (!r.ok) throw new Error(`${r.status} ${u}`); return r; });
+  const rig = await (await get(`${dir}/rig.json`)).json();
   const aniso = gl.getExtension('EXT_texture_filter_anisotropic');
-  const fl = rig.mesh.floats;
-  const fish = {
+  const tex = name => texture(gl, `${dir}/${name}.webp`, aniso, maxTex);
+  // All at once: on a cold load the wait is the slowest file, not the sum of them.
+  const [bin, color, ink, ...finTex] = await Promise.all([
+    get(`${dir}/mesh.bin`).then(r => r.arrayBuffer()),
+    tex('color'), tex('ink'),
+    ...rig.mesh.fins.flatMap((_, i) => [tex(`fin${i}-color`), tex(`fin${i}-ink`)]),
+  ]);
+  const sp = rig.mesh.space;
+  const decoded = decodePart(bin, rig.mesh.body, sp);
+  return {
     slug, rig,
-    body: part(gl, bin, rig.mesh.body, fl),
-    color: await texture(gl, `${dir}/color.png`, aniso, maxTex),
-    ink: await texture(gl, `${dir}/ink.png`, aniso, maxTex),
-    fins: [],
+    body: part(gl, decoded, rig.mesh.body),
+    color, ink,
+    fins: rig.mesh.fins.map((e, i) => ({ ...part(gl, decodePart(bin, e, sp), e), color: finTex[i * 2], ink: finTex[i * 2 + 1] })),
     swim: { ...rig.swim },
     phase: 0,
-    bin,
+    floats: keep ? decoded.v : null,
   };
-  for (let i = 0; i < rig.mesh.fins.length; i++) {
-    fish.fins.push({
-      ...part(gl, bin, rig.mesh.fins[i], fl),
-      color: await texture(gl, `${dir}/fin${i}-color.png`, aniso, maxTex),
-      ink: await texture(gl, `${dir}/fin${i}-ink.png`, aniso, maxTex),
-    });
-  }
-  return fish;
+}
+
+// Give a fish's memory back to the GPU. It can be loaded again; the browser usually still has the files.
+export function disposeFish(gl, fish) {
+  const one = m => { gl.deleteVertexArray(m.vao); gl.deleteBuffer(m.vb); gl.deleteBuffer(m.ib); };
+  one(fish.body);
+  gl.deleteTexture(fish.color); gl.deleteTexture(fish.ink);
+  for (const f of fish.fins) { one(f); gl.deleteTexture(f.color); gl.deleteTexture(f.ink); }
 }
 
 export function setSwim(gl, P, fish) {

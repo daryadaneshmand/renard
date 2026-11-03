@@ -12,6 +12,8 @@ import glob, json, os, sys
 import numpy as np
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(ROOT, 'tools'))
+from bake import read_part
 
 def smoothstep(a, b, x):
     t = np.clip((x - a) / (b - a), 0, 1)
@@ -58,14 +60,15 @@ def main():
         smax, smin, flips, tail = 0, 9, 0, 0
         for r in res:
             e = rig['mesh']['body'] if r['part'] < 0 else rig['mesh']['fins'][r['part']]
-            v = np.frombuffer(bin_, np.float32, e['verts'] * rig['mesh']['floats'], e['vert_off']).reshape(-1, rig['mesh']['floats']).astype(np.float64)
+            v, tris = read_part(bin_, e, rig['mesh']['space'])
+            v = v.astype(np.float64)
             got = np.array(r['clip'], float).reshape(-1, 4)
             want = expected(v, r['swim'], r['phase'], r['hingeN'], r['model'], r['vp'], r.get('lift', 1))
             # in normalised device units: the size that would move a pixel
             gn, wn = got[:, :3] / got[:, 3:], want[:, :3] / want[:, 3:]
             err = max(err, float(np.abs(gn[:, :2] - wn[:, :2]).max()))
             if r['part'] < 0:
-                tri = np.frombuffer(bin_, np.uint32, e['idx'], e['idx_off']).reshape(-1, 3)
+                tri = tris.reshape(-1, 3)
                 # compare screen edges to rest edges, in x only: the wave acts along x
                 a, b, c = tri.T
                 # rest: fish plane; screen: NDC scaled back by rest-pose factor

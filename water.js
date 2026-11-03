@@ -1,7 +1,7 @@
 // Open water. Fish come from beyond the window and go beyond it, each along one long path.
 // There are no walls: nothing here knows where the window is except the test that a path
 // begins and ends where the fish cannot be seen.
-import { makeProgram, loadFish, drawFish, setSwim, perspective, fishModel } from './rig.js';
+import { makeProgram, loadFish, disposeFish, drawFish, setSwim, perspective, fishModel } from './rig.js';
 
 const BASE = 'assets/fish';
 const TAU = Math.PI * 2;
@@ -10,6 +10,8 @@ const D_CROSS = 9.5;        // farthest a side-to-side crossing runs
 const D_GONE = 12.5;        // by here haze has taken a fish completely
 const MAX_YAW = 47 * Math.PI / 180;   // off the plate's own view: past this the flat print shows
 const SIDE_ON = 8 * Math.PI / 180;    // under this the swim barely reads
+const READY = 1;            // fish loaded and waiting their turn
+const HOLD = 6;             // fish on the GPU at once, swimming or not; the rest stay on the server
 
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const smooth = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
@@ -108,7 +110,7 @@ export async function start(canvas, LOOK, q) {
   const ARRIVE = q.has('arrive');
   const MANUAL = q.has('manual');
 
-  const S = { waterRate: reduced.matches ? .05 * LOOK.lineMotion : LOOK.lineMotion, t: 0, waterT: 37, look: 0, lookTo: 0, active: [], bag: [], nextSpawn: .4, spawned: 0, doneArrive: false, stopped: false, tanH: 0, tanW: 0, aspect: 1 };
+  const S = { waterRate: reduced.matches ? .05 * LOOK.lineMotion : LOOK.lineMotion, t: 0, waterT: 37, look: 0, lookTo: 0, active: [], bag: [], ready: [], nextSpawn: .4, spawned: 0, doneArrive: false, stopped: false, tanH: 0, tanW: 0, aspect: 1 };
   const index = await (await fetch(`${BASE}/index.json`)).json();
   const fishes = [];
   const log = [];
@@ -261,7 +263,7 @@ export async function start(canvas, LOOK, q) {
 
   function spawn(f, opts) {
     const pl = plan(f, opts);
-    if (!pl) return null;
+    if (!pl) { log.push({ ev: 'nopath', slug: f.slug, t: S.t }); return null; }
     const fish = {
       f, path: pl.path, L: pl.L, r: pl.r, kind: pl.kind, seg: 0, s: 0, born: S.t,
       phase: R() * TAU, sway: R() * TAU, sway2: R() * TAU,
@@ -274,15 +276,68 @@ export async function start(canvas, LOOK, q) {
     log.push({ ev: 'spawn', id: fish.id, slug: f.slug, t: S.t, kind: pl.kind, L: pl.L, len: pl.path.len, v: fish.v });
     return fish;
   }
-  function nextFish() {
-    if (!S.bag.length) {
-      S.bag = fishes.slice();
-      for (let i = S.bag.length - 1; i > 0; i--) { const j = (R() * (i + 1)) | 0; [S.bag[i], S.bag[j]] = [S.bag[j], S.bag[i]]; }
+  // ---- who swims next. A shuffled bag of every fish in the catalog, loaded only as its turn comes.
+  function shuffled(list) {
+    const a = list.slice();
+    for (let i = a.length - 1; i > 0; i--) { const j = (R() * (i + 1)) | 0; [a[i], a[j]] = [a[j], a[i]]; }
+    return a;
+  }
+  // The very first fish decides how long a cold window stays empty, so it is one of the lighter half.
+  function lightFirst(list) {
+    const b = index.bytes || {}, sizes = list.map(s => b[s] || 0).sort((x, y) => x - y);
+    const median = sizes[sizes.length >> 1];
+    const i = list.findIndex(s => (b[s] || 0) <= median);
+    return i > 0 ? [list[i], ...list.slice(0, i), ...list.slice(i + 1)] : list;
+  }
+  function nextSlug() {
+    const busy = s => S.active.some(a => a.f.slug === s) || S.ready.some(f => f.slug === s);
+    if (!S.bag.length) S.bag = shuffled(catalog);
+    const i = S.bag.findIndex(s => !busy(s));
+    return i < 0 ? null : S.bag.splice(i, 1)[0];
+  }
+  function heldNext() {
+    const slug = nextSlug();
+    return fishes.find(f => f.slug === slug);
+  }
+  async function hold(slug) {
+    const had = fishes.find(f => f.slug === slug);
+    if (had) return had;
+    const t0 = performance.now();
+    try {
+      const f = prepare(await loadFish(gl, BASE, slug, { maxTex, keep: MANUAL }));
+      fishes.push(f);
+      log.push({ ev: 'loaded', slug, ms: performance.now() - t0, at: performance.now() });
+      return f;
+    } catch (e) {
+      // One fish that will not load must not stop the water. It sits out the rest of the visit.
+      console.warn('fish did not load:', slug, e.message);
+      catalog = catalog.filter(s => s !== slug);
+      S.bag = S.bag.filter(s => s !== slug);
+      return null;
     }
-    for (let i = 0; i < S.bag.length; i++) {
-      if (!S.active.some(a => a.f === S.bag[i])) return S.bag.splice(i, 1)[0];
+  }
+  function evict() {
+    if (MANUAL) return;
+    for (let i = 0; i < fishes.length && fishes.length > HOLD;) {
+      const f = fishes[i];
+      if (S.active.some(a => a.f === f) || S.ready.includes(f)) { i++; continue; }
+      fishes.splice(i, 1);
+      disposeFish(gl, f);
+      log.push({ ev: 'evicted', slug: f.slug, t: S.t });
     }
-    return null;
+  }
+  let pumping = null;
+  async function fill() {
+    while (catalog.length && S.ready.length < READY && !(ARRIVE && S.spawned)) {
+      const slug = nextSlug();
+      if (!slug) break;       // a short catalog, and all of it is out swimming
+      const f = await hold(slug);
+      if (f) S.ready.push(f);
+      evict();
+    }
+  }
+  function pump() {
+    return pumping = pumping || fill().finally(() => { pumping = null; });
   }
 
   // ---- one step of the world. Nothing here depends on rendering.
@@ -298,17 +353,17 @@ export async function start(canvas, LOOK, q) {
     const maxFish = reduced.matches ? 2 : (S.aspect < 1.2 ? 2 : 3);
     if (!ARRIVE) {
       S.nextSpawn -= dt;
-      if (S.nextSpawn <= 0 && fishes.length) {
-        if (S.active.length < maxFish) {
-          const f = nextFish();
-          if (f) spawn(f, S.spawned === 0 ? { kind: 'cross' } : undefined);
-        }
-        // mostly a little while; sometimes the water is left alone
-        S.nextSpawn = R() < .28 ? 34 + 26 * R() : 10 + 18 * R();
+      if (S.nextSpawn <= 0) {
+        // ?manual steps the world in a tight loop with no time to load, but holds every fish already
+        const f = S.active.length >= maxFish ? null : S.ready.shift() || (MANUAL ? heldNext() : null);
+        if (f) spawn(f, S.spawned === 0 ? { kind: 'cross' } : undefined);
+        pump();
+        // mostly a little while; sometimes the water is left alone. Its turn but not here yet: ask again soon.
+        S.nextSpawn = !f && S.active.length < maxFish ? .25 : R() < .28 ? 34 + 26 * R() : 10 + 18 * R();
       }
-    } else if (!S.spawned && fishes.length) {
+    } else if (!S.spawned && S.ready.length) {
       // one fish, near enough to see, at an unhurried pace, side to side
-      spawn(fishes[0], { kind: 'cross', near: [D_MIN + .4, 6], fast: 1.15 });
+      if (spawn(S.ready[0], { kind: 'cross', near: [D_MIN + .4, 6], fast: 1.15 })) S.ready.shift();
     }
 
     for (const a of S.active) {
@@ -323,6 +378,7 @@ export async function start(canvas, LOOK, q) {
         S.active.splice(i, 1);
         log.push({ ev: 'gone', id: a.id, slug: a.f.slug, t: S.t });
         if (ARRIVE) S.doneArrive = true;
+        evict();
       }
     }
   }
@@ -411,19 +467,14 @@ export async function start(canvas, LOOK, q) {
 
   addEventListener('keydown', e => { if (e.key === 'i' || e.key === 'I') S.lookTo = S.lookTo ? 0 : 1; });
 
-  // ---- load one at a time; the water does not wait for all of them
+  // ---- the water does not wait for any fish, and only ever asks for the next one or two
   const maxTex = Math.min(innerWidth, innerHeight) < 600 ? 1024 : 2048;
-  let slugs = index.fish.slice();
-  for (let i = slugs.length - 1; i > 0; i--) { const j = (R() * (i + 1)) | 0; [slugs[i], slugs[j]] = [slugs[j], slugs[i]]; }
-  if (ARRIVE) slugs = [q.get('fish') || slugs[0]];
-  else if (q.has('fish')) slugs = q.get('fish').split(',');
-  const loaded = (async () => {
-    for (const s of slugs) {
-      const f = prepare(await loadFish(gl, BASE, s, { maxTex }));
-      fishes.push(f);
-      await new Promise(r => setTimeout(r, MANUAL ? 0 : 30));
-    }
-  })();
+  let catalog = q.has('fish') ? q.get('fish').split(',') : index.fish.slice();
+  const first = lightFirst(shuffled(catalog));
+  if (ARRIVE) catalog = first.slice(0, 1);
+  else if (!q.has('fish')) S.bag = first;
+  // The checks measure every fish, so with ?manual they are all held from the start.
+  const loaded = MANUAL ? (async () => { for (const s of catalog) await hold(s); await pump(); })() : pump();
 
   // ---- the test seam: nothing the page uses
   const exposeReadback = () => {

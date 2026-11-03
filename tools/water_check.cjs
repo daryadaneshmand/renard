@@ -9,6 +9,7 @@ const { chromium } = require('playwright');
 const fs = require('fs'), path = require('path');
 const ROOT = process.env.BENCH_ROOT || 'http://127.0.0.1:8918/';
 function chromiumPath() {
+  if (process.env.CHROMIUM_PATH) return process.env.CHROMIUM_PATH;
   const dir = path.join(process.env.HOME, 'Library/Caches/ms-playwright');
   const v = fs.readdirSync(dir).filter(d => /^chromium-\d+$/.test(d)).sort((a, b) => b.split('-')[1] - a.split('-')[1])[0];
   return path.join(dir, v, 'chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing');
@@ -164,7 +165,7 @@ const SIM = () => {
         S.nextSpawn = 1e9;
         const a = W.spawn(W.fishes[0], { kind: 'cross', near: [5, 7] });
         a.s = a.path.len * .32;
-        const f = a.f, fl = new Float32Array(f.bin, f.rig.mesh.body.vert_off, f.rig.mesh.body.verts * 8);
+        const f = a.f, fl = f.floats;
         // pick vertices: tail tip, tail start, mid body, nose: all on the body's own mesh
         let tip = -1, nose = 0, mid = 0, peduncle = 0, bMid = 9, bPed = 9;
         for (let i = 0; i < f.body.verts; i++) {

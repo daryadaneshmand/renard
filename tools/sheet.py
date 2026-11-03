@@ -16,10 +16,10 @@ def load(p):
     return np.asarray(Image.open(p).convert('RGBA')).astype(np.float32) / 255
 
 def fish_layers(d, rig):
-    c = load(f'{d}/color.png'); i = load(f'{d}/ink.png')
+    c = load(f'{d}/color.webp'); i = load(f'{d}/ink.webp')
     s = rig['tex_scale']
     for n, fin in enumerate(rig.get('fins', [])):
-        fc = load(f'{d}/fin{n}-color.png'); fi = load(f'{d}/fin{n}-ink.png')
+        fc = load(f'{d}/fin{n}-color.webp'); fi = load(f'{d}/fin{n}-ink.webp')
         x = round((fin['box'][0] - rig['origin'][0]) * s); y = round((fin['box'][1] - rig['origin'][1]) * s)
         hh = min(fc.shape[0], c.shape[0] - y); ww = min(fc.shape[1], c.shape[1] - x)
         over = fc[:hh, :ww]
@@ -32,11 +32,11 @@ def fish_layers(d, rig):
         i[y:y + hh, x:x + ww, 3:] = np.maximum(i[y:y + hh, x:x + ww, 3:], ia)
     return c, i
 
-def build(root, out, ground=(.16, .2, .42), paper=(.93, .89, .80), maxw=1500):
+def build(root, out, ground=(.16, .2, .42), paper=(.93, .89, .80), maxw=1500, plate=None):
     rows, W = [], 0
     g = np.array(ground, np.float32); pap = np.array(paper, np.float32)
-    meta = sorted(glob.glob(f'{root}/plate-*.json'))
-    slugs = json.load(open(meta[0]))['fish'] if meta else sorted(os.listdir(root))
+    meta = sorted(glob.glob(f'{root}/plate-{plate or "*"}.json'))
+    slugs = [s for m in meta for s in json.load(open(m))['fish']] if meta else sorted(os.listdir(root))
     for slug in slugs:
         d = f'{root}/{slug}'
         rig = json.load(open(f'{d}/rig.json'))
@@ -72,5 +72,6 @@ if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument('root'); ap.add_argument('out')
     ap.add_argument('--ground', default='.16,.2,.42')
+    ap.add_argument('--plate', help='only this plate id')
     a = ap.parse_args()
-    build(a.root, a.out, tuple(float(v) for v in a.ground.split(',')))
+    build(a.root, a.out, tuple(float(v) for v in a.ground.split(',')), plate=a.plate)

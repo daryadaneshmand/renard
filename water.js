@@ -32,7 +32,7 @@ out vec2 v; void main() { vec2 p = vec2(gl_VertexID & 1, gl_VertexID >> 1) * 4.0
 const LINES_FS = `#version 300 es
 precision highp float;
 in vec2 v; out vec4 o;
-uniform float u_t, u_weight, u_aspect;
+uniform float u_t, u_weight, u_aspect, u_scale;
 float hash(vec2 p) { p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
 float vn(vec2 p) {
   vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f);
@@ -60,6 +60,7 @@ float family(vec2 p, float f, float tilt, float seed, float wmax, float t) {
 void main() {
   vec2 p = v * vec2(u_aspect, 1.0);
   if (u_aspect < 1.0) p = v * vec2(1.0, 1.0 / u_aspect);
+  p *= u_scale;   // on few pixels, fewer lines: they must stay lines
   float t = u_t;
   float cov = 0.0;
   cov = max(cov, 0.34 * family(p, 58.0, 0.03, 3.1, 0.15 * u_weight, t * 0.7));   // fine and far
@@ -348,6 +349,7 @@ export async function start(canvas, LOOK, q) {
     gl.uniform1f(pLines.u.u_t, S.waterT);
     gl.uniform1f(pLines.u.u_weight, LOOK.lineWeight);
     gl.uniform1f(pLines.u.u_aspect, S.aspect);
+    gl.uniform1f(pLines.u.u_scale, clamp(Math.min(lineW, lineH) / 2 / 450, .45, 1));
     gl.bindVertexArray(emptyVao);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);

@@ -4,7 +4,7 @@
 //   node tools/water_check.cjs perf                busiest moment and worst case
 //   node tools/water_check.cjs motion <out.json>   tail against body length during real crossings
 //   node tools/water_check.cjs arrive              ?arrive=1, reduced motion, i, console errors
-//   node tools/water_check.cjs clip <dir> [secs] [seed]
+//   node tools/water_check.cjs clip <dir> [secs] [seed] [from t]
 const { chromium } = require('playwright');
 const fs = require('fs'), path = require('path');
 const ROOT = process.env.BENCH_ROOT || 'http://127.0.0.1:8918/';
@@ -118,6 +118,15 @@ const SIM = () => {
       }
     }
   } else if (cmd === 'perf') {
+    // the real loop first, at the browser's own pace
+    {
+      const page = await open(b, 1600, 900, 'seed=11');
+      await new Promise(r => setTimeout(r, 20000));
+      const f = await page.evaluate(() => WATER.frames.slice(-600).concat());
+      f.sort((x, y) => x - y);
+      console.log(`real rAF loop, 20 s at 1600x900: ${f.length} frames, median ${f[f.length >> 1].toFixed(1)} ms, p95 ${f[(f.length * .95) | 0].toFixed(1)} ms, max ${f[f.length - 1].toFixed(1)} ms`);
+      await page.context().close();
+    }
     for (const [w, h, dpr] of [[1600, 900, 1], [1600, 900, 2], [390, 844, 3]]) {
       const page = await open(b, w, h, 'manual=1&seed=7', { dpr });
       const res = await page.evaluate(async () => {
@@ -157,10 +166,10 @@ const SIM = () => {
         a.s = a.path.len * .32;
         const f = a.f, fl = new Float32Array(f.bin, f.rig.mesh.body.vert_off, f.rig.mesh.body.verts * 8);
         // pick vertices: tail tip, tail start, mid body, nose: all on the body's own mesh
-        let tip = 0, nose = 0, mid = 0, peduncle = 0, bMid = 9, bPed = 9;
+        let tip = -1, nose = 0, mid = 0, peduncle = 0, bMid = 9, bPed = 9;
         for (let i = 0; i < f.body.verts; i++) {
           const x = fl[i * 8], y = fl[i * 8 + 1], s = fl[i * 8 + 4], d = fl[i * 8 + 5];
-          if (s > .99 && d > fl[tip * 8 + 5] && Math.abs(y) < .15) tip = i;
+          if (s > .99 && Math.abs(y) < .15 && (tip < 0 || d > fl[tip * 8 + 5])) tip = i;
           if (x < fl[nose * 8]) nose = i;
           const dm = Math.abs(s - .5) + (d > 0 ? 9 : 0) + Math.abs(y) * .2;
           if (dm < bMid) { bMid = dm; mid = i; }
@@ -260,6 +269,8 @@ const SIM = () => {
     const secs = +(a2 || 45), seed = a3 || 11;
     fs.mkdirSync(a1, { recursive: true });
     const page = await open(b, 1600, 900, `manual=1&seed=${seed}`);
+    const from = +(process.argv[6] || 0);
+    await page.evaluate(T => { for (let t = 0; t < T; t += 1 / 24) WATER.step(1 / 24); }, from);
     const n = secs * 24;
     for (let i = 0; i < n; i++) {
       const url = await page.evaluate(() => { WATER.step(1 / 24); WATER.render(); return WATER.canvas.toDataURL('image/jpeg', .94); });

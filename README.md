@@ -2,7 +2,7 @@
 
 Louis Renard's fish, cut from his 1754 plates and swimming live in the browser. Credit: Louis Renard, 1754 edition, via Polona and Wikimedia Commons (`Category:Poissons,_ecrevisses_et_crabes_(1754)`, public domain). Local only for now.
 
-Status: extraction, correction and rig are built for Fol. 3 (10 fish). The water (`index.html`) is the next milestone.
+Status: extraction, correction, rig and water are built for Fol. 3 (10 fish). Open `/index.html`.
 
 ## Run it
 
@@ -21,7 +21,7 @@ Python with numpy, pillow, scipy, scikit-image. Run with `-I`.
 
 `extract.py` downloads the original once into the gitignored `cache/`, with a descriptive User-Agent. It reads `manifests/<id>.json` (written by hand: names, facing, a rough point on each fish, `rotate` for plates printed head up) and `corrections/<id>.json` (body lines, fins, `solid`, `cut`, `fill_body`). All rig coordinates are plate pixels. Add `--out <dir>` to try a plate without touching `assets/`.
 
-Checks, with Playwright installed outside the repo (`NODE_PATH=<dir>/node_modules`) and the server running:
+Checks, with Playwright installed outside the repo (`NODE_PATH=<dir>/node_modules`) and the server running. `tools/water_check.cjs` covers the water: `sim`, `perf`, `motion`, `arrive`, `shot`, `clip`.
 
     node tools/capture.cjs frames <dir>      8 phases, both looks, every fish
     python -I tools/phasesheet.py <dir> <out>

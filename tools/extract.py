@@ -213,9 +213,12 @@ def analyse_plate(path, page=(.03, .05, .94, .95), cfg=CFG):
     bg = paper_field(lab)
     # Distance from paper counts darkening and color, never lightening. The scan is sharpened,
     # so paper beside a black edge overshoots brighter than paper. That glow is the halo.
+    # Overshoot also bleaches: paper that is lighter and less yellow than paper is still paper.
     dv = lab - bg
     dv[..., 0] = np.minimum(dv[..., 0], 0)
     de = np.sqrt((dv ** 2).sum(-1))
+    bleached = (lab[..., 0] > bg[..., 0] - 2) & (np.hypot(lab[..., 1], lab[..., 2]) < np.hypot(bg[..., 1], bg[..., 2]) + 3)
+    de[bleached] = np.minimum(de[bleached], 2.0)
     paper_rgb = color.lab2rgb(bg[::8, ::8]).astype(np.float32)
     paper_rgb = np.asarray(Image.fromarray((paper_rgb * 255).astype('uint8')).resize((rgb.shape[1], rgb.shape[0]), Image.BILINEAR)).astype(np.float32) / 255
     solid, raw = solid_mask(de, cfg['low'], cfg['high'], cfg['wide'])
@@ -347,9 +350,9 @@ def cut_fish(A, lbl, prop, entry, corr, plate, outdir, ink_rgb):
         rig['source'] = 'hand'
 
     bm = body_mask(m.shape, rig, origin)
-    if corr.get('fill_body', 'body' in corr):
+    if corr.get('fill_body'):
         # inside the body line it is fish, however pale. Kamboton's white needs this.
-        m |= ndi.binary_erosion(bm, iterations=2)
+        m |= ndi.binary_erosion(bm, iterations=3)
     m = ndi.binary_fill_holes(m)
     for poly in corr.get('cut', []):
         m &= ~poly_mask(m.shape, poly, origin)
@@ -370,7 +373,7 @@ def cut_fish(A, lbl, prop, entry, corr, plate, outdir, ink_rgb):
     body_rgb, body_a, body_ink = f.copy(), alpha.copy(), ink.copy()
     all_fin = np.zeros(m.shape, bool)
     for i, fin in enumerate(rig['fins']):
-        pm = fin_region(fin, rgb, L, m, origin)
+        pm = fin_region(fin, rgb, L, m, bm, origin)
         all_fin |= pm
         soft = np.clip(ndi.gaussian_filter(pm.astype(np.float32), .8), 0, 1)
         fa, fi = alpha * soft, ink * soft
@@ -396,11 +399,14 @@ def cut_fish(A, lbl, prop, entry, corr, plate, outdir, ink_rgb):
         json.dump(rig, fp, indent=1)
     return rig, dict(rgb=f, alpha=alpha, ink=ink, m=m, solid=solid, origin=origin, de=de, paper=paper)
 
-def fin_region(fin, rgb, L, m, origin):
-    """Snap a rough hand polygon to the engraved outline of the fin."""
+def fin_region(fin, rgb, L, m, bm, origin):
+    """Snap a rough hand polygon to the engraved outline of the fin.
+
+    Over the body the outline decides. Past the body line the silhouette already does,
+    so a fin hanging free only needs a generous polygon."""
     pm = poly_mask(m.shape, fin['poly'], origin)
-    inner = ndi.binary_erosion(pm, iterations=5)
-    outer = ~ndi.binary_dilation(pm, iterations=6)
+    inner = ndi.binary_erosion(pm, iterations=8)
+    outer = ~ndi.binary_dilation(pm, iterations=9)
     if not inner.any():
         return pm & m
     markers = np.zeros(m.shape, np.int32)
@@ -414,6 +420,7 @@ def fin_region(fin, rgb, L, m, origin):
     out[y0:y1, x0:x1] = lab == 2
     # the fin's own outline is dark and belongs with the fin
     out = ndi.binary_dilation(out, iterations=2) & m
+    out |= ndi.binary_dilation(pm, iterations=8) & ~bm & m
     return out
 
 # ---------------------------------------------------------------- run

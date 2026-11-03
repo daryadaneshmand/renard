@@ -1,0 +1,12 @@
+{
+  "title": "File:Poissons, ecrevisses et crabes 1754 (7198504).jpg",
+  "folio": "V. Planche",
+  "rotate": 1,
+  "fish": [
+    {"name": "Tang-Brasem", "number": 19, "facing": "left", "at": [810, 1800], "type": "deep"},
+    {"name": "Touring-rouw", "number": 20, "facing": "left", "at": [810, 3450], "type": "deep"},
+    {"name": "Groot Half-Beck", "number": 21, "facing": "left", "at": [1560, 2700], "type": "fusiform"},
+    {"name": "Sian Mamel", "number": 22, "facing": "left", "at": [2280, 1650], "type": "deep"},
+    {"name": "Sian Femel", "number": 23, "facing": "left", "at": [2280, 3360], "type": "deep"}
+  ]
+}

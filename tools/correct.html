@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Renard: correct a rig</title>
+<!-- Serve the repo root and open /tools/correct.html. About a minute per fish.
+     Save downloads corrections/<plate id>.json whole: drop it in place and rerun extract and bake. -->
+<style>
+  html, body { margin: 0; height: 100%; background: #33343a; color: #eee; font: 12px/1.5 ui-monospace, Menlo, monospace; }
+  #bar { display: flex; gap: 8px; align-items: center; padding: 6px 10px; background: #222; flex-wrap: wrap; }
+  button, select { font: inherit; background: #444; color: #eee; border: 1px solid #666; padding: 2px 8px; }
+  button.on { background: #b06a00; }
+  #wrap { position: absolute; inset: 40px 0 0 0; overflow: auto; }
+  canvas { display: block; }
+  #msg { opacity: .8; }
+</style>
+<div id="bar">
+  <select id="fish"></select>
+  <button data-mode="edit" class="on" title="Drag any handle">Drag</button>
+  <button data-mode="fin" title="Drag a box around a paired fin">Box fin</button>
+  <button data-mode="cut" title="Drag a box over caption text welded to the fish">Cut box</button>
+  <button id="delfin" title="Remove the fin last touched">Remove fin</button>
+  <button id="save">Save</button>
+  <span id="msg"></span>
+</div>
+<div id="wrap"><canvas id="c"></canvas></div>
+<script type="module">
+const base = '../assets/fish';
+const $ = id => document.getElementById(id);
+const c = $('c'), g = c.getContext('2d');
+const index = await (await fetch(`${base}/index.json`)).json();
+let rig, img, zoom = 1, plateId, all = {};
+let mode = 'edit', drag = null, box = null, lastFin = -1;
+const say = t => { $('msg').textContent = t; };
+
+for (const s of index.fish) { const o = document.createElement('option'); o.textContent = s; $('fish').append(o); }
+$('fish').onchange = () => load($('fish').value);
+document.querySelectorAll('[data-mode]').forEach(b => b.onclick = () => {
+  mode = b.dataset.mode;
+  document.querySelectorAll('[data-mode]').forEach(x => x.classList.toggle('on', x === b));
+});
+
+function loadImg(url) {
+  return new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = url; });
+}
+async function load(slug) {
+  const dir = `${base}/${slug}`;
+  rig = await (await fetch(`${dir}/rig.json`)).json();
+  plateId = /\((\d+)\)/.exec(rig.plate.title)[1];
+  const r = await fetch(`../corrections/${plateId}.json`);
+  all = r.ok ? await r.json() : {};
+  const [pw, ph] = rig.size_plate;
+  zoom = Math.min(1, (innerWidth - 20) / pw, (innerHeight - 60) / ph);
+  // the body as stored, with each lifted fin laid back on it, so the fish reads whole
+  const off = document.createElement('canvas'); off.width = pw; off.height = ph;
+  const o = off.getContext('2d');
+  o.drawImage(await loadImg(`${dir}/color.png`), 0, 0, pw, ph);
+  for (let i = 0; i < rig.fins.length; i++) {
+    const b = rig.fins[i].box;
+    o.drawImage(await loadImg(`${dir}/fin${i}-color.png`), b[0] - rig.origin[0], b[1] - rig.origin[1], b[2], b[3]);
+  }
+  img = off;
+  c.width = Math.round(pw * zoom); c.height = Math.round(ph * zoom);
+  $('fish').value = slug;
+  say(`${rig.name}: ${rig.source}. Green top, magenta bottom, yellow head, cyan tail, orange fin, red hinge.`);
+  draw();
+}
+const S = (x, y) => [(x - rig.origin[0]) * zoom, (y - rig.origin[1]) * zoom];
+const P = (x, y) => [x / zoom + rig.origin[0], y / zoom + rig.origin[1]];
+
+function line(pts, col, w = 1.5, close = false) {
+  g.strokeStyle = col; g.lineWidth = w; g.beginPath();
+  pts.forEach(([x, y], i) => { const [a, b] = S(x, y); i ? g.lineTo(a, b) : g.moveTo(a, b); });
+  if (close) g.closePath();
+  g.stroke();
+}
+function dot(x, y, col) {
+  const [a, b] = S(x, y);
+  g.fillStyle = col; g.strokeStyle = '#000'; g.lineWidth = 1;
+  g.beginPath(); g.arc(a, b, 4.5, 0, 7); g.fill(); g.stroke();
+}
+function handles() {
+  const out = [];
+  const b = rig.body;
+  b.x.forEach((x, i) => {
+    out.push({ x, y: b.top[i], col: '#0f6', set: (X, Y) => { b.x[i] = X; b.top[i] = Y; } });
+    out.push({ x, y: b.bot[i], col: '#f3f', set: (X, Y) => { b.x[i] = X; b.bot[i] = Y; } });
+  });
+  out.push({ x: rig.head[0], y: rig.head[1], col: '#ff0', set: (X, Y) => { rig.head = [X, Y]; } });
+  out.push({ x: rig.tail[0], y: rig.tail[1], col: '#0ff', set: (X, Y) => { rig.tail = [X, Y]; } });
+  rig.fins.forEach((f, k) => {
+    f.poly.forEach((p, i) => out.push({ x: p[0], y: p[1], col: '#f90', fin: k, set: (X, Y) => { f.poly[i] = [X, Y]; } }));
+    f.hinge.forEach((p, i) => out.push({ x: p[0], y: p[1], col: '#f00', fin: k, set: (X, Y) => { f.hinge[i] = [X, Y]; } }));
+  });
+  return out;
+}
+function draw() {
+  g.clearRect(0, 0, c.width, c.height);
+  g.fillStyle = '#3c4682'; g.fillRect(0, 0, c.width, c.height);
+  g.drawImage(img, 0, 0, c.width, c.height);
+  const b = rig.body;
+  line(b.x.map((x, i) => [x, b.top[i]]), '#0f6');
+  line(b.x.map((x, i) => [x, b.bot[i]]), '#f3f');
+  line([[rig.head[0], rig.head[1] - 70], [rig.head[0], rig.head[1] + 70]], '#ff0', 2);
+  line([[rig.tail[0], rig.tail[1] - 70], [rig.tail[0], rig.tail[1] + 70]], '#0ff', 2);
+  rig.fins.forEach(f => { line(f.poly, '#f90', 1.5, true); line(f.hinge, '#f00', 3); });
+  const entry = all[rig.slug] || {};
+  (entry.cut || []).forEach(p => line(p, '#fff', 1, true));
+  handles().forEach(h => dot(h.x, h.y, h.col));
+  if (box) {
+    const [a, d] = S(box[0], box[1]), [e, f] = S(box[2], box[3]);
+    g.strokeStyle = mode === 'cut' ? '#fff' : '#f90'; g.setLineDash([5, 4]); g.strokeRect(a, d, e - a, f - d); g.setLineDash([]);
+  }
+}
+function at(ev) { const r = c.getBoundingClientRect(); return P(ev.clientX - r.left, ev.clientY - r.top); }
+c.onpointerdown = ev => {
+  const [x, y] = at(ev);
+  c.setPointerCapture(ev.pointerId);
+  if (mode === 'edit') {
+    let best = null, bd = (10 / zoom) ** 2;
+    for (const h of handles()) {
+      const d = (h.x - x) ** 2 + (h.y - y) ** 2;
+      if (d < bd) { bd = d; best = h; }
+    }
+    drag = best;
+    if (best && best.fin !== undefined) lastFin = best.fin;
+  } else box = [x, y, x, y];
+};
+c.onpointermove = ev => {
+  const [x, y] = at(ev);
+  if (drag) { drag.set(x, y); drag.x = x; drag.y = y; draw(); }
+  else if (box) { box[2] = x; box[3] = y; draw(); }
+};
+c.onpointerup = () => {
+  if (box && Math.abs(box[2] - box[0]) > 8 && Math.abs(box[3] - box[1]) > 4) {
+    const [x0, x1] = [Math.min(box[0], box[2]), Math.max(box[0], box[2])];
+    const [y0, y1] = [Math.min(box[1], box[3]), Math.max(box[1], box[3])];
+    if (mode === 'fin') {
+      // an ellipse of handles inside the box, hinged on the head side
+      const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2, poly = [];
+      for (let i = 0; i < 10; i++) {
+        const t = i / 10 * 2 * Math.PI;
+        poly.push([cx + Math.cos(t) * (x1 - x0) / 2, cy + Math.sin(t) * (y1 - y0) / 2]);
+      }
+      rig.fins.push({ kind: 'pectoral', poly, hinge: [[x0, cy - (y1 - y0) * .3], [x0, cy + (y1 - y0) * .3]] });
+      lastFin = rig.fins.length - 1;
+    } else {
+      all[rig.slug] = all[rig.slug] || {};
+      (all[rig.slug].cut = all[rig.slug].cut || []).push([[x0, y0], [x1, y0], [x1, y1], [x0, y1]]);
+    }
+  }
+  drag = null; box = null; draw();
+};
+$('delfin').onclick = () => { if (lastFin >= 0) { rig.fins.splice(lastFin, 1); lastFin = -1; draw(); } };
+
+function correction() {
+  const round = v => Math.round(v * 10) / 10;
+  const b = rig.body;
+  const order = b.x.map((_, i) => i).sort((p, q) => b.x[p] - b.x[q]);
+  const prev = all[rig.slug] || {};
+  return { ...prev,
+    head: rig.head.map(round), tail: rig.tail.map(round),
+    body: { x: order.map(i => round(b.x[i])), top: order.map(i => round(b.top[i])), bot: order.map(i => round(b.bot[i])) },
+    fins: rig.fins.map(f => ({ kind: f.kind, poly: f.poly.map(p => p.map(round)), hinge: f.hinge.map(p => p.map(round)) })),
+  };
+}
+$('save').onclick = () => {
+  all[rig.slug] = correction();
+  const blob = new Blob([JSON.stringify(all, null, 1)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `${plateId}.json`;
+  a.click();
+  say(`Saved ${plateId}.json. Put it in corrections/, then run extract and bake.`);
+};
+window.CORRECT = { get rig() { return rig; }, get zoom() { return zoom; }, S, correction };
+await load(new URLSearchParams(location.search).get('fish') || index.fish[0]);
+window.CORRECT_READY = true;
+</script>
+</html>

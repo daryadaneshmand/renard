@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Renard: rig bench</title>
+<style>
+  /* bench only: this is not the piece */
+  html, body { margin: 0; background: #e1d3bd; font: 12px/1.4 ui-monospace, Menlo, monospace; color: #292725; }
+  #c { display: block; width: 100vw; height: 100vh; }
+  #p { position: fixed; left: 10px; top: 10px; background: #e1d3bdd0; padding: 8px 10px; }
+  #p label { display: grid; grid-template-columns: 110px 160px 44px; align-items: center; }
+  #p select { margin-bottom: 6px; }
+</style>
+<canvas id="c"></canvas>
+<div id="p"></div>
+<script type="module">
+import { makeProgram, loadFish, drawFish, setSwim, perspective, translate, mul, fishModel } from './rig.js';
+
+const q = new URLSearchParams(location.search);
+const canvas = document.getElementById('c');
+const gl = canvas.getContext('webgl2', { antialias: true, alpha: false, preserveDrawingBuffer: true });
+const P = makeProgram(gl);
+const T = makeProgram(gl, true);
+const base = 'assets/fish';
+const index = await (await fetch(`${base}/index.json`)).json();
+const paper = index.paper, inkc = index.ink;
+const fishes = {};
+let cur = null;
+const S = { look: 0, yaw: 24, playing: !q.has('still'), ground: paper };
+
+function size(w, h) {
+  canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
+  canvas.width = w; canvas.height = h;
+  gl.viewport(0, 0, w, h);
+}
+function fitAuto() {
+  const r = devicePixelRatio || 1;
+  size(Math.round(innerWidth * r), Math.round(innerHeight * r));
+  canvas.style.width = '100vw'; canvas.style.height = '100vh';
+}
+
+function camera() {
+  const aspect = canvas.width / canvas.height;
+  const D = 6;
+  const fov = 2 * Math.atan(0.5 / D);
+  return mul(perspective(fov, aspect, 0.1, 50), translate(0, 0, -D));
+}
+function modelFor(fish, yawDeg) {
+  const e = fish.rig.extent;
+  const aspect = canvas.width / canvas.height;
+  const w = (e[1] - e[0]) * 1.12, h = (e[3] - e[2]) * 1.12;
+  const scale = Math.min(aspect / w, 1 / h);
+  const cx = (e[0] + e[1]) / 2, cy = (e[2] + e[3]) / 2;
+  const yaw = yawDeg * Math.PI / 180;
+  const c = Math.cos(yaw), sn = Math.sin(yaw);
+  return fishModel(-cx * scale * c, -cy * scale, cx * scale * sn, scale, yaw, 0, 1);
+}
+function setCommon(prog, vp) {
+  gl.useProgram(prog.pr);
+  gl.uniformMatrix4fv(prog.u.u_vp, false, vp);
+  gl.uniform3fv(prog.u.u_paper, paper);
+  gl.uniform3fv(prog.u.u_inkc, inkc);
+  gl.uniform3fv(prog.u.u_ground, S.ground);
+}
+function draw() {
+  const g = S.ground;
+  gl.clearColor(g[0], g[1], g[2], 1);
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+  if (!cur) return;
+  const vp = camera();
+  setCommon(P, vp);
+  drawFish(gl, P, cur, modelFor(cur, S.yaw), S.look, 0);
+}
+
+// Vertex shader output as numbers, for tools/check_wave.py
+function readback(partIndex) {
+  const m = partIndex < 0 ? cur.body : cur.fins[partIndex];
+  const vp = camera();
+  const model = modelFor(cur, S.yaw);
+  setCommon(T, vp);
+  setSwim(gl, T, cur);
+  gl.uniformMatrix4fv(T.u.u_model, false, model);
+  gl.uniform2f(T.u.u_hingeN, m.hingeN[0], m.hingeN[1]);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.TRANSFORM_FEEDBACK_BUFFER, buf);
+  gl.bufferData(gl.TRANSFORM_FEEDBACK_BUFFER, m.verts * 16, gl.STREAM_READ);
+  gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 0, buf);
+  gl.bindVertexArray(m.vao);
+  gl.enable(gl.RASTERIZER_DISCARD);
+  gl.beginTransformFeedback(gl.POINTS);
+  gl.drawArrays(gl.POINTS, 0, m.verts);
+  gl.endTransformFeedback();
+  gl.disable(gl.RASTERIZER_DISCARD);
+  gl.bindVertexArray(null);
+  gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 0, null);
+  const out = new Float32Array(m.verts * 4);
+  gl.bindBuffer(gl.TRANSFORM_FEEDBACK_BUFFER, buf);
+  gl.getBufferSubData(gl.TRANSFORM_FEEDBACK_BUFFER, 0, out);
+  gl.bindBuffer(gl.TRANSFORM_FEEDBACK_BUFFER, null);
+  gl.deleteBuffer(buf);
+  return { clip: Array.from(out), vp: Array.from(vp), model: Array.from(model), phase: cur.phase, swim: cur.swim, hingeN: m.hingeN };
+}
+
+async function setFish(slug) {
+  fishes[slug] = fishes[slug] || await loadFish(gl, base, slug);
+  cur = fishes[slug];
+  sel.value = slug;
+  buildKnobs();
+  return cur.rig.extent;
+}
+
+// ---- the five knobs
+const panel = document.getElementById('p');
+const sel = document.createElement('select');
+index.fish.forEach(s => { const o = document.createElement('option'); o.textContent = s; sel.append(o); });
+sel.onchange = () => setFish(sel.value);
+panel.append(sel);
+const knobs = document.createElement('div');
+panel.append(knobs);
+const SPEC = [
+  ['Wavelength', 'wavelength', .3, 2.5, .01],
+  ['Tail Amplitude', 'amplitude', 0, .25, .001],
+  ['Tempo', 'tempo', 0, 2, .01],
+  ['Envelope', 'envelope', .3, 5, .05],
+  ['Fin Lag', 'lag', 0, 6, .05],
+];
+function buildKnobs() {
+  knobs.innerHTML = '';
+  for (const [label, key, a, b, st] of SPEC) {
+    const l = document.createElement('label');
+    const r = document.createElement('input');
+    const v = document.createElement('span');
+    r.type = 'range'; r.min = a; r.max = b; r.step = st; r.value = cur.swim[key]; v.textContent = cur.swim[key];
+    r.oninput = () => { cur.swim[key] = +r.value; v.textContent = r.value; };
+    l.append(label, r, v);
+    knobs.append(l);
+  }
+}
+addEventListener('keydown', e => { if (e.key === 'i') S.look = S.look ? 0 : 1; });
+addEventListener('resize', () => { if (!q.has('w')) fitAuto(); });
+
+if (q.has('w')) size(+q.get('w'), +q.get('h') || 600); else fitAuto();
+if (q.has('hide')) panel.style.display = 'none';
+await setFish(q.get('fish') || index.fish[0]);
+
+let last = performance.now(), frames = [];
+function tick(now) {
+  const dt = Math.min(.05, (now - last) / 1000);
+  frames.push(now - last);
+  if (frames.length > 240) frames.shift();
+  last = now;
+  if (S.playing && cur) cur.phase += 2 * Math.PI * cur.swim.tempo * dt;   // accumulated, so tempo can change freely
+  draw();
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+
+// All rigs at once, overlapping, each forced to finish: frame time with all 10 loaded.
+async function perfAll(w, h, n = 180, look = 0) {
+  S.playing = false;
+  for (const f of index.fish) { fishes[f] = fishes[f] || await loadFish(gl, base, f); }
+  size(w, h);
+  const list = index.fish.map(f => fishes[f]);
+  const px = new Uint8Array(4);
+  const vp = camera();
+  const aspect = w / h;
+  const times = [];
+  for (let i = 0; i < n; i++) {
+    const t0 = performance.now();
+    gl.clearColor(S.ground[0], S.ground[1], S.ground[2], 1);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    setCommon(P, vp);
+    list.forEach((f, k) => {
+      f.phase += 0.05;
+      const col = k % 4, row = (k / 4) | 0;
+      const m = fishModel((col - 1.5) / 4 * aspect, .32 - row * .32, -k * .05, .22, 20 * Math.PI / 180, 0, k % 2 ? -1 : 1);
+      drawFish(gl, P, f, m, look, k * .03);
+    });
+    gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, px);
+    times.push(performance.now() - t0);
+  }
+  times.sort((a, b) => a - b);
+  return { w, h, frames: n, median: times[n >> 1], p95: times[(n * .95) | 0], max: times[n - 1],
+    tris: list.reduce((a, f) => a + (f.body.count + f.fins.reduce((b, g) => b + g.count, 0)) / 3, 0),
+    url: canvas.toDataURL('image/jpeg', .8).length };
+}
+
+window.BENCH = {
+  S, gl, index, setFish, size, draw, readback, frames, perfAll,
+  get cur() { return cur; },
+  // one exact frame, returned as a data URL
+  shot(phase, look, yaw, ground) {
+    S.playing = false;
+    cur.phase = phase; S.look = look; S.yaw = yaw;
+    if (ground) S.ground = ground;
+    draw();
+    return canvas.toDataURL('image/png');
+  },
+};
+window.BENCH_READY = true;
+</script>
+</html>

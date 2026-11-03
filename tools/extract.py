@@ -204,8 +204,10 @@ CFG = dict(low=8.0, high=16.0, wide=7, hat_lo=6.0, hat_hi=17.0, black_L=36.0, bl
 def slugify(s):
     return re.sub(r'[^a-z0-9]+', '-', s.lower()).strip('-')
 
-def analyse_plate(path, page=(.03, .05, .94, .95), cfg=CFG):
+def analyse_plate(path, page=(.03, .05, .94, .95), cfg=CFG, rotate=0):
     im = np.asarray(Image.open(path).convert('RGB')).astype(np.float32) / 255
+    if rotate:      # some plates print the fish head up: k quarter turns counterclockwise
+        im = np.rot90(im, rotate).copy()
     H, W, _ = im.shape
     x0, y0, x1, y1 = int(page[0] * W), int(page[1] * H), int(page[2] * W), int(page[3] * H)
     rgb = im[y0:y1, x0:x1]
@@ -302,17 +304,10 @@ def to_png(path, rgb, a, scale):
     arr = np.dstack([np.clip(rgb, 0, 1), np.clip(a, 0, 1)])
     img = Image.fromarray((arr * 255 + .5).astype('uint8'), 'RGBA')
     if scale != 1:
-        # premultiplied resample so transparent neighbours cannot darken the edge
-        premul = arr.copy()
-        premul[..., :3] *= premul[..., 3:]
-        out = []
+        # rgb is already extended past the edge, so color and alpha resample independently
         size = (round(arr.shape[1] * scale), round(arr.shape[0] * scale))
-        for i in range(4):
-            out.append(np.asarray(Image.fromarray(premul[..., i].astype(np.float32)).resize(size, Image.LANCZOS)))
-        out = np.clip(np.dstack(out), 0, 1)
-        al = out[..., 3:]
-        out[..., :3] = np.where(al > 1e-3, out[..., :3] / np.maximum(al, 1e-3), 0)
-        img = Image.fromarray((np.clip(out, 0, 1) * 255 + .5).astype('uint8'), 'RGBA')
+        out = [np.asarray(Image.fromarray(arr[..., i].astype(np.float32)).resize(size, Image.LANCZOS)) for i in range(4)]
+        img = Image.fromarray((np.clip(np.dstack(out), 0, 1) * 255 + .5).astype('uint8'), 'RGBA')
     img.save(path, optimize=False, compress_level=6)
     return img.size
 
@@ -384,7 +379,11 @@ def cut_fish(A, lbl, prop, entry, corr, plate, outdir, ink_rgb):
         fin['box'] = [int(x0 + ox), int(y0 + oy), int(x1 - x0), int(y1 - y0)]
     if all_fin.any():
         grown = ndi.binary_dilation(all_fin, iterations=3)
-        filled = pushpull(rgb, m & ~grown)
+        # Fill from the wash only: no engraved line and no small spot may bleed in as gray.
+        # Wide solids stay, so a fin lying across Bezaan's black band keeps black under it.
+        wide = morphology.opening(solid, morphology.disk(14))
+        known = m & ~ndi.binary_dilation(all_fin, iterations=7) & ~((ink > .15) & ~wide)
+        filled = pushpull(rgb, known)
         soft = np.clip(ndi.gaussian_filter(grown.astype(np.float32), 1.0), 0, 1)
         body_rgb = np.where(grown[..., None], filled, f)
         inside = ndi.binary_erosion(bm, iterations=1)
@@ -419,7 +418,8 @@ def fin_region(fin, rgb, L, m, bm, origin):
     out = np.zeros(m.shape, bool)
     out[y0:y1, x0:x1] = lab == 2
     # the fin's own outline is dark and belongs with the fin
-    out = ndi.binary_dilation(out, iterations=2) & m
+    # Fin rays are strong edges too, so the watershed can stop on an inner ray. The polygon is a floor.
+    out = ndi.binary_dilation(out | pm, iterations=4) & m
     out |= ndi.binary_dilation(pm, iterations=8) & ~bm & m
     return out
 
@@ -437,14 +437,18 @@ def run(title, only=None, out_root=None, report=True):
     manifest = json.load(open(f'{ROOT}/manifests/{pid}.json'))
     corrpath = f'{ROOT}/corrections/{pid}.json'
     corrections = json.load(open(corrpath)) if os.path.exists(corrpath) else {}
-    A = analyse_plate(path, page=tuple(manifest.get('page', (.03, .05, .94, .95))))
+    rot = manifest.get('rotate', 0)
+    W0, _ = Image.open(path).size
+    A = analyse_plate(path, page=tuple(manifest.get('page', (.03, .05, .94, .95))), rotate=rot)
     lbl, props = components(A)
     out_root = out_root or f'{ROOT}/assets/fish'
     ink_rgb = sample_ink(A)
     paper_rgb = np.median(A['paper'].reshape(-1, 3), axis=0)
     ox, oy = A['offset']
     # claim components by the manifest's rough point
-    pts = [(e['at'][0] - ox, e['at'][1] - oy) for e in manifest['fish']]
+    # 'at' is always read off the plate as printed
+    at = [(e['at'][1], W0 - 1 - e['at'][0]) if rot == 1 else tuple(e['at']) for e in manifest['fish']]
+    pts = [(x - ox, y - oy) for x, y in at]
     used, results, problems = {}, [], []
     for e, (x, y) in zip(manifest['fish'], pts):
         best, bestd = None, 1e18

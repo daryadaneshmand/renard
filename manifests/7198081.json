@@ -1,0 +1,11 @@
+{
+  "title": "File:Poissons, ecrevisses et crabes 1754 (7198081).jpg",
+  "folio": "Fol. 10",
+  "black_test": true,
+  "fish": [
+    {"name": "Marlpriem, Slier, of Sor", "slug": "marlpriem", "number": 64, "facing": "left", "at": [1560, 1352], "type": "fusiform"},
+    {"name": "Lasacker", "number": 65, "facing": "left", "at": [1040, 1898], "type": "eel"},
+    {"name": "Terbang Boudjou", "number": 66, "facing": "left", "at": [1950, 2444], "type": "fusiform"},
+    {"name": "Vliegende Harder", "number": 67, "facing": "left", "at": [1300, 3406], "type": "fusiform"}
+  ]
+}

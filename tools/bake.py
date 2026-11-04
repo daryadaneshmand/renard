@@ -109,7 +109,10 @@ def fields(rig, body, fins):
     for x, y, w, h, a in fins:
         full[y:y + h, x:x + w] = np.maximum(full[y:y + h, x:x + w], a)
     M = np.asarray(Image.fromarray(full).resize((fw, fh), Image.BOX)) > .02
-    M = ndi.binary_closing(M, iterations=1)
+    # Closing seals hairline gaps in a fin. Where two long parts run close, as on Cambing's filaments, it
+    # bridges them and the rays walk across: "close_field": false in a correction turns it off for that fish.
+    if rig.get('close_field', True):
+        M = ndi.binary_closing(M, iterations=1)
     X = (np.arange(fw) + .5) * FIELD + ox
     Y = (np.arange(fh) + .5) * FIELD + oy
     t, b = dense_curves(rig, X)

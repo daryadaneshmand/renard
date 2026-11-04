@@ -1,0 +1,13 @@
+{
+  "title": "File:Poissons, ecrevisses et crabes 1754 (7198167).jpg",
+  "folio": "Fol. 18",
+  "black_test": true,
+  "fish": [
+    {"name": "Kandawaar", "number": 98, "facing": "left", "at": [1027, 1489], "type": "deep"},
+    {"name": "Schout by Nacht", "number": 99, "facing": "left", "at": [1798, 2183], "type": "wrasse"},
+    {"name": "Macreel", "number": 100, "facing": "left", "at": [1156, 2696], "type": "fusiform"},
+    {"name": "Ekorbiro", "slug": "ekorbiro-101", "number": 101, "facing": "left", "at": [822, 3287], "type": "deep"},
+    {"name": "Imperator", "number": 102, "facing": "left", "at": [2131, 3210], "type": "wrasse"},
+    {"name": "Cambat babi", "number": 103, "facing": "left", "at": [1541, 3955], "type": "eel"}
+  ]
+}

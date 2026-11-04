@@ -5,7 +5,7 @@
 
 Reads   manifests/<id>.json      names and facing, written by hand
         corrections/<id>.json    hand-made fixes (optional), see correct.html
-                                 body, head, tail, fins, cut and clear polygons, trim, solid, fill_body, ink
+                                 body, head, tail, fins, cut and clear polygons, trim, solid, fill_body, ink, close_field
 Writes  assets/fish/<slug>/color.webp  his color, straight alpha, edge unmixed from the paper
         assets/fish/<slug>/ink.webp    his line, ink color with alpha; solid blacks stay filled
         assets/fish/<slug>/rig.json   body curves, head, tail, paired fins, facing
@@ -232,6 +232,10 @@ CFG = dict(low=8.0, high=16.0, wide=7, hat_lo=6.0, hat_hi=17.0, black_L=36.0, bl
 def slugify(s):
     return re.sub(r'[^a-z0-9]+', '-', s.lower()).strip('-')
 
+def fish_slug(e):
+    """Renard reuses names, so a manifest entry may set its own "slug". The printed name stays in "name"."""
+    return e.get('slug') or slugify(e['name'])
+
 def analyse_plate(path, page=(.03, .05, .94, .95), cfg=CFG, rotate=0):
     im = np.asarray(Image.open(path).convert('RGB')).astype(np.float32) / 255
     if rotate:      # some plates print the fish head up: k quarter turns counterclockwise
@@ -370,14 +374,14 @@ def cut_fish(A, lbl, prop, entry, corr, plate, outdir, ink_rgb):
 
     fit = fit_body(m, facing)
     st, t, b = stations(fit, facing)
-    rig = dict(name=entry['name'], slug=slugify(entry['name']), number=entry.get('number'), type=entry.get('type', 'wrasse'),
+    rig = dict(name=entry['name'], slug=fish_slug(entry), number=entry.get('number'), type=entry.get('type', 'wrasse'),
                facing=facing, plate=dict(title=plate['title'], folio=plate.get('folio')),
                origin=[int(ox), int(oy)], size_plate=[int(c1 - c0), int(a1 - a0)],
                head=[float(fit['head']) + ox, float((np.interp(fit['head'], fit['xs'], fit['top']) + np.interp(fit['head'], fit['xs'], fit['bot'])) / 2) + oy],
                tail=[float(fit['tail']) + ox, float((np.interp(fit['tail'], fit['xs'], fit['top']) + np.interp(fit['tail'], fit['xs'], fit['bot'])) / 2) + oy],
                body=dict(x=(st + ox).round(1).tolist(), top=(t + oy).round(1).tolist(), bot=(b + oy).round(1).tolist()),
                fins=[], source='auto')
-    for k in ('head', 'tail', 'body', 'fins', 'type'):
+    for k in ('head', 'tail', 'body', 'fins', 'type', 'close_field'):
         if k in corr:
             rig[k] = corr[k]
     if {'body'} & set(corr):
@@ -506,47 +510,53 @@ def run(title, only=None, out_root=None, report=True):
     manifest = json.load(open(f'{ROOT}/manifests/{pid}.json'))
     corrpath = f'{ROOT}/corrections/{pid}.json'
     corrections = json.load(open(corrpath)) if os.path.exists(corrpath) else {}
+    # A plate can mix head-up and side-on fish, so a fish may set its own "rotate" over the plate's.
     rot = manifest.get('rotate', 0)
     W0, _ = Image.open(path).size
-    A = analyse_plate(path, page=tuple(manifest.get('page', (.03, .05, .94, .95))), rotate=rot)
-    lbl, props = components(A)
     out_root = out_root or f'{ROOT}/assets/fish'
-    ink_rgb = sample_ink(A)
-    paper_rgb = np.median(A['paper'].reshape(-1, 3), axis=0)
-    ox, oy = A['offset']
-    # claim components by the manifest's rough point
-    # 'at' is always read off the plate as printed
-    at = [(e['at'][1], W0 - 1 - e['at'][0]) if rot == 1 else tuple(e['at']) for e in manifest['fish']]
-    pts = [(x - ox, y - oy) for x, y in at]
-    used, results, problems = {}, [], []
-    for e, (x, y) in zip(manifest['fish'], pts):
-        best, bestd = None, 1e18
-        for p in props:
-            cy, cx = p.centroid
-            hit = 0 <= int(y) < lbl.shape[0] and 0 <= int(x) < lbl.shape[1] and lbl[int(y), int(x)] == p.label
-            d = 0 if hit else np.hypot(cx - x, cy - y)
-            if d < bestd:
-                best, bestd = p, d
-        if best is None:
-            problems.append((e['name'], 'no component'))
-            continue
-        if best.label in used:
-            problems.append((e['name'], f"same component as {used[best.label]}: merged"))
-        used.setdefault(best.label, e['name'])
-        slug = slugify(e['name'])
-        if (only and slug not in only) or e.get('skip'):
-            continue
-        corr = corrections.get(slug, {})
-        rig, dbg = cut_fish(A, lbl, best, e, corr, manifest, f'{out_root}/{slug}', ink_rgb)
-        results.append((rig, dbg))
-    unclaimed = [p for p in props if p.label not in used]
-    meta = dict(title=title, id=pid, paper=[float(v) for v in paper_rgb], ink=[float(v) for v in ink_rgb],
-                fish=[slugify(e['name']) for e in manifest['fish'] if not e.get('skip')], credit='Louis Renard, 1754 edition, via Polona and Wikimedia Commons')
+    results, problems, unclaimed, nprops, meta = [], [], [], 0, None
+    for r in sorted({e.get('rotate', rot) for e in manifest['fish']}):
+        A = analyse_plate(path, page=tuple(manifest.get('page', (.03, .05, .94, .95))), rotate=r)
+        lbl, props = components(A)
+        ink_rgb = sample_ink(A)
+        ox, oy = A['offset']
+        fish = [e for e in manifest['fish'] if e.get('rotate', rot) == r]
+        # claim components by the manifest's rough point
+        # 'at' is always read off the plate as printed
+        at = [(e['at'][1], W0 - 1 - e['at'][0]) if r == 1 else tuple(e['at']) for e in fish]
+        pts = [(x - ox, y - oy) for x, y in at]
+        used = {}
+        for e, (x, y) in zip(fish, pts):
+            best, bestd = None, 1e18
+            for p in props:
+                cy, cx = p.centroid
+                hit = 0 <= int(y) < lbl.shape[0] and 0 <= int(x) < lbl.shape[1] and lbl[int(y), int(x)] == p.label
+                d = 0 if hit else np.hypot(cx - x, cy - y)
+                if d < bestd:
+                    best, bestd = p, d
+            if best is None:
+                problems.append((e['name'], 'no component'))
+                continue
+            if best.label in used:
+                problems.append((e['name'], f"same component as {used[best.label]}: merged"))
+            used.setdefault(best.label, e['name'])
+            slug = fish_slug(e)
+            if (only and slug not in only) or e.get('skip'):
+                continue
+            corr = corrections.get(slug, {})
+            rig, dbg = cut_fish(A, lbl, best, e, corr, manifest, f'{out_root}/{slug}', ink_rgb)
+            results.append((rig, dbg))
+        unclaimed += [p for p in props if p.label not in used]
+        nprops += len(props)
+        if meta is None:
+            paper_rgb = np.median(A['paper'].reshape(-1, 3), axis=0)
+            meta = dict(title=title, id=pid, paper=[float(v) for v in paper_rgb], ink=[float(v) for v in ink_rgb],
+                        fish=[fish_slug(e) for e in manifest['fish'] if not e.get('skip')], credit='Louis Renard, 1754 edition, via Polona and Wikimedia Commons')
     os.makedirs(out_root, exist_ok=True)
     with open(f'{out_root}/plate-{pid}.json', 'w') as fp:
         json.dump(meta, fp, indent=1)
     if report:
-        print(f'{pid}: {len(props)} components over size, {len(manifest["fish"])} in manifest, '
+        print(f'{pid}: {nprops} components over size, {len(manifest["fish"])} in manifest, '
               f'{len(unclaimed)} unclaimed, {len(problems)} problems {problems}')
         print('paper', meta['paper'], 'ink', meta['ink'])
     return A, results, problems, unclaimed

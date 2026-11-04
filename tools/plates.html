@@ -25,7 +25,7 @@
   button.act.main { background: #222; border-color: #222; color: #fff; }
 </style>
 <h1>Pick the order</h1>
-<p>Click plates in the order you want them swimming. Click again to take one out. The + opens it larger. Faded plates are already done or in progress. Some pages are only text, so skip those.</p>
+<p>Click plates in the order you want them swimming. Click again to take one out. The + opens it larger. Faded plates are already swimming. Some pages are only text, so skip those.</p>
 <div id="grid"></div>
 <div id="bar">
   <div id="order"></div>
@@ -33,7 +33,7 @@
   <button class="act main" id="copy">Copy order</button>
 </div>
 <script type="module">
-const HAVE = { '7198037': 'swimming', '7198104': 'in progress', '7198504': 'in progress' };
+const HAVE = Object.fromEntries(['7198037', '7198081', '7198104', '7198167', '7198240', '7198504', '7198515'].map(id => [id, 'swimming']));
 const KEY = 'renard-plate-order';
 const files = await (await fetch('commons-files.json')).json();
 const ids = files.map(f => f.title.match(/\((\d+)\)/)[1]);

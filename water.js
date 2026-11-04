@@ -12,6 +12,8 @@ const MAX_YAW = 47 * Math.PI / 180;   // off the plate's own view: past this the
 const SIDE_ON = 8 * Math.PI / 180;    // under this the swim barely reads
 const READY = 1;            // fish loaded and waiting their turn
 const HOLD = 6;             // fish on the GPU at once, swimming or not; the rest stay on the server
+const SHOWING = .35;        // haze past this and a fish no longer counts as being there to look at
+const COVER_MARGIN = 1.5;   // seconds of overlap asked for when one fish hands the window to the next
 
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const smooth = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
@@ -183,6 +185,7 @@ export async function start(canvas, LOOK, q) {
     if (!hiddenAt(p[0], r) || !hiddenAt(p[3], r)) return null;
     const N = 60;
     let vis = 0, sideOn = 0, len = 0, prev = bez(p, 0);
+    let showFrom = Infinity, showTo = -1;
     const table = [{ u: 0, s: 0, p: prev }];
     const sign = Math.sign(dbez(p, 0)[0]);
     for (let i = 1; i <= N; i++) {
@@ -202,12 +205,17 @@ export async function start(canvas, LOOK, q) {
         if (ap < SIDE_ON) sideOn++;
       }
       len += Math.hypot(c[0] - prev[0], c[1] - prev[1], c[2] - prev[2]);
+      // really there to look at: its middle inside the window, and not lost to haze
+      if (Math.abs(c[0]) < S.tanW * d && Math.abs(c[1]) < S.tanH * d && opacity(d) > SHOWING) {
+        showFrom = Math.min(showFrom, len);
+        showTo = len;
+      }
       table.push({ u, s: len, p: c });
       prev = c;
     }
     if (vis < 6) return null;
     if (sideOn / vis > .25) return null;       // most of the time it must not be dead side-on
-    return { p, table, len };
+    return { p, table, len, showFrom, showTo };
   }
   function candidate(f, r, kind, near) {
     const dir = R() < .5 ? 1 : -1;
@@ -243,7 +251,7 @@ export async function start(canvas, LOOK, q) {
       const pick = R();
       const kind = opts.kind || (pick < .6 ? 'cross' : pick < .8 ? 'from-far' : 'to-far');
       const path = candidate(f, r, kind, opts.near);
-      if (path) return { path, L, r, kind };
+      if (path && (!opts.show || path.showTo > path.showFrom)) return { path, L, r, kind };
     }
     return null;
   }
@@ -262,7 +270,7 @@ export async function start(canvas, LOOK, q) {
   }
 
   function spawn(f, opts) {
-    const pl = plan(f, opts);
+    const pl = opts && opts.pl || plan(f, opts);
     if (!pl) { log.push({ ev: 'nopath', slug: f.slug, t: S.t }); return null; }
     const fish = {
       f, path: pl.path, L: pl.L, r: pl.r, kind: pl.kind, seg: 0, s: 0, born: S.t,
@@ -340,6 +348,36 @@ export async function start(canvas, LOOK, q) {
     return pumping = pumping || fill().finally(() => { pumping = null; });
   }
 
+  // ---- the window is never left empty. How many seconds from now is it sure to have a fish showing?
+  // Late arrivals and early departures are assumed, since a fish's pace wanders by 22% either way.
+  // Also returns when the next fish already on its way arrives, past that stretch.
+  function coveredFor(mot) {
+    const spans = S.active.filter(a => a.s < a.path.showTo).map(a => {
+      const v = a.v * mot;
+      return [Math.max(0, a.path.showFrom - a.s) / (v * .78), (a.path.showTo - a.s) / (v * 1.22)];
+    }).sort((x, y) => x[0] - y[0]);
+    let t = 0;
+    for (const [from, to] of spans) {
+      if (from > t) return { until: t, coming: from };
+      t = Math.max(t, to);
+    }
+    return { until: t, coming: Infinity };
+  }
+  let nextUp = null;   // the path the next fish will take if the window needs it, planned once
+  function keepCovered(mot) {
+    if (MANUAL && !S.ready.length) { const h = heldNext(); if (h) S.ready.push(h); }
+    const f = S.ready[0];
+    if (!f) { pump(); return; }
+    if (!nextUp || nextUp.f !== f) nextUp = { f, pl: plan(f, { kind: 'cross', show: true }) };
+    if (!nextUp.pl) { nextUp = null; return; }     // tries again next step, with new random paths
+    // With reduced motion a fish starts partway along its path, already in view (see spawn).
+    const arrives = reduced.matches ? 0 : nextUp.pl.path.showFrom / (speedOf(f, nextUp.pl.L) * mot * .88 * .78);
+    const { until, coming } = coveredFor(mot);
+    if (until > arrives + COVER_MARGIN || arrives >= coming) return;
+    if (spawn(f, { pl: nextUp.pl })) { S.ready.shift(); pump(); }
+    nextUp = null;
+  }
+
   // ---- one step of the world. Nothing here depends on rendering.
   function step(dt) {
     S.t += dt;
@@ -352,14 +390,16 @@ export async function start(canvas, LOOK, q) {
 
     const maxFish = reduced.matches ? 2 : (S.aspect < 1.2 ? 2 : 3);
     if (!ARRIVE) {
+      const showing = () => S.active.filter(a => a.s < a.path.showTo).length;   // one on its way out does not count
+      keepCovered(reduced.matches ? .1 : 1);     // above the count below, when a far fish would arrive too late
       S.nextSpawn -= dt;
       if (S.nextSpawn <= 0) {
         // ?manual steps the world in a tight loop with no time to load, but holds every fish already
-        const f = S.active.length >= maxFish ? null : S.ready.shift() || (MANUAL ? heldNext() : null);
+        const f = showing() >= maxFish ? null : S.ready.shift() || (MANUAL ? heldNext() : null);
         if (f) spawn(f, S.spawned === 0 ? { kind: 'cross' } : undefined);
         pump();
-        // mostly a little while; sometimes the water is left alone. Its turn but not here yet: ask again soon.
-        S.nextSpawn = !f && S.active.length < maxFish ? .25 : R() < .28 ? 34 + 26 * R() : 10 + 18 * R();
+        // Company for the fish keepCovered guarantees: mostly a little while, sometimes it swims alone.
+        S.nextSpawn = !f && showing() < maxFish ? .25 : R() < .28 ? 34 + 26 * R() : 10 + 18 * R();
       }
     } else if (!S.spawned && S.ready.length) {
       // one fish, near enough to see, at an unhurried pace, side to side

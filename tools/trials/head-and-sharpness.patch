@@ -1,0 +1,93 @@
+diff --git a/rig.js b/rig.js
+index 3896c92..9178cc8 100644
+--- a/rig.js
++++ b/rig.js
+@@ -9,15 +9,17 @@ export const VS = `#version 300 es
+ precision highp float;
+ in vec2 a_pos; in vec2 a_uv; in float a_s; in float a_d; in float a_z; in float a_r;
+ uniform mat4 u_vp, u_model;
+-uniform float u_phase, u_k, u_amp, u_env, u_head, u_lag, u_flex, u_thick, u_flap;
++uniform float u_phase, u_k, u_amp, u_env, u_head, u_lag, u_flex, u_thick, u_flap, u_swing, u_pivot;
+ uniform vec2 u_hingeN;
+ out vec2 v_uv;
+ out vec4 v_clip;
+ void main() {
+   float s = clamp(a_s, 1e-4, 1.0);
+   // amplitude along the body, and what a ray adds as it flexes away from its root
+-  float A  = u_amp * (u_head + (1.0 - u_head) * pow(s, u_env));
+-  float dA = u_amp * (1.0 - u_head) * u_env * pow(s, u_env - 1.0);
++  // Head swing: a real fish pivots about a point behind the head, so the nose moves too.
++  float h = max(0.0, 1.0 - s / u_pivot);
++  float A  = u_amp * (u_head + (1.0 - u_head) * pow(s, u_env) + u_swing * h * h);
++  float dA = u_amp * ((1.0 - u_head) * u_env * pow(s, u_env - 1.0) - 2.0 * u_swing * h / u_pivot);
+   float F  = u_flex * a_d / (1.0 + 0.6 * a_d);
+   float dF = u_flex / ((1.0 + 0.6 * a_d) * (1.0 + 0.6 * a_d));
+   float ph = u_k * s - u_phase - u_lag * a_d;
+@@ -46,19 +48,21 @@ export const FS = `#version 300 es
+ precision highp float;
+ in vec2 v_uv;
+ uniform sampler2D u_color, u_ink;
+-uniform float u_look, u_haze, u_opacity, u_veil;
++uniform float u_look, u_haze, u_opacity, u_veil, u_bias, u_sharp;
+ uniform vec3 u_paper, u_inkc, u_ground, u_linec;
+ uniform sampler2D u_water;
+ uniform vec2 u_res;
+ uniform int u_pass;
+ out vec4 o;
+ void main() {
+-  vec4 c = texture(u_color, v_uv);
++  vec4 c = texture(u_color, v_uv, u_bias);
+   float a = c.a;
+   if (u_pass == 0) { if (a < 0.995) discard; a = 1.0; }
+   else if (u_pass == 1) { if (a >= 0.995 || a < 0.004) discard; }
+   else if (a < 0.004) discard;
+-  float l = texture(u_ink, v_uv).a;
++  float l = texture(u_ink, v_uv, u_bias).a;
++  // sharp: tighten the ramp from no ink to full ink, so lines keep an edge when resampled
++  if (u_sharp > 0.0) { float w = 0.5 * (1.0 - u_sharp) + 0.02; l = smoothstep(0.5 - w, 0.5 + w, l); }
+   vec3 ink = mix(u_paper, u_inkc, l);
+   vec3 rgb = mix(c.rgb, ink, u_look);
+   rgb = mix(rgb, u_ground, u_haze);
+@@ -227,8 +231,15 @@ export function disposeFish(gl, fish) {
+   for (const f of fish.fins) { one(f); gl.deleteTexture(f.color); gl.deleteTexture(f.ink); }
+ }
+ 
++const TQ = new URLSearchParams(location.search);
++const qn = (k, d) => TQ.has(k) ? +TQ.get(k) : d;
++export const TUNE = { swing: qn('swing', .35), pivot: qn('pivot', .3), bias: qn('bias', -.6), sharp: qn('sharp', .6) };
+ export function setSwim(gl, P, fish) {
+   const u = P.u, sw = fish.swim;
++  gl.uniform1f(u.u_swing, TUNE.swing);
++  gl.uniform1f(u.u_pivot, TUNE.pivot);
++  gl.uniform1f(u.u_bias, TUNE.bias);
++  gl.uniform1f(u.u_sharp, TUNE.sharp);
+   gl.uniform1f(u.u_phase, fish.phase);
+   gl.uniform1f(u.u_k, 2 * Math.PI / sw.wavelength);
+   gl.uniform1f(u.u_amp, sw.amplitude);
+diff --git a/swim.html b/swim.html
+index 782d0d3..d2ab123 100644
+--- a/swim.html
++++ b/swim.html
+@@ -14,7 +14,7 @@
+ <canvas id="c"></canvas>
+ <div id="p"></div>
+ <script type="module">
+-import { makeProgram, loadFish, drawFish, setSwim, perspective, translate, mul, fishModel } from './rig.js';
++import { makeProgram, loadFish, drawFish, setSwim, perspective, translate, mul, fishModel, TUNE } from './rig.js';
+ 
+ const q = new URLSearchParams(location.search);
+ const canvas = document.getElementById('c');
+@@ -136,6 +136,13 @@ function buildKnobs() {
+     l.append(label, r, v);
+     knobs.append(l);
+   }
++  for (const [label, key, x, y, st] of [['Head Swing', 'swing', 0, 1, .01], ['Swing Pivot', 'pivot', .1, .6, .01], ['Sharp Sampling', 'bias', -1.5, 0, .05], ['Line Edge', 'sharp', 0, .95, .05]]) {
++    const l = document.createElement('label'), r = document.createElement('input'), v = document.createElement('span');
++    r.type = 'range'; r.min = x; r.max = y; r.step = st; r.value = TUNE[key]; v.textContent = TUNE[key];
++    r.oninput = () => { TUNE[key] = +r.value; v.textContent = r.value; };
++    l.append(label, r, v);
++    knobs.append(l);
++  }
+ }
+ addEventListener('keydown', e => { if (e.key === 'i') S.look = S.look ? 0 : 1; });
+ addEventListener('resize', () => { if (!q.has('w')) fitAuto(); });

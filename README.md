@@ -2,7 +2,7 @@
 
 Louis Renard's fish, cut from his 1754 plates and swimming live in the browser. Credit: Louis Renard, 1754 edition, via Polona and Wikimedia Commons (`Category:Poissons,_ecrevisses_et_crabes_(1754)`, public domain). Local only for now.
 
-Status: extraction, correction, rig and water are built for Fol. 3, Fol. 12 and V. Planche (20 fish). Open `/index.html`.
+Status: extraction, correction, rig and water are built for Fol. 3, Fol. 10, Fol. 12, Fol. 18, Fol. 24, V. Planche and VI. Planche (41 fish). Open `/index.html`.
 
 ## Run it
 
@@ -19,7 +19,7 @@ Python with numpy, pillow, scipy, scikit-image. Run with `-I`.
     python -I tools/bake.py [--plate 7198037] [--only slug ...]
     python -I tools/sheet.py assets/fish sheet.png [--plate 7198037]
 
-`extract.py` downloads the original once into the gitignored `cache/`, with a descriptive User-Agent. It reads `manifests/<id>.json` (written by hand: names, facing, a rough point on each fish, `rotate` for plates printed head up, `black_test` to opt in to the wash test, `skip` to leave a fish out) and `corrections/<id>.json` (body lines, fins, `solid`, `cut`, `clear`, `trim`, `fill_body`, `ink`). All rig coordinates are plate pixels, in the rotated frame on a rotated plate. Bake rewrites `assets/fish/index.json` from every plate it finds, whatever `--plate` or `--only` limit it to. Add `--out <dir>` to try a plate without touching `assets/`.
+`extract.py` downloads the original once into the gitignored `cache/`, with a descriptive User-Agent. It reads `manifests/<id>.json` (written by hand: names, facing, a rough point on each fish, `rotate` for plates printed head up, on the plate or on one fish where a plate mixes both, `slug` where Renard reuses a name, `black_test` to opt in to the wash test, `skip` to leave a fish out) and `corrections/<id>.json` (body lines, fins, `solid`, `cut`, `clear`, `trim`, `fill_body`, `ink`, `close_field`). All rig coordinates are plate pixels, in the rotated frame on a rotated plate. Bake rewrites `assets/fish/index.json` from every plate it finds, whatever `--plate` or `--only` limit it to. Add `--out <dir>` to try a plate without touching `assets/`.
 
 Checks, with Playwright installed outside the repo (`NODE_PATH=<dir>/node_modules`) and the server running. `tools/water_check.cjs` covers the water: `sim`, `perf`, `motion`, `arrive`, `shot`, `clip`.
 
@@ -45,7 +45,7 @@ Checks, with Playwright installed outside the repo (`NODE_PATH=<dir>/node_module
 
     offset = A(s) * sin(k*s - phase - lag*d)
 
-`s` runs head to tail along the body; `d` runs out along a fin ray, measured inside the silhouette, so rays keep the station they grew from. Phase accumulates, so tempo changes never jump. The mesh is inflated from the body curves and depth tested, so the fish occludes itself. Paired fins hinge, tip behind root. Per-type defaults are in `TYPES` in `tools/bake.py`.
+`s` runs head to tail along the body; `d` runs out along a fin ray, measured inside the silhouette, so rays keep the station they grew from. Phase accumulates, so tempo changes never jump. Where two long parts run close, `close_field: false` stops the walk bridging the gap between them, as on Cambing's filaments. The mesh is inflated from the body curves and depth tested, so the fish occludes itself. Paired fins hinge, tip behind root. Per-type defaults are in `TYPES` in `tools/bake.py`.
 
 **Files.** Per fish: `color.webp` (quality 90, lossless alpha), `ink.webp` (lossless), a pair for each paired fin, `rig.json`, and `mesh.bin`. The mesh is a regular grid, so the file holds one bit per cell and then s, d, z, r as 16-bit values per vertex. `read_part` in `tools/bake.py` and `decodePart` in `rig.js` must agree.
 
@@ -54,6 +54,8 @@ Checks, with Playwright installed outside the repo (`NODE_PATH=<dir>/node_module
 ## The water
 
 `index.html` is the piece. Its look is one block of constants at the top of that file: ground, line, strength, weight, motion. `water.js` holds the rest: each fish gets one long path that begins and ends where it cannot be seen, either past the window's side or so far off that haze has taken it. Nothing knows about the window's edges, so nothing can turn at one.
+
+The window is never left empty: `keepCovered` in `water.js` sends the next fish in early enough that at least one is always showing, and `coveredFor` works out how long the fish already out will last, allowing for their pace wandering. Other fish still come and go at random as company, where before the water was sometimes left alone. `?arrive=1` is the exception, below.
 
 It fetches a fish only as its turn comes: `index.json` lists them all, one waits ready while the others swim, at most 6 are held on the GPU, and a fish that will not load sits out the visit. The first fish is from the lighter half of the catalog, by the sizes in `index.json`.
 

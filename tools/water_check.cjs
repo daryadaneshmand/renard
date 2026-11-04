@@ -256,7 +256,12 @@ const SIM = () => {
     await new Promise(r => setTimeout(r, 5000));
     const m1 = await p3.evaluate(() => WATER.S.active.map(a => [a.f.slug, a.s, a.phase, WATER.S.waterT, a.v]));
     await p3.screenshot({ path: (a1 || 'x.png').replace('.png', '-reduced.png') });
-    m1.forEach((m, i) => console.log(`reduced: ${m[0]} moved ${((m[1] - m0[i][1]) / 5).toFixed(4)} world/s (normal ${m[4].toFixed(3)}), beats ${((m[2] - m0[i][2]) / 5 / 6.283).toFixed(3)}/s, water rate ${((m[3] - m0[i][3]) / 5).toFixed(3)}`));
+    // Match by fish: another may have arrived during the wait, to keep the window covered.
+    m1.forEach(m => {
+      const was = m0.find(x => x[0] === m[0]);
+      if (!was) return console.log(`reduced: ${m[0]} arrived during the wait`);
+      console.log(`reduced: ${m[0]} moved ${((m[1] - was[1]) / 5).toFixed(4)} world/s (normal ${m[4].toFixed(3)}), beats ${((m[2] - was[2]) / 5 / 6.283).toFixed(3)}/s, water rate ${((m[3] - was[3]) / 5).toFixed(3)}`);
+    });
     await p3.context().close();
   } else if (cmd === 'shot') {
     // one frame at a time t: shot <out.png> <seed> <t> [w] [h] [look]

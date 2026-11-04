@@ -1,0 +1,12 @@
+{
+  "title": "File:Poissons, ecrevisses et crabes 1754 (7198240).jpg",
+  "folio": "Fol. 24",
+  "black_test": true,
+  "fish": [
+    {"name": "Cambing", "number": 129, "facing": "left", "at": [722, 1752], "type": "disc"},
+    {"name": "Eenhoorn. Licorne", "slug": "eenhoorn", "number": 130, "facing": "left", "at": [1804, 1804], "type": "wrasse"},
+    {"name": "Paradys", "number": 131, "facing": "left", "at": [2062, 2513], "type": "eel"},
+    {"name": "Phoenix", "number": 132, "facing": "left", "at": [1546, 3195], "type": "deep"},
+    {"name": "Gallenay Castouri", "number": 133, "facing": "left", "at": [1598, 4097], "type": "wrasse"}
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "title": "File:Poissons, ecrevisses et crabes 1754 (7198539).jpg",
+  "folio": "Planche Dixieme",
+  "black_test": true,
+  "fish": [
+    {"name": "Saal-visch", "number": 45, "facing": "left", "at": [1358, 1358], "type": "deep"},
+    {"name": "Nonne", "number": 46, "facing": "left", "at": [1028, 2056], "type": "deep"},
+    {"name": "Munick", "number": 47, "facing": "left", "at": [1579, 2680], "type": "wrasse"},
+    {"name": "Klip-visch", "slug": "klip-visch-48", "number": 48, "facing": "left", "at": [844, 3120], "type": "wrasse"},
+    {"name": "Joosje-Joosje", "number": 49, "facing": "left", "at": [1836, 3561], "type": "deep"},
+    {"name": "Klip-visch", "slug": "klip-visch-50", "number": 50, "facing": "left", "at": [918, 4112], "type": "wrasse"}
+  ]
+}

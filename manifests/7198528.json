@@ -1,0 +1,12 @@
+{
+  "title": "File:Poissons, ecrevisses et crabes 1754 (7198528).jpg",
+  "folio": "Planche Neuvieme",
+  "black_test": true,
+  "fish": [
+    {"name": "Tomtombo", "slug": "tomtombo-40", "number": 40, "facing": "left", "rotate": 1, "at": [990, 2018], "type": "disc"},
+    {"name": "Klip-visch", "slug": "klip-visch-41", "number": 41, "facing": "left", "rotate": 1, "at": [1945, 1725], "type": "wrasse"},
+    {"name": "Petit Brochet", "number": 42, "facing": "left", "rotate": 1, "at": [2496, 1762], "type": "fusiform"},
+    {"name": "Paradys vischje", "number": 43, "facing": "left", "at": [954, 4110], "type": "eel"},
+    {"name": "Moorse-Afgodt", "number": 44, "facing": "left", "rotate": 1, "at": [1982, 3303], "type": "deep"}
+  ]
+}

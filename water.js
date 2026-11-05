@@ -14,6 +14,43 @@ const READY = 1;            // fish loaded and waiting their turn
 const HOLD = 6;             // fish on the GPU at once, swimming or not; the rest stay on the server
 const SHOWING = .35;        // haze past this and a fish no longer counts as being there to look at
 const COVER_MARGIN = 1.5;   // seconds of overlap asked for when one fish hands the window to the next
+// Left and right arrows: everything in the water goes slower or faster together.
+const SPEED = { min: .1, max: 4, tap: 1.25, hold: .9, ease: 3 };   // a tap multiplies by tap; holding multiplies by e^hold per second
+const PACE = { min: .78, max: 1.22 };   // the fastest and slowest a fish goes against its own speed; coveredFor counts on this
+
+// ================================================================================================
+// COMPANIONS. Two different prints of one species, one bag turn, one route. Which fish go together
+// comes from research/fish-natural-history.json: both the identity and the behavior had to hold.
+// Ican Tomtombo and Tomtombo 40 are one species too and are left out on purpose: its sourced behavior is solitary.
+const PAIRS = [
+  // the number: how close this pair swims, against the distances in BUDDY. These two wrasse are long and slim, so a body length is a long way.
+  ['sian-mamel', 'sian-femel', 1],         // Abudefduf vaigiensis, and his caption has them together
+  ['besaantie', 'moorse-afgodt', 1],       // Zanclus cornutus, FishBase "generally 2 or 3"
+  ['paradys', 'paradys-vischje', .7],      // Labroides dimidiatus, a pair of adults at a cleaning station
+];
+// How they swim together is a taste call and it is Darya's. Every number for it is here, the first five first to reach for.
+// Lengths are in body lengths, so a close pair stays close at any size and depth.
+const BUDDY = {
+  trail: 1.0,         // how far back along the route the follower swims
+  breathe: .22,       // the gap opens and closes by this much either way
+  breatheEvery: 10,   // one slow breath per this many body lengths traveled
+  up: .5,             // how far above or below the other it swims
+  back: .4,           // how much nearer or farther. Enough that one clearly passes in front, little enough that sizes stay close
+  // the finer points
+  narrow: .7,         // in a tall, narrow window it trails by this share of trail, or it spends the crossing a window behind
+  drift: .3,          // how much those two offsets change along the route, as a share: routes stay alike without being one line
+  sizeSpread: .02,    // the two are this much bigger and smaller than their shared size
+  sizeMax: 1.15,      // a route is turned down if the larger looks more than this many times the smaller, anywhere in view
+  headingMax: 10,     // or if their headings part by more than this many degrees
+  paceWander: .07,    // the leader's pace wanders by this much, against .22 for a fish alone, so the follower can keep up
+  ownPace: .02,       // what the follower's pace wanders by on top of following
+  keepUp: .3,         // per second of water time: how firmly the follower holds its place
+  settle: 1.5,        // seconds of water time for the follower's pace to reach what it wants
+  tailSplit: .05,     // one tail runs this much faster than its print's tempo and the other this much slower
+  tailWander: .05,    // and each tail's rate wanders by this much on its own
+};
+const PARTNER_WAIT = 12;   // seconds after one of a pair has loaded that the window waits for the other, then it swims alone
+// ================================================================================================
 
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const smooth = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
@@ -112,10 +149,11 @@ export async function start(canvas, LOOK, q) {
   const ARRIVE = q.has('arrive');
   const MANUAL = q.has('manual');
 
-  const S = { waterRate: reduced.matches ? .05 * LOOK.lineMotion : LOOK.lineMotion, t: 0, waterT: 37, look: 0, lookTo: 0, active: [], bag: [], ready: [], nextSpawn: .4, spawned: 0, doneArrive: false, stopped: false, tanH: 0, tanW: 0, aspect: 1 };
+  const S = { speed: 1, speedTo: 1, speedHeld: 0, pairs: [], waterRate: reduced.matches ? .05 * LOOK.lineMotion : LOOK.lineMotion, t: 0, waterT: 37, look: 0, lookTo: 0, active: [], bag: [], ready: [], nextSpawn: .4, spawned: 0, doneArrive: false, stopped: false, tanH: 0, tanW: 0, aspect: 1 };
   const index = await (await fetch(`${BASE}/index.json`)).json();
   const fishes = [];
   const log = [];
+  const PARTNER = new Map(PAIRS.flatMap(([a, b]) => [[a, b], [b, a]]));
 
   // ---- camera. Landscape keeps its height, a phone keeps its width: fish stay in proportion to the narrow side.
   function layout() {
@@ -275,14 +313,132 @@ export async function start(canvas, LOOK, q) {
     const fish = {
       f, path: pl.path, L: pl.L, r: pl.r, kind: pl.kind, seg: 0, s: 0, born: S.t,
       phase: R() * TAU, sway: R() * TAU, sway2: R() * TAU,
-      pace: opts && opts.fast || 1,
-      v: speedOf(f, pl.L) * (opts && opts.fast || 1) * (.88 + .24 * R()),
+      pace: opts && (opts.pace || opts.fast) || 1,
+      v: opts && opts.v || speedOf(f, pl.L) * (opts && opts.fast || 1) * (.88 + .24 * R()),
       slow: .03 + .05 * R(), id: S.spawned++,
     };
     if (reduced.matches) fish.s = pl.path.len * (.3 + .4 * R());
     S.active.push(fish);
-    log.push({ ev: 'spawn', id: fish.id, slug: f.slug, t: S.t, kind: pl.kind, L: pl.L, len: pl.path.len, v: fish.v });
+    log.push({ ev: 'spawn', id: fish.id, slug: f.slug, t: S.t, kind: pl.kind, L: pl.L, len: pl.path.len, v: fish.v, pair: opts && opts.mate });
     return fish;
+  }
+
+  // ---- companions: the follower's route is the leader's, moved a little, and it passes the same test as any path
+  function companionRoute(p, reach, r) {
+    const mid = bez(p, .5), recedes = p[0][2] - p[3][2];
+    // toward the middle of the window, or the second fish can spend the crossing past its top or bottom
+    const up = Math.abs(mid[1]) > .2 * S.tanH * -mid[2] ? -Math.sign(mid[1]) : R() < .5 ? 1 : -1;
+    // On a route going away from us, the one behind is the nearer. Setting it farther out keeps the two the same size.
+    const back = Math.abs(recedes) > .3 ? Math.sign(recedes) : R() < .5 ? 1 : -1;
+    const some = v => v * reach * (1 + BUDDY.drift * (2 * R() - 1));
+    return p.map((c, i) => {
+      const q = [c[0], c[1] + up * some(BUDDY.up), c[2] - back * some(BUDDY.back)];
+      if (i === 0 || i === 3) {
+        // An end stays where this fish cannot be seen: out in the haze, or past the side. A longer fish
+        // needs to go farther out, and it goes straight on along the route, so the two do not converge.
+        if (-c[2] > D_GONE) q[2] = Math.min(q[2], -D_GONE - .1);
+        else {
+          const t = dbez(p, i ? 1 : 0), out = i ? 1 : -1;
+          for (let k = 0; k < 3; k++) {
+            const short = S.tanW * -q[2] + r * 1.02 + .25 - Math.abs(q[0]);
+            if (short <= 0) break;
+            const by = short / Math.abs(t[0]);
+            q[0] += out * t[0] * by; q[1] += out * t[1] * by; q[2] += out * t[2] * by;
+          }
+        }
+      }
+      return q;
+    });
+  }
+  // Same size and same heading all the way through the window, with the follower where it will be.
+  function alike(lp, fp, reach, fL, lL) {
+    const trail = reach * trailOf();
+    for (const c of lp.table) {
+      const d = -c.p[2];
+      if (Math.abs(c.p[0]) > S.tanW * d || opacity(d) < SHOWING) continue;
+      const s = sOnPath(fp, c.p[0]) - trail;
+      if (s <= 0) continue;
+      const q = onPath(fp, s), ratio = (lL / d) / (fL / -q.p[2]);
+      if (Math.max(ratio, 1 / ratio) > BUDDY.sizeMax) return false;
+      const a = dbez(lp.p, c.u), b = dbez(fp.p, q.u);
+      let turn = Math.abs(Math.atan2(a[2], a[0]) - Math.atan2(b[2], b[0]));
+      if (turn > Math.PI) turn = TAU - turn;
+      if (turn > BUDDY.headingMax * Math.PI / 180) return false;
+    }
+    return true;
+  }
+  function planPair(party, opts = {}) {
+    const [lead, follow] = R() < .5 ? party : [party[1], party[0]];
+    const close = PAIRS.find(q => q.includes(lead.slug))[2];
+    // One species at about one distance: one size, whatever size each print would have had alone.
+    const L = (lead.worldL + follow.worldL) / 2 * (opts.scale || (.86 + .3 * R()));
+    const lL = L * (1 + BUDDY.sizeSpread), fL = L * (1 - BUDDY.sizeSpread), fr = follow.radius * fL * 1.06 + .05;
+    const reach = L * close;
+    for (let tries = 0; tries < 30; tries++) {
+      const pl = plan(lead, { ...opts, scale: lL / lead.worldL });
+      if (!pl) continue;
+      for (let k = 0; k < 8; k++) {
+        const path = validate(companionRoute(pl.path.p, reach, fr), follow, fr);
+        if (path && (!opts.show || path.showTo > path.showFrom) && alike(pl.path, path, reach, fL, lL)) {
+          return {
+            lead: { ...pl, f: lead }, follow: { path, L: fL, r: fr, kind: pl.kind, f: follow }, L, reach,
+            v: (speedOf(lead, lL) + speedOf(follow, fL)) / 2 * (.88 + .24 * R()),
+          };
+        }
+      }
+    }
+    return null;
+  }
+  // Along a route x only ever runs one way (validate holds it to that), so x says who has got how far.
+  function onPath(path, s) {
+    const T = path.table;
+    let i = 1;
+    while (i < T.length - 1 && T[i].s < s) i++;
+    const a = T[i - 1], b = T[i], k = clamp((s - a.s) / (b.s - a.s), 0, 1);
+    return { p: a.p.map((v, j) => v + (b.p[j] - v) * k), u: a.u + (b.u - a.u) * k };
+  }
+  function sOnPath(path, x) {
+    const T = path.table, sign = Math.sign(T[T.length - 1].p[0] - T[0].p[0]);
+    if ((x - T[0].p[0]) * sign <= 0) return (x - T[0].p[0]) * sign;     // not at the route yet: how far short, so the wait comes out right
+    for (let i = 1; i < T.length; i++) {
+      if ((T[i].p[0] - x) * sign >= 0) return T[i - 1].s + (T[i].s - T[i - 1].s) * (x - T[i - 1].p[0]) / (T[i].p[0] - T[i - 1].p[0]);
+    }
+    return path.len + (x - T[T.length - 1].p[0]) * sign;
+  }
+  // Where the follower wants to be right now: level with the leader, then back by a gap that slowly breathes.
+  const trailOf = () => BUDDY.trail * (S.aspect < 1.2 ? BUDDY.narrow : 1);
+  function placeBehind(p) {
+    const gap = p.reach * (trailOf() + BUDDY.breathe * Math.sin(TAU * p.lead.s / (p.L * BUDDY.breatheEvery) + p.breath));
+    return sOnPath(p.follow.path, onPath(p.lead.path, p.lead.s).p[0]) - gap;
+  }
+  function spawnPair(party, opts = {}) {
+    const pl = opts.pl || planPair(party, opts);
+    if (!pl) { for (const f of party) log.push({ ev: 'nopath', slug: f.slug, t: S.t }); return null; }
+    const lead = spawn(pl.lead.f, { pl: pl.lead, v: pl.v, pace: 1 + BUDDY.tailSplit, mate: pl.follow.f.slug });
+    const follow = spawn(pl.follow.f, { pl: pl.follow, v: pl.v, pace: 1 - BUDDY.tailSplit, mate: pl.lead.f.slug });
+    const p = { lead, follow, L: pl.L, reach: pl.reach, T: 0, breath: R() * TAU };
+    lead.pair = follow.pair = p;
+    lead.wob = follow.wob = lead.tail = follow.tail = 1;
+    // Starting behind means waiting a moment at the start of its own route, where it cannot be seen.
+    const at = placeBehind(p);
+    follow.s = reduced.matches ? at : Math.min(0, at);
+    S.pairs.push(p);
+    return lead;
+  }
+  // Their own clock, in water time: left and right arrows change how fast they go and nothing about how they go.
+  function keepCompany(p, dtw) {
+    p.T += dtw;
+    const { lead, follow } = p, calm = reduced.matches ? 0 : 1;
+    const wander = (a, amp, rate = 1) => 1 + calm * amp * Math.sin(TAU * a.slow * rate * p.T + a.sway);
+    lead.wob = wander(lead, BUDDY.paceWander);
+    let want = wander(follow, BUDDY.paceWander);
+    if (!lead.gone && !follow.gone) {
+      const late = placeBehind(p) - follow.s;
+      want = lead.wob * lead.v / follow.v + BUDDY.keepUp * late / follow.v + wander(follow, BUDDY.ownPace) - 1;
+    }
+    follow.wob += (clamp(want, PACE.min, PACE.max) - follow.wob) * (1 - Math.exp(-dtw / BUDDY.settle));
+    lead.tail = wander(lead, BUDDY.tailWander, 1.7);
+    follow.tail = wander(follow, BUDDY.tailWander, 1.7);
   }
   // ---- who swims next. A shuffled bag of every fish in the catalog, loaded only as its turn comes.
   function shuffled(list) {
@@ -292,46 +448,82 @@ export async function start(canvas, LOOK, q) {
   }
   // The very first fish decides how long a cold window stays empty, so it is one of the lighter half.
   function lightFirst(list) {
-    const b = index.bytes || {}, sizes = list.map(s => b[s] || 0).sort((x, y) => x - y);
+    const b = index.bytes || {}, size = s => (b[s] || 0) + (b[mateOf(s)] || 0);
+    const sizes = list.map(size).sort((x, y) => x - y);
     const median = sizes[sizes.length >> 1];
-    const i = list.findIndex(s => (b[s] || 0) <= median);
+    const i = list.findIndex(s => size(s) <= median);
     return i > 0 ? [list[i], ...list.slice(0, i), ...list.slice(i + 1)] : list;
   }
+  // A pair is one turn. In the bag it goes by whichever of the two comes first in the catalog.
+  // Its partner has to be swimming this visit: with ?fish=one of them, or ?arrive, it is just a fish.
+  function mateOf(slug) {
+    const m = PARTNER.get(slug);
+    return m && !ARRIVE && catalog.includes(m) ? m : null;
+  }
+  const turnsOf = list => list.filter(s => { const m = mateOf(s); return !m || list.indexOf(s) < list.indexOf(m); });
   function nextSlug() {
-    const busy = s => S.active.some(a => a.f.slug === s) || S.ready.some(f => f.slug === s);
-    if (!S.bag.length) S.bag = shuffled(catalog);
+    const out = s => S.active.some(a => a.f.slug === s) || S.ready.some(party => party.some(f => f.slug === s));
+    const busy = s => out(s) || (mateOf(s) && out(mateOf(s)));
+    if (!S.bag.length) S.bag = shuffled(turnsOf(catalog));
     const i = S.bag.findIndex(s => !busy(s));
     return i < 0 ? null : S.bag.splice(i, 1)[0];
   }
   function heldNext() {
     const slug = nextSlug();
-    return fishes.find(f => f.slug === slug);
+    const party = fishes.filter(f => f.slug === slug || f.slug === mateOf(slug));
+    return party.length ? party : null;
   }
-  async function hold(slug) {
+  const loading = new Map();
+  function hold(slug) {
     const had = fishes.find(f => f.slug === slug);
-    if (had) return had;
+    if (had) return Promise.resolve(had);
+    if (loading.has(slug)) return loading.get(slug);
     const t0 = performance.now();
-    try {
-      const f = prepare(await loadFish(gl, BASE, slug, { maxTex, keep: MANUAL }));
-      fishes.push(f);
-      log.push({ ev: 'loaded', slug, ms: performance.now() - t0, at: performance.now() });
-      return f;
-    } catch (e) {
-      // One fish that will not load must not stop the water. It sits out the rest of the visit.
-      console.warn('fish did not load:', slug, e.message);
-      catalog = catalog.filter(s => s !== slug);
-      S.bag = S.bag.filter(s => s !== slug);
-      return null;
-    }
+    const load = (async () => {
+      try {
+        const f = prepare(await loadFish(gl, BASE, slug, { maxTex, keep: MANUAL }));
+        fishes.push(f);
+        log.push({ ev: 'loaded', slug, ms: performance.now() - t0, at: performance.now() });
+        return f;
+      } catch (e) {
+        // One fish that will not load must not stop the water. It sits out the rest of the visit.
+        console.warn('fish did not load:', slug, e.message);
+        catalog = catalog.filter(s => s !== slug);
+        S.bag = S.bag.filter(s => s !== slug);
+        return null;
+      } finally {
+        loading.delete(slug);
+      }
+    })();
+    loading.set(slug, load);
+    return load;
   }
+  // Whoever is up: a fish, or both of a pair. A pair goes together, so neither is ready until both are in.
+  // If one will not load, or is still not in a while after the other, the one that is here swims alone.
+  const claimed = new Set();    // loaded and waiting for a partner: not to be evicted
+  async function holdTurn(slug) {
+    const mate = mateOf(slug);
+    if (!mate) { const f = await hold(slug); return f ? [f] : []; }
+    claimed.add(slug); claimed.add(mate);
+    const got = [];
+    const loads = [slug, mate].map(s => hold(s).then(f => { if (f) got.push(f); return f; }));
+    const oneIn = Promise.race(loads.map(l => l.then(f => f || new Promise(() => {}))));
+    const waited = oneIn.then(() => new Promise(r => setTimeout(r, PARTNER_WAIT * 1000)));
+    await Promise.race([Promise.all(loads), waited]);
+    return got.slice();
+  }
+  // A pair stays on the GPU or leaves it together, so the next time up neither one is waiting on the other.
   function evict() {
     if (MANUAL) return;
+    const inUse = f => claimed.has(f.slug) || S.active.some(a => a.f === f) || S.ready.some(party => party.includes(f));
     for (let i = 0; i < fishes.length && fishes.length > HOLD;) {
-      const f = fishes[i];
-      if (S.active.some(a => a.f === f) || S.ready.includes(f)) { i++; continue; }
-      fishes.splice(i, 1);
-      disposeFish(gl, f);
-      log.push({ ev: 'evicted', slug: f.slug, t: S.t });
+      const f = fishes[i], mate = fishes.find(x => x.slug === PARTNER.get(f.slug));
+      if (inUse(f) || (mate && inUse(mate))) { i++; continue; }
+      for (const x of mate ? [f, mate] : [f]) {
+        fishes.splice(fishes.indexOf(x), 1);
+        disposeFish(gl, x);
+        log.push({ ev: 'evicted', slug: x.slug, t: S.t });
+      }
     }
   }
   let pumping = null;
@@ -339,11 +531,14 @@ export async function start(canvas, LOOK, q) {
     while (catalog.length && S.ready.length < READY && !(ARRIVE && S.spawned)) {
       const slug = nextSlug();
       if (!slug) break;       // a short catalog, and all of it is out swimming
-      const f = await hold(slug);
-      if (f) S.ready.push(f);
+      const party = await holdTurn(slug);
+      claimed.clear();
+      if (party.length) S.ready.push(party);
       evict();
     }
   }
+  const planTurn = (party, opts) => party.length > 1 ? planPair(party, opts) : plan(party[0], opts);
+  const launch = (party, opts) => party.length > 1 ? spawnPair(party, opts) : spawn(party[0], opts);
   function pump() {
     return pumping = pumping || fill().finally(() => { pumping = null; });
   }
@@ -366,15 +561,16 @@ export async function start(canvas, LOOK, q) {
   let nextUp = null;   // the path the next fish will take if the window needs it, planned once
   function keepCovered(mot) {
     if (MANUAL && !S.ready.length) { const h = heldNext(); if (h) S.ready.push(h); }
-    const f = S.ready[0];
-    if (!f) { pump(); return; }
-    if (!nextUp || nextUp.f !== f) nextUp = { f, pl: plan(f, { kind: 'cross', show: true }) };
+    const party = S.ready[0];
+    if (!party) { pump(); return; }
+    if (!nextUp || nextUp.party !== party) nextUp = { party, pl: planTurn(party, { kind: 'cross', show: true }) };
     if (!nextUp.pl) { nextUp = null; return; }     // tries again next step, with new random paths
+    const pl = nextUp.pl, first = pl.lead || pl;   // of a pair, the leader is the one that arrives first
     // With reduced motion a fish starts partway along its path, already in view (see spawn).
-    const arrives = reduced.matches ? 0 : nextUp.pl.path.showFrom / (speedOf(f, nextUp.pl.L) * mot * .88 * .78);
+    const arrives = reduced.matches ? 0 : first.path.showFrom / ((pl.v || speedOf(party[0], pl.L) * .88) * mot * .78);
     const { until, coming } = coveredFor(mot);
-    if (until > arrives + COVER_MARGIN || arrives >= coming) return;
-    if (spawn(f, { pl: nextUp.pl })) { S.ready.shift(); pump(); }
+    if (until > arrives + COVER_MARGIN / S.speed || arrives >= coming) return;     // the overlap keeps its length in the water, whatever the speed
+    if (launch(party, { pl })) { S.ready.shift(); pump(); }
     nextUp = null;
   }
 
@@ -387,35 +583,41 @@ export async function start(canvas, LOOK, q) {
     S.waterT += dt * S.waterRate;
     S.look += (S.lookTo - S.look) * clamp(dt * 3.2, 0, 1);
     if (Math.abs(S.lookTo - S.look) < .002) S.look = S.lookTo;
+    if (S.speedHeld) S.speedTo = clamp(S.speedTo * Math.exp(S.speedHeld * SPEED.hold * dt), SPEED.min, SPEED.max);
+    S.speed += (S.speedTo - S.speed) * clamp(dt * SPEED.ease, 0, 1);
 
     const maxFish = reduced.matches ? 2 : (S.aspect < 1.2 ? 2 : 3);
     if (!ARRIVE) {
       const showing = () => S.active.filter(a => a.s < a.path.showTo).length;   // one on its way out does not count
-      keepCovered(reduced.matches ? .1 : 1);     // above the count below, when a far fish would arrive too late
-      S.nextSpawn -= dt;
+      keepCovered(reduced.matches ? .1 : S.speed);     // above the count below, when a far fish would arrive too late
+      S.nextSpawn -= dt * S.speed;     // company keeps time with the fish
       if (S.nextSpawn <= 0) {
         // ?manual steps the world in a tight loop with no time to load, but holds every fish already
+        // A pair can take the count one over, since it starts while there is room for one.
         const f = showing() >= maxFish ? null : S.ready.shift() || (MANUAL ? heldNext() : null);
-        if (f) spawn(f, S.spawned === 0 ? { kind: 'cross' } : undefined);
+        if (f) launch(f, S.spawned === 0 ? { kind: 'cross' } : undefined);
         pump();
         // Company for the fish keepCovered guarantees: mostly a little while, sometimes it swims alone.
         S.nextSpawn = !f && showing() < maxFish ? .25 : R() < .28 ? 34 + 26 * R() : 10 + 18 * R();
       }
     } else if (!S.spawned && S.ready.length) {
       // one fish, near enough to see, at an unhurried pace, side to side
-      if (spawn(S.ready[0], { kind: 'cross', near: [D_MIN + .4, 6], fast: 1.15 })) S.ready.shift();
+      if (spawn(S.ready[0][0], { kind: 'cross', near: [D_MIN + .4, 6], fast: 1.15 })) S.ready.shift();
     }
 
+    for (const p of S.pairs) keepCompany(p, (reduced.matches ? .1 : S.speed) * dt);
     for (const a of S.active) {
-      const wob = reduced.matches ? 1 : 1 + .22 * Math.sin(S.t * a.slow * TAU + a.sway);
-      const mot = reduced.matches ? .1 : 1;
+      const wob = a.pair ? a.wob : reduced.matches ? 1 : 1 + .22 * Math.sin(S.t * a.slow * TAU + a.sway);
+      const mot = reduced.matches ? .1 : S.speed;
       a.s += a.v * wob * mot * dt;
-      a.phase += TAU * a.f.base.tempo * a.pace * wob * mot * dt;   // accumulated: pace changes never jump
+      a.phase += TAU * a.f.base.tempo * a.pace * wob * (a.pair ? a.tail : 1) * mot * dt;   // accumulated: pace changes never jump
     }
     for (let i = S.active.length - 1; i >= 0; i--) {
       const a = S.active[i];
       if (a.s >= a.path.len) {
         S.active.splice(i, 1);
+        a.gone = true;
+        if (a.pair && a.pair.lead.gone && a.pair.follow.gone) S.pairs.splice(S.pairs.indexOf(a.pair), 1);
         log.push({ ev: 'gone', id: a.id, slug: a.f.slug, t: S.t });
         if (ARRIVE) S.doneArrive = true;
         evict();
@@ -505,12 +707,26 @@ export async function start(canvas, LOOK, q) {
     requestAnimationFrame(frame);
   }
 
-  addEventListener('keydown', e => { if (e.key === 'i' || e.key === 'I') S.lookTo = S.lookTo ? 0 : 1; });
+  addEventListener('keydown', e => {
+    if (e.key === 'i' || e.key === 'I') S.lookTo = S.lookTo ? 0 : 1;
+    // Left alone with a modifier held: Cmd-Left is the browser's Back.
+    const dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+    if (!dir || reduced.matches || e.metaKey || e.ctrlKey || e.altKey) return;
+    e.preventDefault();
+    if (e.repeat) return;     // the hold is timed in step, not by the keyboard's repeat rate
+    S.speedHeld = dir;
+    S.speedTo = clamp(S.speedTo * Math.pow(SPEED.tap, dir), SPEED.min, SPEED.max);
+  });
+  addEventListener('keyup', e => {
+    const dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+    if (dir && dir === S.speedHeld) S.speedHeld = 0;
+  });
+  addEventListener('blur', () => { S.speedHeld = 0; });
 
   // ---- the water does not wait for any fish, and only ever asks for the next one or two
   const maxTex = Math.min(innerWidth, innerHeight) < 600 ? 1024 : 2048;
   let catalog = q.has('fish') ? q.get('fish').split(',') : index.fish.slice();
-  const first = lightFirst(shuffled(catalog));
+  const first = lightFirst(shuffled(turnsOf(catalog)));
   if (ARRIVE) catalog = first.slice(0, 1);
   else if (!q.has('fish')) S.bag = first;
   // The checks measure every fish, so with ?manual they are all held from the start.
@@ -550,7 +766,7 @@ export async function start(canvas, LOOK, q) {
     };
   };
   window.WATER = {
-    S, log, frames, fishes, step, render, loaded, seed, modelOf, spawn, plan, opacity, haze, apparent, yawOf, posAt, dbez, gl, LOOK, exposeReadback, canvas,
+    S, log, frames, fishes, step, render, loaded, seed, modelOf, spawn, plan, launch, heldNext, PAIRS, BUDDY, PACE, placeBehind, opacity, haze, apparent, yawOf, posAt, dbez, gl, LOOK, exposeReadback, canvas,
   };
 
   if (MANUAL) { await loaded; window.WATER_READY = true; return; }

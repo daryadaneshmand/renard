@@ -1,0 +1,2286 @@
+{
+ "_meta": {
+  "caution": "id_confidence 'sourced' means a published identification of this figure, almost always 19th-century (Bleeker, Cuvier, Bloch). Pietsch 1995's figure-by-figure table was NOT accessible. Citations of FishBase were fetched 2026-11-03. Caption transcriptions are my readings.",
+  "numbering": "Fol. N = Part I plate N; Roman or spelled Planche = Part II. The 1754 Table states this. Bleeker cites Ren. I or II tab. N fig. X in the same numbers."
+ },
+ "fish": [
+  {
+   "slug": "bezaan",
+   "printed_name": "Bezaan",
+   "figure_number": 13,
+   "plate": "Fol. 3",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198037).jpg",
+   "body_type": "disc",
+   "renard_claim": {
+    "transcription": null,
+    "marked": "plate prints the name only",
+    "reading_confidence": null
+   },
+   "modern_identification": {
+    "scientific_name": "Heniochus acuminatus",
+    "common_name": "pennant coralfish",
+    "level": "species"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 540, Heniochus macrolepidotus: Bezaan Ren. I tab. 3 fig. 13)",
+     "Bleeker 1877, Revision des especes insulindiennes de la famille des Chetodontoides, https://archive.org/details/rvisiondesesp00blee"
+    ],
+    "basis": "Published 19th-century identification of this figure, not Pietsch. Old name mapped via WoRMS REST lookup, https://www.marinespecies.org/rest/AphiaRecordsByName/"
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm",
+   "social_behavior": "pairs",
+   "group_size": null,
+   "stage_or_context": "Juveniles often solitary; adults in pairs.",
+   "behavior_level": "species",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Heniochus-acuminatus.html",
+   "habitat_region": "Indo-Pacific; protected lagoons, channels and deeper outer reef slopes, 2-178 m, usually 15-75 m.",
+   "striking": "Juveniles sometimes pick parasites off other fish.",
+   "notes": "Bloch and Lacepede filed this figure under the Moorish idol instead (Bezaantje klipvisch); Bleeker corrected it. The drawing cannot separate H. acuminatus from the near-identical schooling H. diphreutes (adults in large schools, FishBase species summary, https://www.fishbase.se/summary/Heniochus-diphreutes.html), so the pair claim rests on Bleeker naming acuminatus."
+  },
+  {
+   "slug": "arco-fredje",
+   "printed_name": "Arco-Fredje",
+   "figure_number": 14,
+   "plate": "Fol. 3",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198037).jpg",
+   "body_type": "wrasse",
+   "renard_claim": {
+    "transcription": null,
+    "marked": "plate prints the name only",
+    "reading_confidence": null
+   },
+   "modern_identification": {
+    "scientific_name": null,
+    "common_name": null,
+    "level": "none"
+   },
+   "id_source": {
+    "citations": [],
+    "basis": "No published identification of this figure found in the sources I could read. Pietsch 1995 may have one; his table was not accessible."
+   },
+   "id_confidence": "unidentified",
+   "id_strength": "none",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "none",
+   "behavior_source": null,
+   "habitat_region": null,
+   "striking": null,
+   "notes": "Name only on the plate; the 1754 Table gives no gloss."
+  },
+  {
+   "slug": "bongon",
+   "printed_name": "Bongon",
+   "figure_number": 15,
+   "plate": "Fol. 3",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198037).jpg",
+   "body_type": "wrasse",
+   "renard_claim": {
+    "transcription": null,
+    "marked": "plate prints the name only",
+    "reading_confidence": null
+   },
+   "modern_identification": {
+    "scientific_name": null,
+    "common_name": null,
+    "level": "none"
+   },
+   "id_source": {
+    "citations": [],
+    "basis": "No published identification of this figure found in the sources I could read. Pietsch 1995 may have one; his table was not accessible."
+   },
+   "id_confidence": "unidentified",
+   "id_strength": "none",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "none",
+   "behavior_source": null,
+   "habitat_region": null,
+   "striking": null,
+   "notes": "Name only on the plate. Table lists a separate Bongen at 40.204."
+  },
+  {
+   "slug": "ekorbiro",
+   "printed_name": "Ekorbiro",
+   "figure_number": 16,
+   "plate": "Fol. 3",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198037).jpg",
+   "body_type": "deep",
+   "renard_claim": {
+    "transcription": null,
+    "marked": "plate prints the name only",
+    "reading_confidence": null
+   },
+   "modern_identification": {
+    "scientific_name": null,
+    "common_name": null,
+    "level": "none"
+   },
+   "id_source": {
+    "citations": [],
+    "basis": "No published identification of this figure found in the sources I could read. Pietsch 1995 may have one; his table was not accessible."
+   },
+   "id_confidence": "unidentified",
+   "id_strength": "none",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "none",
+   "behavior_source": null,
+   "habitat_region": null,
+   "striking": null,
+   "notes": "Name only. My gloss, unverified: Malay ekor biru, blue tail, which fits the drawing. Not an identification. Renard reuses the name at 18.101 for a different-looking fish."
+  },
+  {
+   "slug": "jacob-everse-bigarre",
+   "printed_name": "Jacob-Everse Bigarre",
+   "figure_number": 17,
+   "plate": "Fol. 3",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198037).jpg",
+   "body_type": "deep",
+   "renard_claim": {
+    "transcription": null,
+    "marked": "plate prints the name only",
+    "reading_confidence": null
+   },
+   "modern_identification": {
+    "scientific_name": "Plectorhinchus gaterinus (Haemulidae) or a spotted grouper near Cephalopholis (Serranidae): published sources conflict",
+    "common_name": "blackspotted rubberlip, or a grouper",
+    "level": "none firm (two families)"
+   },
+   "id_source": {
+    "citations": [
+     "Rueppell 1828, Atlas zu der Reise im noerdlichen Afrika, Fische, https://archive.org/details/atlaszuderreisei00rupp (Diagramma gaterina: Jacob everse bigarre, Renard Fol. 3 Fig. 17)",
+     "Bloch 1782-, Naturgeschichte der Fische, part with this citation https://archive.org/details/DMarcusElieserB00BlocB (Bodianus guttatus, with this figure in an appendix to the synonymy)",
+     "Holthuis 1995, Who was Jacob Evertsen?, Zool. Med. Leiden 69(6): 73-78, https://archive.org/details/zoologische-mededelingen-69-073-078 (cites Renard pl. 3 no. 17 for the name Jacob Evertsen, used for spotted groupers)"
+    ],
+    "basis": "Published, not Pietsch, and contradictory."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "conflict",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": "Conditional only. If P. gaterinus: often in large groups under ledges by day. If C. argus, the species Holthuis calls probably the original Jacob Evertsen: social units of up to 12 with one dominant male, sometimes solitary.",
+   "behavior_level": "none, identity unresolved",
+   "behavior_source": null,
+   "habitat_region": null,
+   "striking": "The Dutch name Jacob Evertsen honors a sailor of the second Dutch East Indies voyage, not an admiral as long assumed (Holthuis 1995).",
+   "notes": "By eye the thick lips favor a sweetlips, but that is my impression. P. gaterinus is Western Indian Ocean per FishBase, so it may not be the Ambon animal. See FishBase species summary, https://www.fishbase.se/summary/Plectorhinchus-gaterinus.html and FishBase species summary, https://www.fishbase.se/summary/Cephalopholis-argus.html"
+  },
+  {
+   "slug": "joulong-joulong",
+   "printed_name": "Joulong-Joulong",
+   "figure_number": 18,
+   "plate": "Fol. 3",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198037).jpg",
+   "body_type": "eel",
+   "renard_claim": {
+    "transcription": "Table gloss only: Joulong Joulong, Trompette.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": "Aulostomus chinensis",
+    "common_name": "Chinese trumpetfish",
+    "level": "species"
+   },
+   "id_source": {
+    "citations": [
+     "Bloch 1782-, Naturgeschichte der Fische, part with this citation https://archive.org/details/DMarcusElieserB00BlocC (Fistularia chinensis: Joulong-Joulong Renard I tab. 3 fig. 18)",
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 1140, Polypterichthys valentini)"
+    ],
+    "basis": "Two independent published identifications, not Pietsch. Bleeker built his nominal Polypterichthys valentini on Valentijn and Renard figures; mapped via WoRMS REST lookup, https://www.marinespecies.org/rest/AphiaRecordsByName/"
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm",
+   "social_behavior": "solitary",
+   "group_size": null,
+   "stage_or_context": "Usually solitary.",
+   "behavior_level": "species",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Aulostomus-chinensis.html",
+   "habitat_region": "Indo-Pacific to Hawaii and Easter Island, also eastern Pacific; clear shallow rocky and coral reefs, 0-122 m.",
+   "striking": "A slow stalker that uses stealth and camouflage, often darting down vertically on prey.",
+   "notes": "Renard's own word Trompette matches the modern common name. The dorsal spine row in the drawing also fits."
+  },
+  {
+   "slug": "sambilang",
+   "printed_name": "Sambilang",
+   "figure_number": 19,
+   "plate": "Fol. 3",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198037).jpg",
+   "body_type": "eel",
+   "renard_claim": {
+    "transcription": null,
+    "marked": "plate prints the name only",
+    "reading_confidence": null
+   },
+   "modern_identification": {
+    "scientific_name": "Plotosus lineatus",
+    "common_name": "striped eel catfish",
+    "level": "species"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 1509, Plotosus anguillaris: Sambilang Ren. I tab. 3 fig. 19)",
+     "Bleeker 1863, Atlas ichthyologique vol. 2 (Siluroids), https://archive.org/details/AtlasichthyologT2TeBlee"
+    ],
+    "basis": "Published, not Pietsch. Mapped via WoRMS REST lookup, https://www.marinespecies.org/rest/AphiaRecordsByName/"
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm",
+   "social_behavior": "varies",
+   "group_size": "Juveniles about 100; adults about 20 or alone",
+   "stage_or_context": "Juveniles form dense ball-shaped schools of about 100; adults solitary or in groups of about 20, hiding under ledges by day.",
+   "behavior_level": "species",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Plotosus-lineatus.html",
+   "habitat_region": "Indo-Pacific; coral reefs, estuaries, tide pools, open coasts, 1-60 m. Called the only catfish on coral reefs.",
+   "striking": "The serrated first dorsal and pectoral spines are highly venomous, in rare cases fatal.",
+   "notes": "Bleeker records Sambilang as a living Malay name for a related catfish, so the name survived into his day."
+  },
+  {
+   "slug": "kamboton",
+   "printed_name": "Kamboton",
+   "figure_number": 20,
+   "plate": "Fol. 3",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198037).jpg",
+   "body_type": "wrasse",
+   "renard_claim": {
+    "transcription": null,
+    "marked": "plate prints the name only",
+    "reading_confidence": null
+   },
+   "modern_identification": {
+    "scientific_name": null,
+    "common_name": null,
+    "level": "none"
+   },
+   "id_source": {
+    "citations": [],
+    "basis": "No published identification of this figure found in the sources I could read. Pietsch 1995 may have one; his table was not accessible."
+   },
+   "id_confidence": "unidentified",
+   "id_strength": "none",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "none",
+   "behavior_source": null,
+   "habitat_region": null,
+   "striking": null,
+   "notes": "Name only. Table: Kamboton 3.20."
+  },
+  {
+   "slug": "gongiax",
+   "printed_name": "Gongiax",
+   "figure_number": 21,
+   "plate": "Fol. 3",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198037).jpg",
+   "body_type": "wrasse",
+   "renard_claim": {
+    "transcription": null,
+    "marked": "plate prints the name only",
+    "reading_confidence": null
+   },
+   "modern_identification": {
+    "scientific_name": null,
+    "common_name": null,
+    "level": "none"
+   },
+   "id_source": {
+    "citations": [],
+    "basis": "No published identification of this figure found in the sources I could read. Pietsch 1995 may have one; his table was not accessible."
+   },
+   "id_confidence": "unidentified",
+   "id_strength": "none",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "none",
+   "behavior_source": null,
+   "habitat_region": null,
+   "striking": null,
+   "notes": "Name only. Table: Gongiax 3.21."
+  },
+  {
+   "slug": "byenaneque",
+   "printed_name": "Byenaneque",
+   "figure_number": 22,
+   "plate": "Fol. 3",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198037).jpg",
+   "body_type": "fusiform",
+   "renard_claim": {
+    "transcription": null,
+    "marked": "plate prints the name only",
+    "reading_confidence": null
+   },
+   "modern_identification": {
+    "scientific_name": "Mullidae",
+    "common_name": "a goatfish",
+    "level": "family"
+   },
+   "id_source": {
+    "citations": [
+     "Cuvier and Valenciennes 1829, Histoire naturelle des poissons vol. 3, https://archive.org/details/histoirenaturell03cuvie: 'Cette figure est copiee, mais avec beaucoup d'incorrection, dans Renard (pl. 3, fig. 22) sous le simple nom de byenancque, qui est generique pour ces poissons aux Moluques.'"
+    ],
+    "basis": "Published, not Pietsch. Cuvier and Valenciennes tie it to a goatfish drawing they call byenancque passir but give no species. The barbels in the drawing agree."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm at family",
+   "social_behavior": "shoals",
+   "group_size": null,
+   "stage_or_context": "Family-level only: many goatfish form large inactive daytime schools, sometimes mixed species, and forage alone or in loose groups.",
+   "behavior_level": "family",
+   "behavior_source": "Wikipedia, Goatfish, https://en.wikipedia.org/wiki/Goatfish",
+   "habitat_region": "Family-level, not specified for this figure.",
+   "striking": "Goatfish probe sediment with a pair of long chemosensory chin barbels.",
+   "notes": "The 1754 Table prints Byenancque, and Cuvier agrees, so the rig's Byenaneque looks like a misreading of c as e. Worth Darya's eye."
+  },
+  {
+   "slug": "marlpriem",
+   "printed_name": "Marlpriem, Slier, of Sor",
+   "figure_number": 64,
+   "plate": "Fol. 10",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198081).jpg",
+   "body_type": "fusiform",
+   "renard_claim": {
+    "transcription": null,
+    "marked": "plate prints the name only",
+    "reading_confidence": null
+   },
+   "modern_identification": {
+    "scientific_name": null,
+    "common_name": null,
+    "level": "none"
+   },
+   "id_source": {
+    "citations": [],
+    "basis": "No published identification of this figure found in the sources I could read. Pietsch 1995 may have one; his table was not accessible."
+   },
+   "id_confidence": "unidentified",
+   "id_strength": "none",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "none",
+   "behavior_source": null,
+   "habitat_region": null,
+   "striking": null,
+   "notes": "Printed name Marlpriem, Slier, of Sor. By eye the two pale lateral lines recall a rainbow runner (Elagatis bipinnulata), but that is a hunch, not claimed."
+  },
+  {
+   "slug": "lasacker",
+   "printed_name": "Lasacker",
+   "figure_number": 65,
+   "plate": "Fol. 10",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198081).jpg",
+   "body_type": "eel",
+   "renard_claim": {
+    "transcription": null,
+    "marked": "plate prints the name only",
+    "reading_confidence": null
+   },
+   "modern_identification": {
+    "scientific_name": "Periophthalmus sp.",
+    "common_name": "a mudskipper",
+    "level": "genus"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 1337, Periophthalmus Koelreuteri: Lasacker Ren. I tab. 10 fig. 65)"
+    ],
+    "basis": "Published, not Pietsch. WoRMS maps koelreuteri to P. barbarus, an Atlantic-African fish by current range, so I hold this to genus. Likely an Indo-Pacific species such as P. argentilineatus, but that is my inference."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm at genus",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "none: no social statement found in a page I could read",
+   "behavior_source": null,
+   "habitat_region": "For P. argentilineatus, one Indo-West Pacific member of the genus: mangrove and nipa mud flats, burrows in intertidal banks.",
+   "striking": "P. argentilineatus can stay out of water up to 37 hours if kept moist (FishBase species summary, https://www.fishbase.se/summary/Periophthalmus-argentilineatus.html).",
+   "notes": "Hobbyist pages call mudskippers territorial; I did not count those."
+  },
+  {
+   "slug": "terbang-boudjou",
+   "printed_name": "Terbang Boudjou",
+   "figure_number": 66,
+   "plate": "Fol. 10",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198081).jpg",
+   "body_type": "fusiform",
+   "renard_claim": {
+    "transcription": null,
+    "marked": "plate prints the name only",
+    "reading_confidence": null
+   },
+   "modern_identification": {
+    "scientific_name": "Dactyloptena orientalis",
+    "common_name": "oriental flying gurnard",
+    "level": "species"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 499, Dactylopterus orientalis)",
+     "Bloch 1782-, Naturgeschichte der Fische, part with this citation https://archive.org/details/DMarcusElieserB00BlocC (Terbang boudiou, Renard I tab. 10 fig. 66)"
+    ],
+    "basis": "Published, not Pietsch. Mapped via WoRMS REST lookup, https://www.marinespecies.org/rest/AphiaRecordsByName/"
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm",
+   "social_behavior": "solitary",
+   "group_size": null,
+   "stage_or_context": "Benthic as an adult.",
+   "behavior_level": "species",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Dactyloptena-orientalis.html",
+   "habitat_region": "Indo-Pacific; coastal sandy bottoms, 1-100 m.",
+   "striking": "Named a flyer by everyone from Renard on, but FishBase describes a solitary, well-camouflaged, slow-moving bottom fish.",
+   "notes": null
+  },
+  {
+   "slug": "vliegende-harder",
+   "printed_name": "Vliegende Harder",
+   "figure_number": 67,
+   "plate": "Fol. 10",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198081).jpg",
+   "body_type": "fusiform",
+   "renard_claim": {
+    "transcription": "Poisson vollant très commun.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": "Exocoetidae (Bleeker: Exocoetus commersonii, now E. volitans per WoRMS)",
+    "common_name": "a flyingfish",
+    "level": "family firm, genus suggested"
+   },
+   "id_source": {
+    "citations": [
+     "BHL Tumblr, BHL Book Feature: Spot That Fish!, https://biodivlibrary.tumblr.com/post/156982654694/bhl-book-feature-spot-that-fish-weve-been (read ONLY as a search-engine summary; the page itself refused my fetch, so unverified at source) gives Folio 10, Figure 67: Family Exocoetidae",
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 1704, Exocoetus Commersonii: Vliegende Harder Ren. I tab. 10 fig. 67)"
+    ],
+    "basis": "The BHL line appears to pass on Pietsch's identification, but I saw only a snippet and it did not name him. Bleeker is read directly."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm at family",
+   "social_behavior": "schools",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "species page (Exocoetus volitans) applied to a family-level identification",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Exocoetus-volitans.html",
+   "habitat_region": "Surface waters of tropical and subtropical oceans, near and far from coast, 0-20 m.",
+   "striking": "Leaps from the water and glides long distances above the surface.",
+   "notes": null
+  },
+  {
+   "slug": "waboulang",
+   "printed_name": "Waboulang",
+   "figure_number": 72,
+   "plate": "Fol. 12",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198104).jpg",
+   "body_type": "wrasse",
+   "renard_claim": {
+    "transcription": "Waboulang. Zilvere Visch. Le Poisson d'argent fort délicieux.",
+    "language": "Dutch and French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": "Heteropriacanthus sp.",
+    "common_name": "a glasseye",
+    "level": "genus"
+   },
+   "id_source": {
+    "citations": [
+     "Cuvier and Valenciennes 1829, Histoire naturelle des poissons vol. 3, https://archive.org/details/histoirenaturell03cuvie: they named Priacanthus argenteus from this very figure ('le waboulang ou plutot wawoulang [...] represente par Renard, part. I, pl. 12, fig. 72')",
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 29)"
+    ],
+    "basis": "Published, not Pietsch. WoRMS maps P. argenteus to H. cruentatus, which FishBase now restricts to the Atlantic and SW Indian Ocean; the Indo-Pacific form was split as H. carolinus (Fernandez-Silva and Ho 2017, per FishBase). Held at genus."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm at genus, species nominal",
+   "social_behavior": "varies",
+   "group_size": null,
+   "stage_or_context": "Nocturnal. Singly or in small groups by day; may gather in large numbers at dusk.",
+   "behavior_level": "species page (H. cruentatus) for a genus-level identification; the H. carolinus page has no behavior",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Heteropriacanthus-cruentatus.html",
+   "habitat_region": "Lagoon and seaward reefs, under ledges by day.",
+   "striking": "A scientific species name, Priacanthus argenteus, was coined from this drawing, itself after a Vlaming copy. The fish is known to produce sound.",
+   "notes": null
+  },
+  {
+   "slug": "bouaya",
+   "printed_name": "Bouaya",
+   "figure_number": 73,
+   "plate": "Fol. 12",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198104).jpg",
+   "body_type": "eel",
+   "renard_claim": {
+    "transcription": "Il Sifle qu'on l'entend de fort loing en mer. Ce poisson vit assez long temps hors de l'eau. On peut le tortiller comme un mouchoir et le porter ainsi dans la poche d'où quand on le retire il reprend subitement sa figure.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": "Syngnathoides biaculeatus",
+    "common_name": "alligator pipefish",
+    "level": "species"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 2018, Gastrotokeus biaculeatus: Bouaja Ren. I tab. 12 fig. 73)"
+    ],
+    "basis": "Published, not Pietsch. Mapped via WoRMS REST lookup, https://www.marinespecies.org/rest/AphiaRecordsByName/"
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": "Fishes of Australia reports researchers judged individuals likely monogamous from brood evidence, which is mating system, not observed swimming pairs.",
+   "behavior_level": "species, for the mating note only",
+   "behavior_source": "Fishes of Australia, Double-end Pipehorse, https://fishesofaustralia.net.au/home/species/3195",
+   "habitat_region": "Indo-Pacific; shallow protected bays and estuaries, seagrass, algae, floating weed, 0-10 m.",
+   "striking": "Males brood the eggs under the trunk, 60 to 260 in Moreton Bay; threatened fish have been seen jumping onto floating plants; prehensile tail.",
+   "notes": "The whistling and handkerchief claims have no support I found. Valentijn (via Bleeker) calls a related pipefish Ikan Boaja ketjil, Kleene Kaaiman, little caiman, so bouaya means crocodile, matching the modern common name."
+  },
+  {
+   "slug": "turbot-de-l-isle-maurice",
+   "printed_name": "Turbot de l'isle Maurice",
+   "figure_number": 74,
+   "plate": "Fol. 12",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198104).jpg",
+   "body_type": "deep",
+   "renard_claim": {
+    "transcription": "Turbot de l'isle Maurice très-bon.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": null,
+    "common_name": null,
+    "level": "none"
+   },
+   "id_source": {
+    "citations": [],
+    "basis": "No published identification of this figure found in the sources I could read. Pietsch 1995 may have one; his table was not accessible."
+   },
+   "id_confidence": "unidentified",
+   "id_strength": "none",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "none",
+   "behavior_source": null,
+   "habitat_region": null,
+   "striking": null,
+   "notes": "Not the Turbot de la Cote des Poepoes (II 41.178) that Pietsch and Hanisch give as an example of an unidentifiable figure. Do not conflate them."
+  },
+  {
+   "slug": "galioen-visch",
+   "printed_name": "Galioen Visch",
+   "figure_number": 75,
+   "plate": "Fol. 12",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198104).jpg",
+   "body_type": "disc",
+   "renard_claim": {
+    "transcription": null,
+    "marked": "plate prints the name only",
+    "reading_confidence": null
+   },
+   "modern_identification": {
+    "scientific_name": "Platax batavianus",
+    "common_name": "humphead batfish",
+    "level": "species"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1877, Revision des especes insulindiennes de la famille des Chetodontoides, https://archive.org/details/rvisiondesesp00blee: Galioen-visch Ren., Poiss. Mol. I tab. 12 fig. 75, under Platax batavianus"
+    ],
+    "basis": "Published, not Pietsch. Name still accepted per WoRMS REST lookup, https://www.marinespecies.org/rest/AphiaRecordsByName/"
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm",
+   "social_behavior": "solitary",
+   "group_size": null,
+   "stage_or_context": "Occasionally pairs or small groups. Small juveniles shelter with crinoids.",
+   "behavior_level": "species",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Platax-batavianus.html",
+   "habitat_region": "Indo-West Pacific, Madagascar to Indonesia and Australia; continental reefs, 5-40 m.",
+   "striking": "The zebra pattern of juveniles works as camouflage among crinoids.",
+   "notes": null
+  },
+  {
+   "slug": "besaantie",
+   "printed_name": "Besaantie",
+   "figure_number": 76,
+   "plate": "Fol. 12",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198104).jpg",
+   "body_type": "disc",
+   "renard_claim": {
+    "transcription": "Besaantie. Le petit Voillier dont il y a plusieurs espèces.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": "Zanclus cornutus",
+    "common_name": "Moorish idol",
+    "level": "species"
+   },
+   "id_source": {
+    "citations": [
+     "Cuvier and Valenciennes 1831, Histoire naturelle des poissons vol. 7, https://archive.org/details/histoirenaturell71831cuvi (Besaantje, Vlaming no. 203; Renard 1re part., fig. 76)",
+     "Bleeker 1877, Revision des especes insulindiennes de la famille des Chetodontoides, https://archive.org/details/rvisiondesesp00blee",
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 544)"
+    ],
+    "basis": "Published, not Pietsch."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm",
+   "social_behavior": "small groups",
+   "group_size": "Generally 2 or 3",
+   "stage_or_context": "Adults also singly, in pairs, and occasionally in large schools.",
+   "behavior_level": "species",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Zanclus-cornutus.html",
+   "habitat_region": "Indo-Pacific to Hawaii; lagoons, reef flats, seaward reefs.",
+   "striking": "Long pelagic larval stage explains its huge range and a coloration with no geographic variation.",
+   "notes": "Same animal as Moorse-Afgodt (II 9.44) per all these sources. Enumeratio prints the plate as 13 and the Cuvier scan reads 15; Lacepede, Bleeker 1877 and the 1754 Table say 12."
+  },
+  {
+   "slug": "kandawaar",
+   "printed_name": "Kandawaar",
+   "figure_number": 98,
+   "plate": "Fol. 18",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198167).jpg",
+   "body_type": "deep",
+   "renard_claim": {
+    "transcription": null,
+    "marked": "plate prints the name only",
+    "reading_confidence": null
+   },
+   "modern_identification": {
+    "scientific_name": "Balistidae; Xanthichthys or Melichthys",
+    "common_name": "a triggerfish",
+    "level": "family firm, genus conflicted"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1866, Ned. Tijdschr. Dierk. 3, https://archive.org/details/nederlandschtijd3186blee (Balistes (Parabalistes?) notatus: Kandawaar Ren. I t. 18 f. 98)",
+     "Bloch 1782-, Oeconomische Naturgeschichte der Fische, part with this citation https://archive.org/details/DMarcusElieserB00BlocA (Balistes niger, with Kandawaar pl. 18 fig. 98)"
+    ],
+    "basis": "Published, not Pietsch. Both cite the same Gronow diagnosis but reach different names. WoRMS maps B. notatus to Xanthichthys ringens, and lists a Bloch-era B. ringens record under Melichthys niger, the species Bloch named B. niger."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "conflict below family",
+   "social_behavior": "small groups",
+   "group_size": null,
+   "stage_or_context": "Both candidate genera agree in outline: X. ringens solitary or small groups, X. auromarginatus small loose groups, M. niger small loose aggregations.",
+   "behavior_level": "genus candidates, family-level identification",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Xanthichthys-auromarginatus.html; FishBase species summary, https://www.fishbase.se/summary/Melichthys-niger.html",
+   "habitat_region": "Reef slopes and drop-offs, varies by candidate.",
+   "striking": null,
+   "notes": "X. ringens is now listed by FishBase as Western Atlantic, so if Xanthichthys, an Indo-Pacific member is more likely."
+  },
+  {
+   "slug": "schout-by-nacht",
+   "printed_name": "Schout by Nacht",
+   "figure_number": 99,
+   "plate": "Fol. 18",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198167).jpg",
+   "body_type": "wrasse",
+   "renard_claim": {
+    "transcription": null,
+    "marked": "plate prints the name only",
+    "reading_confidence": null
+   },
+   "modern_identification": {
+    "scientific_name": "Bodianus mesothorax",
+    "common_name": "splitlevel hogfish",
+    "level": "species"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1862, Atlas ichthyologique vol. 1 (Labroids, Scaroids), https://archive.org/details/AtlasichthyologT1TeBlee: Schout-by-nacht Ren., Poiss. Mol. I tab. 18 fig. 99, tab. 26 fig. 143, also in his Renard concordance"
+    ],
+    "basis": "Published, not Pietsch."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": "FishBase gives no grouping statement: adults swim openly near the substrate; distinct pairing during breeding; juveniles in caves.",
+   "behavior_level": "none for social behavior",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Bodianus-mesothorax.html",
+   "habitat_region": "Western Pacific and eastern Indian Ocean; coral-rich outer reef slopes, usually 5-20 m.",
+   "striking": "Adults often clean larger fishes.",
+   "notes": "Schout by Nacht is a Dutch rear admiral."
+  },
+  {
+   "slug": "macreel",
+   "printed_name": "Macreel",
+   "figure_number": 100,
+   "plate": "Fol. 18",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198167).jpg",
+   "body_type": "fusiform",
+   "renard_claim": {
+    "transcription": null,
+    "marked": "plate prints the name only",
+    "reading_confidence": null
+   },
+   "modern_identification": {
+    "scientific_name": null,
+    "common_name": null,
+    "level": "none"
+   },
+   "id_source": {
+    "citations": [],
+    "basis": "No published identification of this figure found in the sources I could read. Pietsch 1995 may have one; his table was not accessible."
+   },
+   "id_confidence": "unidentified",
+   "id_strength": "none",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "none",
+   "behavior_source": null,
+   "habitat_region": null,
+   "striking": null,
+   "notes": "Table spells it Makreel, mackerel. Probably a scombrid or carangid by shape, but nothing distinctive, so I do not infer it."
+  },
+  {
+   "slug": "ekorbiro-101",
+   "printed_name": "Ekorbiro",
+   "figure_number": 101,
+   "plate": "Fol. 18",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198167).jpg",
+   "body_type": "deep",
+   "renard_claim": {
+    "transcription": null,
+    "marked": "plate prints the name only",
+    "reading_confidence": null
+   },
+   "modern_identification": {
+    "scientific_name": null,
+    "common_name": null,
+    "level": "none"
+   },
+   "id_source": {
+    "citations": [],
+    "basis": "No published identification of this figure found in the sources I could read. Pietsch 1995 may have one; his table was not accessible."
+   },
+   "id_confidence": "unidentified",
+   "id_strength": "none",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "none",
+   "behavior_source": null,
+   "habitat_region": null,
+   "striking": null,
+   "notes": "Same name as Fol. 3 no. 16 but a very different drawing. The Table lists Ekorbiro 18.101."
+  },
+  {
+   "slug": "imperator",
+   "printed_name": "Imperator",
+   "figure_number": 102,
+   "plate": "Fol. 18",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198167).jpg",
+   "body_type": "wrasse",
+   "renard_claim": {
+    "transcription": null,
+    "marked": "plate prints the name only",
+    "reading_confidence": null
+   },
+   "modern_identification": {
+    "scientific_name": "Paracirrhites arcatus",
+    "common_name": "arc-eye hawkfish",
+    "level": "species"
+   },
+   "id_source": {
+    "citations": [
+     "Randall 1963, Review of the hawkfishes (family Cirrhitidae), Proc. U.S. Natl. Mus. 114(3472), https://archive.org/details/biostor-59444: Cirrhites vittatus Cuvier 1829 (after Renard pl. 18, fig. 102), a synonym of P. arcatus",
+     "Cuvier and Valenciennes 1829, Histoire naturelle des poissons vol. 3, https://archive.org/details/histoirenaturell03cuvie (a Vlaming drawing named imperator, 'sa figure est grossierement copiee sous le meme nom dans Renard, 1re partie, pl. 18, no. 102')"
+    ],
+    "basis": "The only modern revision here that names a Renard figure directly: a 20th-century taxonomist, not Pietsch."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm",
+   "social_behavior": "solitary",
+   "group_size": null,
+   "stage_or_context": "Perches on heads of small branching corals.",
+   "behavior_level": "species",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Paracirrhites-arcatus.html",
+   "habitat_region": "Indo-Pacific to Hawaii; lagoon and seaward reefs, usually 1-33 m.",
+   "striking": "Cuvier's scientific name Cirrhites vittatus is given by Randall as 'after Renard pl. 18, fig. 102'.",
+   "notes": null
+  },
+  {
+   "slug": "cambat-babi",
+   "printed_name": "Cambat babi",
+   "figure_number": 103,
+   "plate": "Fol. 18",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198167).jpg",
+   "body_type": "eel",
+   "renard_claim": {
+    "transcription": null,
+    "marked": "plate prints the name only",
+    "reading_confidence": null
+   },
+   "modern_identification": {
+    "scientific_name": "Muraenidae",
+    "common_name": "a moray",
+    "level": "family"
+   },
+   "id_source": {
+    "citations": [
+     "Bloch 1782-, Oeconomische Naturgeschichte der Fische, part with this citation https://archive.org/details/DMarcusElieserB00BlocA (Combat Babi, Renard pl. 18 fig. 103, in his Muraena synonymy)"
+    ],
+    "basis": "Published, not Pietsch. Bloch lumps it under the Mediterranean moray, which I do not accept as a species call for Ambon; family only."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm at family",
+   "social_behavior": "solitary",
+   "group_size": null,
+   "stage_or_context": "Family-level: adults solitary and territorial, in shelters such as coral rubble.",
+   "behavior_level": "family",
+   "behavior_source": "Wikipedia, Moray eel, https://en.wikipedia.org/wiki/Moray_eel",
+   "habitat_region": "Family-level only.",
+   "striking": "Morays launch a second, pharyngeal jaw from the throat to seize prey.",
+   "notes": null
+  },
+  {
+   "slug": "cambing",
+   "printed_name": "Cambing",
+   "figure_number": 129,
+   "plate": "Fol. 24",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198240).jpg",
+   "body_type": "disc",
+   "renard_claim": {
+    "transcription": null,
+    "marked": "plate prints the name only",
+    "reading_confidence": null
+   },
+   "modern_identification": {
+    "scientific_name": "Platax sp.",
+    "common_name": "a batfish, drawn as a long-finned juvenile",
+    "level": "genus"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 578, Platax vespertilio: Cambing Ren. tab. 24 fig. 129)",
+     "Bleeker 1877, Revision des especes insulindiennes de la famille des Chetodontoides, https://archive.org/details/rvisiondesesp00blee"
+    ],
+    "basis": "Published, not Pietsch. WoRMS maps P. vespertilio to P. orbicularis, but Bleeker's synonymy mixes several species, so held at genus. The long-fin juvenile form is my reading of the drawing."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm at genus",
+   "social_behavior": "varies",
+   "group_size": null,
+   "stage_or_context": "P. orbicularis: juveniles singly or in small groups among mangroves; adults singly, small groups, occasionally large schools. P. teira juveniles aggregate under drift. P. pinnatus adults generally solitary.",
+   "behavior_level": "genus, from three species pages",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Platax-orbicularis.html; FishBase species summary, https://www.fishbase.se/summary/Platax-teira.html; FishBase species summary, https://www.fishbase.se/summary/Platax-pinnatus.html",
+   "habitat_region": "Indo-Pacific; sheltered coasts, mangroves as juveniles, deeper as adults.",
+   "striking": null,
+   "notes": "Valentijn uses the same name, Ikan Kambing. My gloss: Malay kambing, goat."
+  },
+  {
+   "slug": "eenhoorn",
+   "printed_name": "Eenhoorn. Licorne",
+   "figure_number": 130,
+   "plate": "Fol. 24",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198240).jpg",
+   "body_type": "wrasse",
+   "renard_claim": {
+    "transcription": null,
+    "marked": "plate prints the name only",
+    "reading_confidence": null
+   },
+   "modern_identification": {
+    "scientific_name": "Naso brevirostris",
+    "common_name": "spotted unicornfish",
+    "level": "species"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 775: Eenhoorn Licorne Ren. I tab. 24 fig. 130)",
+     "Woerterbuch der Naturgeschichte, Weimar 1837, https://archive.org/details/11689273bsb (N. brevirostris Cuv., Renard I. XXIV. 130)"
+    ],
+    "basis": "Published, not Pietsch."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm",
+   "social_behavior": "small groups",
+   "group_size": null,
+   "stage_or_context": "Large schools in oceanic locations or on current-swept reefs. Pair spawning observed.",
+   "behavior_level": "species",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Naso-brevirostris.html",
+   "habitat_region": "Indo-Pacific to Hawaii; mid-water along steep lagoon and reef drop-offs.",
+   "striking": "Juveniles eat bottom algae; adults switch to zooplankton.",
+   "notes": null
+  },
+  {
+   "slug": "paradys",
+   "printed_name": "Paradys",
+   "figure_number": 131,
+   "plate": "Fol. 24",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198240).jpg",
+   "body_type": "eel",
+   "renard_claim": {
+    "transcription": null,
+    "marked": "plate prints the name only",
+    "reading_confidence": null
+   },
+   "modern_identification": {
+    "scientific_name": "Labroides dimidiatus",
+    "common_name": "bluestreak cleaner wrasse",
+    "level": "species"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1862, Atlas ichthyologique vol. 1 (Labroids, Scaroids), https://archive.org/details/AtlasichthyologT1TeBlee: Paradys Ren. I tab. 24 fig. 131, under Labroides paradiseus",
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 960)",
+     "Catalog of Fishes, https://researcharchive.calacademy.org/research/ichthyology/catalog/fishcatget.asp?genid=2108 (L. paradiseus = Cossyphus dimidiatus)"
+    ],
+    "basis": "Published, not Pietsch."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm",
+   "social_behavior": "varies",
+   "group_size": null,
+   "stage_or_context": "Cleaning stations hold a pair of adults, a group of juveniles, or several females with one dominant male. Some adults solitary and territorial.",
+   "behavior_level": "species",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Labroides-dimidiatus.html",
+   "habitat_region": "Indo-Pacific; coral-rich lagoons to seaward reefs.",
+   "striking": "In Kohda et al. 2019 (https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3000021), 3 of 4 throat-marked fish scraped at a mark only when they could see it in a mirror. Disputed as evidence of self-awareness.",
+   "notes": null
+  },
+  {
+   "slug": "phoenix",
+   "printed_name": "Phoenix",
+   "figure_number": 132,
+   "plate": "Fol. 24",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198240).jpg",
+   "body_type": "deep",
+   "renard_claim": {
+    "transcription": null,
+    "marked": "plate prints the name only",
+    "reading_confidence": null
+   },
+   "modern_identification": {
+    "scientific_name": "Cheilinus fasciatus",
+    "common_name": "redbreasted wrasse",
+    "level": "species"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1862, Atlas ichthyologique vol. 1 (Labroids, Scaroids), https://archive.org/details/AtlasichthyologT1TeBlee: 'l'espece est encore facile a reconnaitre dans le Phoenix de Renard'; concordance Tom. I fig. 132",
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 1077)"
+    ],
+    "basis": "Published, not Pietsch."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm",
+   "social_behavior": "solitary",
+   "group_size": null,
+   "stage_or_context": "Often solitary; juveniles secretive; pairing during breeding.",
+   "behavior_level": "species",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Cheilinus-fasciatus.html",
+   "habitat_region": "Indo-Pacific; lagoons and seaward reefs in mixed coral, sand and rubble.",
+   "striking": null,
+   "notes": "Enumeratio misprints the plate as 26; Bleeker's Atlas and the Table have 24."
+  },
+  {
+   "slug": "gallenay-castouri",
+   "printed_name": "Gallenay Castouri",
+   "figure_number": 133,
+   "plate": "Fol. 24",
+   "renard_part": "I",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198240).jpg",
+   "body_type": "wrasse",
+   "renard_claim": {
+    "transcription": null,
+    "marked": "plate prints the name only",
+    "reading_confidence": null
+   },
+   "modern_identification": {
+    "scientific_name": "Stethojulis sp. (Bleeker: S. albovittata)",
+    "common_name": "a ribbon wrasse",
+    "level": "genus"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1862, Atlas ichthyologique vol. 1 (Labroids, Scaroids), https://archive.org/details/AtlasichthyologT1TeBlee: Gallenay Castouri Ren. tab. 24, under Stethojulis albovittata, adding 'M. Valenciennes a deja remarque que c'est cette espece qui est figuree dans l'ouvrage de Renard'"
+    ],
+    "basis": "Published, not Pietsch. Bleeker first tied it to his Julis casturi (1859 list), then withdrew the link ('nec synon.') and moved the figure to albovittata. FishBase now confines S. albovittata to the Western Indian Ocean, so held at genus."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm at genus",
+   "social_behavior": "varies",
+   "group_size": "A male and a few females",
+   "stage_or_context": "S. albovittata singly or one male with a few females; S. bandanensis solitary or small groups.",
+   "behavior_level": "genus, from two species pages",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Stethojulis-albovittata.html; FishBase species summary, https://www.fishbase.se/summary/Stethojulis-bandanensis.html",
+   "habitat_region": "Reef flats, clear lagoons, seaward reefs.",
+   "striking": null,
+   "notes": null
+  },
+  {
+   "slug": "tang-brasem",
+   "printed_name": "Tang-Brasem",
+   "figure_number": 19,
+   "plate": "V. Planche",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198504).jpg",
+   "body_type": "deep",
+   "renard_claim": {
+    "transcription": "Tang-Brasem. Brême de Baguewall très-bonne rôtie, sa queuë se ferme comme une tenaille. Elle lui sert de deffense contre les Brochets, et la piqueure en est dangereuse.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": "Abudefduf vaigiensis?",
+    "common_name": "Indo-Pacific sergeant, queried",
+    "level": "species, queried"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 936, Glyphisodon rahti: Tang-Brasem Ren. II tab. 5 fig. 19?)"
+    ],
+    "basis": "Published with Bleeker's own question mark, not Pietsch. Mapped via WoRMS REST lookup, https://www.marinespecies.org/rest/AphiaRecordsByName/"
+   },
+   "id_confidence": "sourced",
+   "id_strength": "queried",
+   "social_behavior": "shoals",
+   "group_size": null,
+   "stage_or_context": "Often in aggregations; large numbers at spawning sites.",
+   "behavior_level": "species, contingent on a queried identification",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Abudefduf-vaigiensis.html",
+   "habitat_region": "Indo-Pacific; upper outer reef slopes, inshore rocky reefs.",
+   "striking": null,
+   "notes": "Nothing I read gives a sergeant major a pincer tail or dangerous sting; Renard's claim is unsupported and may even point away from this ID."
+  },
+  {
+   "slug": "touring-reuw",
+   "printed_name": "Touring-reuw",
+   "figure_number": 20,
+   "plate": "V. Planche",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198504).jpg",
+   "body_type": "deep",
+   "renard_claim": {
+    "transcription": "Touring-reuw. de la Rique, ou Poupou. très-commun et diversifié. On l'écorche, et après l'avoir sallé et seché au Soleil, on le mange crud comme des confitures. Voyez No. 103.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "medium, the last line is near the plate edge"
+   },
+   "modern_identification": {
+    "scientific_name": "Pseudobalistes flavimarginatus",
+    "common_name": "yellowmargin triggerfish",
+    "level": "species"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 2039)",
+     "Bleeker 1866, Ned. Tijdschr. Dierk. 3, https://archive.org/details/nederlandschtijd3186blee (Touring Reeuw Ren. II t. 5 f. 20)"
+    ],
+    "basis": "Published, not Pietsch."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm",
+   "social_behavior": "solitary",
+   "group_size": null,
+   "stage_or_context": "Adults solitary or pairs; young form small aggregations; males congregate on sand flats when nesting.",
+   "behavior_level": "species",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Pseudobalistes-flavimarginatus.html",
+   "habitat_region": "Indo-Pacific; coastal and inner reefs, estuaries, 2-80 m.",
+   "striking": "Nest-guarding females are aggressive. Ciguatoxic in some areas.",
+   "notes": null
+  },
+  {
+   "slug": "groot-half-beck",
+   "printed_name": "Groot Half-Beck",
+   "figure_number": 21,
+   "plate": "V. Planche",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198504).jpg",
+   "body_type": "fusiform",
+   "renard_claim": {
+    "transcription": "Groot Half-Beck. Demi-bec de Baguewall. Il a le goût de l'Etourgeon; mais il est trop huileux. On en fait des saucisses, qui ne sont pas mauvaises étant grillées.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": "Hemiramphus far",
+    "common_name": "blackbarred halfbeak",
+    "level": "species"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1866, Ned. Tijdschr. Dierk. 3, https://archive.org/details/nederlandschtijd3186blee (Ren., Poiss. Mol. II tab. 5 fig. 21, Esox far)",
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 1680)"
+    ],
+    "basis": "Published, not Pietsch."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm",
+   "social_behavior": "schools",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "species",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Hemiramphus-far.html",
+   "habitat_region": "Indo-West Pacific; vegetated coastal water and sand flats, 0-6 m.",
+   "striking": "Adults feed mainly on seagrass.",
+   "notes": null
+  },
+  {
+   "slug": "sian-mamel",
+   "printed_name": "Sian Mamel",
+   "figure_number": 22,
+   "plate": "V. Planche",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198504).jpg",
+   "body_type": "deep",
+   "renard_claim": {
+    "transcription": "Ces deux petits poissons nagent toujours à la tête des Baleines et des Vaches-marines, comme pour leur montrer le chemin et leur faire éviter les Roches et les Bancs sur lesquels ces Lourdes masses pourroient échouer et se blesser.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": "Abudefduf vaigiensis",
+    "common_name": "Indo-Pacific sergeant",
+    "level": "species"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 936, Glyphisodon rahti: Sian Mamel et Sian Femel Ren. II tab. 5 fig. 22, 23)",
+     "Bleeker 1877, Memoire sur les Chromides marins, https://archive.org/details/weberdebeaufort31blee (with Glyphisodon waigiensis in the synonymy)"
+    ],
+    "basis": "Published, not Pietsch. Bleeker gives no query here, unlike Tang-Brasem. Mapped via WoRMS REST lookup, https://www.marinespecies.org/rest/AphiaRecordsByName/"
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm",
+   "social_behavior": "shoals",
+   "group_size": null,
+   "stage_or_context": "Often in aggregations in midwater or tending nests; large numbers at spawning sites. Juveniles with drifting seaweed.",
+   "behavior_level": "species",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Abudefduf-vaigiensis.html",
+   "habitat_region": "Indo-Pacific; upper outer reef slopes, inshore rocky reefs.",
+   "striking": "Males guard and aerate the eggs.",
+   "notes": "Renard's claim contradicts the sourced behavior: he has a pair piloting whales, FishBase has a reef aggregator. Whale-piloting is not supported for this species in anything I read. The story resembles the real pilotfish, Naucrates ductor, which attends sharks and rays (FishBase species summary, https://www.fishbase.se/summary/Naucrates-ductor.html), and Valentijn's synonym in Bleeker is Groene Lootsman, green pilot. Linking them is my inference. Mamel and Femel are Renard's sexes; Table has Sian male, Sian femelle."
+  },
+  {
+   "slug": "sian-femel",
+   "printed_name": "Sian Femel",
+   "figure_number": 23,
+   "plate": "V. Planche",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198504).jpg",
+   "body_type": "deep",
+   "renard_claim": {
+    "transcription": "Ces deux petits poissons nagent toujours à la tête des Baleines et des Vaches-marines, comme pour leur montrer le chemin et leur faire éviter les Roches et les Bancs sur lesquels ces Lourdes masses pourroient échouer et se blesser. (the caption is shared with Sian Mamel)",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": "Abudefduf vaigiensis",
+    "common_name": "Indo-Pacific sergeant",
+    "level": "species"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 936, Glyphisodon rahti: Sian Mamel et Sian Femel Ren. II tab. 5 fig. 22, 23)",
+     "Bleeker 1877, Memoire sur les Chromides marins, https://archive.org/details/weberdebeaufort31blee (with Glyphisodon waigiensis in the synonymy)"
+    ],
+    "basis": "Published, not Pietsch. Bleeker gives no query here, unlike Tang-Brasem. Mapped via WoRMS REST lookup, https://www.marinespecies.org/rest/AphiaRecordsByName/"
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm",
+   "social_behavior": "shoals",
+   "group_size": null,
+   "stage_or_context": "Often in aggregations in midwater or tending nests; large numbers at spawning sites. Juveniles with drifting seaweed.",
+   "behavior_level": "species",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Abudefduf-vaigiensis.html",
+   "habitat_region": "Indo-Pacific; upper outer reef slopes, inshore rocky reefs.",
+   "striking": "Males guard and aerate the eggs.",
+   "notes": "Renard's claim contradicts the sourced behavior: he has a pair piloting whales, FishBase has a reef aggregator. Whale-piloting is not supported for this species in anything I read. The story resembles the real pilotfish, Naucrates ductor, which attends sharks and rays (FishBase species summary, https://www.fishbase.se/summary/Naucrates-ductor.html), and Valentijn's synonym in Bleeker is Groene Lootsman, green pilot. Linking them is my inference. Mamel and Femel are Renard's sexes; Table has Sian male, Sian femelle."
+  },
+  {
+   "slug": "ican-tomtombo",
+   "printed_name": "Ican Tomtombo",
+   "figure_number": 24,
+   "plate": "VI. Planche",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198515).jpg",
+   "body_type": "disc",
+   "renard_claim": {
+    "transcription": "No. 24. Ican Tomtombo. Il y en a grande quantite de toutes grandeurs, couleurs, et de différentes figures. Voyez la Femelle No. 40, et une autre espèce No. 135. Les Européans n'en mangent point, parce qu'il est huileux et puant. Il est renfermé dans une espèce d'écaille qu'il faut rompre à coup de hache. Tout le poisson n'est presque qu'un gros foye, dont les Noirs font leur principal ragoût.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high, though the caption itself swaps the sexes against No. 40"
+   },
+   "modern_identification": {
+    "scientific_name": "Tetrosomus gibbosus",
+    "common_name": "humpback turretfish",
+    "level": "species"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 2096, Ostracion turritus: Ikan Tomtombo Ren. II tab. 6 fig. 24, tab. 9 fig. 40)",
+     "Bleeker 1866, Ned. Tijdschr. Dierk. 3, https://archive.org/details/nederlandschtijd3186blee (Ostracion (Tetrosomus) turritus)"
+    ],
+    "basis": "Published, not Pietsch. Mapped via WoRMS REST lookup, https://www.marinespecies.org/rest/AphiaRecordsByName/"
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm",
+   "social_behavior": "solitary",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "species",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Tetrosomus-gibbosus.html",
+   "habitat_region": "Indo-West Pacific; deep coastal slopes and sheltered muddy bottoms, 37-110 m.",
+   "striking": "FishBase, citing IUCN, says flesh and organs are poisonous (its sentence breaks off at 'however,'), against Renard's account of the liver as a staple dish.",
+   "notes": "Caption 24 calls No. 40 the female; caption 40 calls No. 24 the female. Bleeker treats both as one species. Max 30 cm per FishBase, so an axe is overstated. Solitary contradicts the implied quantity only weakly."
+  },
+  {
+   "slug": "ican-dorion",
+   "printed_name": "Ican Dorion",
+   "figure_number": 25,
+   "plate": "VI. Planche",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198515).jpg",
+   "body_type": "disc",
+   "renard_claim": {
+    "transcription": "Le Herisson. Il est couvert de pointes longues comme le doigt et dures comme du fer. Les Noirs l'écorchent, et du cuir ils s'en font des bonnets pour aller à la guerre. Lors que ce poisson nage dans la Mer il se desenfle beaucoup, et il retire entièrement sa tête dans sa coque lors qu'il a peur d'être pris.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "medium; right ends of lines read from an overlapping crop"
+   },
+   "modern_identification": {
+    "scientific_name": "Diodontidae",
+    "common_name": "a porcupinefish",
+    "level": "family"
+   },
+   "id_source": {
+    "citations": [],
+    "basis": "MY INFERENCE, from the spined globe body and the printed Hedgehog names (caption, and Table: Herisson VI. 25). Found no published identification of this figure."
+   },
+   "id_confidence": "inferred",
+   "id_strength": "confident at family only",
+   "social_behavior": "solitary",
+   "group_size": null,
+   "stage_or_context": "Nocturnal. From Diodon hystrix as a proxy; juveniles to about 20 cm are pelagic.",
+   "behavior_level": "species page (Diodon hystrix) as a proxy for a family-level inference",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Diodon-hystrix.html",
+   "habitat_region": "For D. hystrix: circumtropical lagoon and seaward reefs, caves and holes, 2-50 m.",
+   "striking": "Porcupinefish-skin war helmets are real, in Kiribati in the central Pacific (Fondation Gandur, https://www.fg-art.org/en/artwork-of-the-month/the-art-of-armour-in-kiribati). Not evidence for Ambon.",
+   "notes": "NAME: the 1754 Table prints Doriou clearly in italic, where n and u are distinct, so the rig's Dorion looks wrong; the plate label is ambiguous. Renard also has it deflating when swimming and withdrawing its head, which I found no support for."
+  },
+  {
+   "slug": "klip-visch-26",
+   "printed_name": "Klip-visch",
+   "figure_number": 26,
+   "plate": "VI. Planche",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198515).jpg",
+   "body_type": "wrasse",
+   "renard_claim": {
+    "transcription": "Renard's general note on all Klip Vischjes (II. Planche, Nos. 5 and 7): 'Il y en a plus de 500 sortes différentes. On les nomme poissons des Roches, parce qu'on les y voit nager par milliers pour sucer la mousse qui s'y attache. [...] Il n'y a point de famille à Amboine qui ne garde de ces petits poissons par plaisir dans des Bouteilles ou dans des vases de porcelaine. [...] Il n'y a qu'à sifler et ils accourrent par troupes avec un tumulte et un empressement qui divertiroit les personnes les plus mélancoliques.' Reading: high. The caption by this fish says only Klip-visch.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": null,
+    "common_name": null,
+    "level": "none"
+   },
+   "id_source": {
+    "citations": [],
+    "basis": "No published identification of this figure found in the sources I could read. Pietsch 1995 may have one; his table was not accessible."
+   },
+   "id_confidence": "unidentified",
+   "id_strength": "none",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "none",
+   "behavior_source": null,
+   "habitat_region": null,
+   "striking": null,
+   "notes": "'Klip-visch' is Renard's catch-all (rock fish), not a species: Bleeker assigns different Klipvisch figures to wrasses, a triggerfish and a damselfish. No credible way to name this one."
+  },
+  {
+   "slug": "klip-visch-27",
+   "printed_name": "Klip-visch",
+   "figure_number": 27,
+   "plate": "VI. Planche",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198515).jpg",
+   "body_type": "deep",
+   "renard_claim": {
+    "transcription": "Renard's general note on all Klip Vischjes (II. Planche, Nos. 5 and 7): 'Il y en a plus de 500 sortes différentes. On les nomme poissons des Roches, parce qu'on les y voit nager par milliers pour sucer la mousse qui s'y attache. [...] Il n'y a point de famille à Amboine qui ne garde de ces petits poissons par plaisir dans des Bouteilles ou dans des vases de porcelaine. [...] Il n'y a qu'à sifler et ils accourrent par troupes avec un tumulte et un empressement qui divertiroit les personnes les plus mélancoliques.' Reading: high. The caption by this fish says only Klip-visch.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": "Plectroglyphidodon lacrymatus??",
+    "common_name": "jewel damselfish, doubly queried",
+    "level": "species, heavily queried"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 926, Glyphisodon lacrymatus: Klipvisch Ren. II tab. 6 fig. 27??)",
+     "Bleeker 1877, Memoire sur les Chromides marins, https://archive.org/details/weberdebeaufort31blee (fig. 27?)"
+    ],
+    "basis": "Published with Bleeker's own double question mark, not Pietsch. WoRMS currently has Stegastes lacrymatus; FishBase pages exist under both genera."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "queried",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "none: FishBase gives no grouping statement",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Plectroglyphidodon-lacrymatus.html",
+   "habitat_region": "If correct: Indo-Pacific clear lagoon and seaward reefs in mixed coral and rubble, 0-40 m.",
+   "striking": null,
+   "notes": "'Klip-visch' is Renard's catch-all (rock fish), not a species: Bleeker assigns different Klipvisch figures to wrasses, a triggerfish and a damselfish. No credible way to name this one."
+  },
+  {
+   "slug": "roos-visch",
+   "printed_name": "Roos-visch",
+   "figure_number": 28,
+   "plate": "VI. Planche",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198515).jpg",
+   "body_type": "wrasse",
+   "renard_claim": {
+    "transcription": "Roos-visch. La Rose de Hila. Il a le groin chargé de bulbes ou boutons, les uns couleur de rose et les autres bleus. C'est un excellent poisson.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": "Scaridae, doubted",
+    "common_name": "possibly a parrotfish",
+    "level": "family, doubted"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1862, Atlas ichthyologique vol. 1 (Labroids, Scaroids), https://archive.org/details/AtlasichthyologT1TeBlee: 'ne sont a rapporter aux Scaroides qu'avec bien des doutes' (Roosvisch, Tom. II Pl. 6 fig. 28)"
+    ],
+    "basis": "Published but explicitly doubted by its author, not Pietsch."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "doubtful",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "none: identity too weak to attach behavior",
+   "behavior_source": null,
+   "habitat_region": null,
+   "striking": null,
+   "notes": "May belong among the fanciful 9 percent, but I cannot say so without Pietsch. The bulbed snout has no real counterpart I can name."
+  },
+  {
+   "slug": "carcasse",
+   "printed_name": "Carcasse",
+   "figure_number": 29,
+   "plate": "VI. Planche",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198515).jpg",
+   "body_type": "wrasse",
+   "renard_claim": {
+    "transcription": "29. Carcasse. J'en ai dessiné une trenteine de différentes figures. C'est un animal fort drole qui vient manger hors la main quand on l'apelle.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": "Canthigaster valentini",
+    "common_name": "Valentin's sharpnose puffer",
+    "level": "species"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 2136, Anosmius Valentini: Carcasse Ren. II tab. 6 fig. 29)",
+     "Bleeker note, https://archive.org/details/weberdebeaufort34blee (Carcasse van Renard, of Kaskasse van Valentijn)"
+    ],
+    "basis": "Published, not Pietsch. The species honors Valentijn, whose figure is the same drawing family."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm",
+   "social_behavior": "varies",
+   "group_size": "Shoals 10-100 or more; harems around a male",
+   "stage_or_context": "Territorial and haremic: one large male guards territorial females. Also forms shoals, often with a filefish mimic.",
+   "behavior_level": "species",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Canthigaster-valentini.html",
+   "habitat_region": "Indo-Pacific; coral heads and rocks of lagoon and seaward reefs, 1-55 m.",
+   "striking": "The filefish Paraluteres prionurus mimics it for protection, making up about 5 percent of shoals. Males spawn with a different female each day.",
+   "notes": "The first-person voice is the original artist talking. Coming when called: unsupported."
+  },
+  {
+   "slug": "tomtombo-40",
+   "printed_name": "Tomtombo",
+   "figure_number": 40,
+   "plate": "Planche Neuvieme",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198528).jpg",
+   "body_type": "disc",
+   "renard_claim": {
+    "transcription": "Tomtombo. dont la femelle est représentée No. 24.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": "Tetrosomus gibbosus",
+    "common_name": "humpback turretfish",
+    "level": "species"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 2096, Ostracion turritus: Ikan Tomtombo Ren. II tab. 6 fig. 24, tab. 9 fig. 40)",
+     "Bleeker 1866, Ned. Tijdschr. Dierk. 3, https://archive.org/details/nederlandschtijd3186blee (Ostracion (Tetrosomus) turritus)"
+    ],
+    "basis": "Published, not Pietsch. Mapped via WoRMS REST lookup, https://www.marinespecies.org/rest/AphiaRecordsByName/"
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm",
+   "social_behavior": "solitary",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "species",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Tetrosomus-gibbosus.html",
+   "habitat_region": "Indo-West Pacific; deep coastal slopes and sheltered muddy bottoms, 37-110 m.",
+   "striking": "FishBase, citing IUCN, says flesh and organs are poisonous (its sentence breaks off at 'however,'), against Renard's account of the liver as a staple dish.",
+   "notes": "Same species as No. 24 per Bleeker. FishBase records no sexual pair behavior; Renard's male and female may be just two copies."
+  },
+  {
+   "slug": "klip-visch-41",
+   "printed_name": "Klip-visch",
+   "figure_number": 41,
+   "plate": "Planche Neuvieme",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198528).jpg",
+   "body_type": "wrasse",
+   "renard_claim": {
+    "transcription": "Renard's general note on all Klip Vischjes (II. Planche, Nos. 5 and 7): 'Il y en a plus de 500 sortes différentes. On les nomme poissons des Roches, parce qu'on les y voit nager par milliers pour sucer la mousse qui s'y attache. [...] Il n'y a point de famille à Amboine qui ne garde de ces petits poissons par plaisir dans des Bouteilles ou dans des vases de porcelaine. [...] Il n'y a qu'à sifler et ils accourrent par troupes avec un tumulte et un empressement qui divertiroit les personnes les plus mélancoliques.' Reading: high. Caption by this fish: Klip-visch, expliqué No. 5 et 7.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": null,
+    "common_name": null,
+    "level": "none"
+   },
+   "id_source": {
+    "citations": [],
+    "basis": "No published identification of this figure found in the sources I could read. Pietsch 1995 may have one; his table was not accessible."
+   },
+   "id_confidence": "unidentified",
+   "id_strength": "none",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "none",
+   "behavior_source": null,
+   "habitat_region": null,
+   "striking": null,
+   "notes": "'Klip-visch' is Renard's catch-all (rock fish), not a species: Bleeker assigns different Klipvisch figures to wrasses, a triggerfish and a damselfish. No credible way to name this one."
+  },
+  {
+   "slug": "petit-brochet",
+   "printed_name": "Petit Brochet",
+   "figure_number": 42,
+   "plate": "Planche Neuvieme",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198528).jpg",
+   "body_type": "fusiform",
+   "renard_claim": {
+    "transcription": "Petit Brochet des roches de Baguewal.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": null,
+    "common_name": null,
+    "level": "none"
+   },
+   "id_source": {
+    "citations": [],
+    "basis": "No published identification of this figure found in the sources I could read. Pietsch 1995 may have one; his table was not accessible."
+   },
+   "id_confidence": "unidentified",
+   "id_strength": "none",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "none",
+   "behavior_source": null,
+   "habitat_region": null,
+   "striking": null,
+   "notes": "Little pike of the Baguewal rocks. Not distinctive."
+  },
+  {
+   "slug": "paradys-vischje",
+   "printed_name": "Paradys vischje",
+   "figure_number": 43,
+   "plate": "Planche Neuvieme",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198528).jpg",
+   "body_type": "eel",
+   "renard_claim": {
+    "transcription": "Paradys vischje. Le Poisson de Paradis, très-beau et dont il y a de différentes grandeurs et couleurs dans les Reservoirs de Loeven. Il est familier, se plaît a entendre le son des flutes et flageolets, sautant souvent un pied hors de l'eau comme pour se montrer et faire admirer ses belles couleurs.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": "Labroides dimidiatus",
+    "common_name": "bluestreak cleaner wrasse",
+    "level": "species"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1862, Atlas ichthyologique vol. 1 (Labroids, Scaroids), https://archive.org/details/AtlasichthyologT1TeBlee: Paradysvischje ib. II tab. 9 f. 43, under Labroides paradiseus",
+     "Catalog of Fishes, https://researcharchive.calacademy.org/research/ichthyology/catalog/fishcatget.asp?genid=2108"
+    ],
+    "basis": "Published, not Pietsch."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm",
+   "social_behavior": "varies",
+   "group_size": null,
+   "stage_or_context": "As for Paradys, the same species.",
+   "behavior_level": "species",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Labroides-dimidiatus.html",
+   "habitat_region": "Indo-Pacific; coral-rich lagoons to seaward reefs.",
+   "striking": "Greets unfamiliar visitors with dance-like up-and-down movements of the rear body.",
+   "notes": "Bleeker's concordance prints Tom. II fig. 45; his synonymy says 43, and 45 is the Saal-visch he calls a scaroid, so I read 45 as a slip. Love of flutes: unsupported."
+  },
+  {
+   "slug": "moorse-afgodt",
+   "printed_name": "Moorse-Afgodt",
+   "figure_number": 44,
+   "plate": "Planche Neuvieme",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198528).jpg",
+   "body_type": "deep",
+   "renard_claim": {
+    "transcription": "Moorse-Afgodt. l'Idole des Païens. Lors que ces pauvres gens en voient dans leurs fillets, ils se jettent à genoux et le remettent à la Mer avec des chants de dévotion et des postures extraordinaires. Il pese souvent douze à quinze Livres et ne cede point au Turbot d'Europe pour sa bonté.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": "Zanclus cornutus",
+    "common_name": "Moorish idol",
+    "level": "species"
+   },
+   "id_source": {
+    "citations": [
+     "Cuvier and Valenciennes 1831, Histoire naturelle des poissons vol. 7, https://archive.org/details/histoirenaturell71831cuvi (Moorse-afgodt, Renard 2e part., pl. 9, fig. 44)",
+     "Bleeker 1877, Revision des especes insulindiennes de la famille des Chetodontoides, https://archive.org/details/rvisiondesesp00blee",
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 544)",
+     "Weber and de Beaufort-era copy, https://archive.org/details/weberdebeaufort15blee"
+    ],
+    "basis": "Published, not Pietsch."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm",
+   "social_behavior": "small groups",
+   "group_size": "Generally 2 or 3",
+   "stage_or_context": "Adults also singly, in pairs, occasionally large schools.",
+   "behavior_level": "species",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Zanclus-cornutus.html",
+   "habitat_region": "Indo-Pacific to Hawaii; lagoons, reef flats, seaward reefs.",
+   "striking": "The English name may come through this plate: McMichael (ed.) 1967 raises 'why Moorish idol?' and answers with Renard's 1754 Moorse-Afgodt, https://archive.org/details/treasuryofaustra00mcmi. Scientific American 1886 also quotes Renard's name, https://archive.org/details/ScientificAmerican1886v055n21. Both read only as full-text search snippets, so the origin claim is not fully verified.",
+   "notes": "Weight is contradicted: maximum 23 cm per FishBase, so not 12 to 15 livres. Cuvier repeated the weight uncritically. The kneeling rite: no support either way."
+  },
+  {
+   "slug": "saal-visch",
+   "printed_name": "Saal-visch",
+   "figure_number": 45,
+   "plate": "Planche Dixieme",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198539).jpg",
+   "body_type": "deep",
+   "renard_claim": {
+    "transcription": "Saal-visch. Le poisson Sellé de Nasselaw, dont il y a diverses espèces, fort huyleux.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": "Scaridae",
+    "common_name": "a parrotfish",
+    "level": "family"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1862, Atlas ichthyologique vol. 1 (Labroids, Scaroids), https://archive.org/details/AtlasichthyologT1TeBlee: lists 45 (Tom. II Pl. 10, Saalvisch) among Renard's Scaroids, copied from Valentijn no. 354"
+    ],
+    "basis": "Published, not Pietsch."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm at family",
+   "social_behavior": "varies",
+   "group_size": null,
+   "stage_or_context": "Family-level: most tropical species school when feeding; harems typical of most species.",
+   "behavior_level": "family",
+   "behavior_source": "Wikipedia, Parrotfish, https://en.wikipedia.org/wiki/Parrotfish",
+   "habitat_region": "Family-level only.",
+   "striking": "Some parrotfish sleep in a mucus cocoon, and they make sand from reef rock.",
+   "notes": null
+  },
+  {
+   "slug": "nonne",
+   "printed_name": "Nonne",
+   "figure_number": 46,
+   "plate": "Planche Dixieme",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198539).jpg",
+   "body_type": "deep",
+   "renard_claim": {
+    "transcription": "Nonne de Baguewal, commun et charmant bon à toutes Sauces.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": "Amphiprion perideraion?",
+    "common_name": "pink anemonefish, queried",
+    "level": "species, queried"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 874: Nonne de Baguewal Ren. II tab. 10 fig. 46?)"
+    ],
+    "basis": "Published with Bleeker's question mark, not Pietsch."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "queried",
+   "social_behavior": "pairs",
+   "group_size": null,
+   "stage_or_context": "FishBase says monogamous and anemone-dwelling; it gives no count per anemone.",
+   "behavior_level": "species, contingent on a queried identification",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Amphiprion-perideraion.html",
+   "habitat_region": "Western Pacific; lagoon and seaward reefs, in anemones, 1-38 m.",
+   "striking": "A protandrous hermaphrodite; males guard the eggs.",
+   "notes": "The drawing has little of an anemonefish about it to my eye, and a 10 cm fish good with every sauce is odd. Only the pink is suggestive. Low trust."
+  },
+  {
+   "slug": "munick",
+   "printed_name": "Munick",
+   "figure_number": 47,
+   "plate": "Planche Dixieme",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198539).jpg",
+   "body_type": "wrasse",
+   "renard_claim": {
+    "transcription": "Munick. Le Moine, très-bon, mais un peu rare.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": "Acanthurus fraterculus, a name never recognized in nature",
+    "common_name": "a surgeonfish, nominal only",
+    "level": "genus at most"
+   },
+   "id_source": {
+    "citations": [
+     "Randall 1956, A revision of the surgeon fish genus Acanthurus, Pacific Science 10(2), https://archive.org/details/biostor-233920: fraterculus was described from a figure by Renard; Guenther listed it as not recognized",
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 766)"
+    ],
+    "basis": "Published, not Pietsch. A name resting wholly on this drawing, so it does not point to a real population."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "nominal",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "none: no real species to attach",
+   "behavior_source": null,
+   "habitat_region": null,
+   "striking": "A scientific name, Acanthurus fraterculus, exists only because of this figure.",
+   "notes": "Randall 1956 lists it among names where allocating them 'would be pure guess work'. Status today not confirmed; WoRMS returned no record."
+  },
+  {
+   "slug": "klip-visch-48",
+   "printed_name": "Klip-visch",
+   "figure_number": 48,
+   "plate": "Planche Dixieme",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198539).jpg",
+   "body_type": "wrasse",
+   "renard_claim": {
+    "transcription": "Renard's general note on all Klip Vischjes (II. Planche, Nos. 5 and 7): 'Il y en a plus de 500 sortes différentes. On les nomme poissons des Roches, parce qu'on les y voit nager par milliers pour sucer la mousse qui s'y attache. [...] Il n'y a point de famille à Amboine qui ne garde de ces petits poissons par plaisir dans des Bouteilles ou dans des vases de porcelaine. [...] Il n'y a qu'à sifler et ils accourrent par troupes avec un tumulte et un empressement qui divertiroit les personnes les plus mélancoliques.' Reading: high. Caption by this fish: Klip-visch. expliqué No. 5. et 7.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": null,
+    "common_name": null,
+    "level": "none"
+   },
+   "id_source": {
+    "citations": [],
+    "basis": "No published identification of this figure found in the sources I could read. Pietsch 1995 may have one; his table was not accessible."
+   },
+   "id_confidence": "unidentified",
+   "id_strength": "none",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "none",
+   "behavior_source": null,
+   "habitat_region": null,
+   "striking": null,
+   "notes": "'Klip-visch' is Renard's catch-all (rock fish), not a species: Bleeker assigns different Klipvisch figures to wrasses, a triggerfish and a damselfish. No credible way to name this one."
+  },
+  {
+   "slug": "joosje-joosje",
+   "printed_name": "Joosje-Joosje",
+   "figure_number": 49,
+   "plate": "Planche Dixieme",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198539).jpg",
+   "body_type": "deep",
+   "renard_claim": {
+    "transcription": "Joosje-Joosje. Bizarre et commun. Les Ambonnois en font brûler les arêtes et les avallent en poudre comme un remède contre la pierre. Les Femmes portent sa corne ou arête du dos pendue au Coup pour l'ornement et comme un grand préservatif contre les maladies de matrice.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "medium: pierre could read fierre on the plate"
+   },
+   "modern_identification": {
+    "scientific_name": "Heniochus varius",
+    "common_name": "horned bannerfish",
+    "level": "species"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1877, Revision des especes insulindiennes de la famille des Chetodontoides, https://archive.org/details/rvisiondesesp00blee: Joosje, Chineese Duivers, Joosje-joosje Ren. I tab. 30 fig. 164, II tab. 10 fig. 49, with Heniochus varius Guenther",
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (Taurichthys viridis)"
+    ],
+    "basis": "Published, not Pietsch. Mapped via WoRMS REST lookup, https://www.marinespecies.org/rest/AphiaRecordsByName/"
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm",
+   "social_behavior": "varies",
+   "group_size": null,
+   "stage_or_context": "Solitary or in small groups; pairs when breeding.",
+   "behavior_level": "species",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Heniochus-varius.html",
+   "habitat_region": "Indonesia to the Society Islands; deep lagoons and steep outer slopes, 0-30 m.",
+   "striking": null,
+   "notes": "Bleeker in 1859 wondered if it was a separate species, then merged it."
+  },
+  {
+   "slug": "klip-visch-50",
+   "printed_name": "Klip-visch",
+   "figure_number": 50,
+   "plate": "Planche Dixieme",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198539).jpg",
+   "body_type": "wrasse",
+   "renard_claim": {
+    "transcription": "Renard's general note on all Klip Vischjes (II. Planche, Nos. 5 and 7): 'Il y en a plus de 500 sortes différentes. On les nomme poissons des Roches, parce qu'on les y voit nager par milliers pour sucer la mousse qui s'y attache. [...] Il n'y a point de famille à Amboine qui ne garde de ces petits poissons par plaisir dans des Bouteilles ou dans des vases de porcelaine. [...] Il n'y a qu'à sifler et ils accourrent par troupes avec un tumulte et un empressement qui divertiroit les personnes les plus mélancoliques.' Reading: high. The caption by this fish says only Klip-visch.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": null,
+    "common_name": null,
+    "level": "none"
+   },
+   "id_source": {
+    "citations": [],
+    "basis": "No published identification of this figure found in the sources I could read. Pietsch 1995 may have one; his table was not accessible."
+   },
+   "id_confidence": "unidentified",
+   "id_strength": "none",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "none",
+   "behavior_source": null,
+   "habitat_region": null,
+   "striking": null,
+   "notes": "'Klip-visch' is Renard's catch-all (rock fish), not a species: Bleeker assigns different Klipvisch figures to wrasses, a triggerfish and a damselfish. No credible way to name this one."
+  },
+  {
+   "slug": "coffer-de-nasselaw",
+   "printed_name": "Coffer de Nasselaw",
+   "figure_number": 73,
+   "plate": "XVI. Planche",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198615).jpg",
+   "body_type": "deep",
+   "renard_claim": {
+    "transcription": "Coffer de Nasselaw commun & méprisé.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": "Scaridae, doubted",
+    "common_name": "possibly a parrotfish",
+    "level": "family, doubted"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1862, Atlas ichthyologique vol. 1 (Labroids, Scaroids), https://archive.org/details/AtlasichthyologT1TeBlee: 'ne sont a rapporter aux Scaroides qu'avec bien des doutes' (Coffer de Nasselau, Tom. II Pl. 16 fig. 73)"
+    ],
+    "basis": "Published but explicitly doubted, not Pietsch."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "doubtful",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "none: identity too weak",
+   "behavior_source": null,
+   "habitat_region": null,
+   "striking": null,
+   "notes": "The 1754 Table prints Caffer de Nesselaw for XVI. 73, so Coffer on the rig may be a c/a reading. Worth a look."
+  },
+  {
+   "slug": "klip-visch-74",
+   "printed_name": "Klip-Visch",
+   "figure_number": 74,
+   "plate": "XVI. Planche",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198615).jpg",
+   "body_type": "wrasse",
+   "renard_claim": {
+    "transcription": "Renard's general note on all Klip Vischjes (II. Planche, Nos. 5 and 7): 'Il y en a plus de 500 sortes différentes. On les nomme poissons des Roches, parce qu'on les y voit nager par milliers pour sucer la mousse qui s'y attache. [...] Il n'y a point de famille à Amboine qui ne garde de ces petits poissons par plaisir dans des Bouteilles ou dans des vases de porcelaine. [...] Il n'y a qu'à sifler et ils accourrent par troupes avec un tumulte et un empressement qui divertiroit les personnes les plus mélancoliques.' Reading: high. Caption by this fish: Klip-Visch décrit No. 5.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": null,
+    "common_name": null,
+    "level": "none"
+   },
+   "id_source": {
+    "citations": [],
+    "basis": "No published identification of this figure found in the sources I could read. Pietsch 1995 may have one; his table was not accessible."
+   },
+   "id_confidence": "unidentified",
+   "id_strength": "none",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "none",
+   "behavior_source": null,
+   "habitat_region": null,
+   "striking": null,
+   "notes": "'Klip-visch' is Renard's catch-all (rock fish), not a species: Bleeker assigns different Klipvisch figures to wrasses, a triggerfish and a damselfish. No credible way to name this one."
+  },
+  {
+   "slug": "speer-visch",
+   "printed_name": "Speer-Visch",
+   "figure_number": 75,
+   "plate": "XVI. Planche",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198615).jpg",
+   "body_type": "disc",
+   "renard_claim": {
+    "transcription": "Speer-Visch, ou le Piquier. dont il y a des millions de différentes figures.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": "Zanclus cornutus or Heniochus acuminatus: published sources conflict",
+    "common_name": "Moorish idol or pennant coralfish",
+    "level": "two candidates in two families"
+   },
+   "id_source": {
+    "citations": [
+     "Cuvier and Valenciennes 1831, Histoire naturelle des poissons vol. 7, https://archive.org/details/histoirenaturell71831cuvi and Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) put II tab. 16 fig. 75 under Zanclus",
+     "Bleeker 1877, Revision des especes insulindiennes de la famille des Chetodontoides, https://archive.org/details/rvisiondesesp00blee moves it to Heniochus (Besaan, Speervisch II tab. 16 fig. 75)"
+    ],
+    "basis": "Published, not Pietsch, and one author reversed himself."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "conflict",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": "Conditional: small groups of 2 or 3 if Zanclus; pairs if Heniochus.",
+   "behavior_level": "none, identity unresolved",
+   "behavior_source": null,
+   "habitat_region": null,
+   "striking": null,
+   "notes": "Bleeker's 1877 view is the latest I can read but not necessarily better. Pietsch's call would settle it."
+  },
+  {
+   "slug": "dorade-dauphin",
+   "printed_name": "Dorade-Dauphin",
+   "figure_number": 76,
+   "plate": "XVI. Planche",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198615).jpg",
+   "body_type": "fusiform",
+   "renard_claim": {
+    "transcription": "Dorade-Dauphin, Poisson de la Rique très délicat et très-beau. Il s'éleve à fleur d'eau pour nager et suivant qu'il se plie ou s'alonge, il paroit d'une infinité de Couleurs très-brillantes et agreables à voir.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": "Coryphaena hippurus",
+    "common_name": "common dolphinfish, mahi-mahi",
+    "level": "species"
+   },
+   "id_source": {
+    "citations": [
+     "BHL Tumblr, BHL Book Feature: Spot That Fish!, https://biodivlibrary.tumblr.com/post/156982654694/bhl-book-feature-spot-that-fish-weve-been (read ONLY as a search-engine summary; the page itself refused my fetch, so unverified at source) gives Plate XVI, Figure 76: Coryphaena hippurus",
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (addendum: Coryphaena Vlamingii CV = Dorade Dauphin Ren. II tab. 16 fig. 76)"
+    ],
+    "basis": "BHL appears to pass on Pietsch; I saw only a snippet. Bleeker's C. vlamingi is an older nominal name. Also unmistakable to my eye: blunt head, sail dorsal."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm",
+   "social_behavior": "schools",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "species",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Coryphaena-hippurus.html",
+   "habitat_region": "Tropical and subtropical open oceans, also near coast.",
+   "striking": "Sexually mature in 4 to 5 months. Renard's shifting colors are real in a sense: out of water they cycle through shades before fading to yellow-grey (Wikipedia, Mahi-mahi, https://en.wikipedia.org/wiki/Mahi-mahi).",
+   "notes": null
+  },
+  {
+   "slug": "douwing-batard-d-harocke",
+   "printed_name": "Douwing bâtard d'Harocke",
+   "figure_number": 77,
+   "plate": "XVI. Planche",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198615).jpg",
+   "body_type": "disc",
+   "renard_claim": {
+    "transcription": null,
+    "marked": "plate prints the name only",
+    "reading_confidence": null
+   },
+   "modern_identification": {
+    "scientific_name": "Chaetodon octofasciatus, probable (Cuvier), against Pygoplites diacanthus (Bloch, Lacepede)",
+    "common_name": "eightband butterflyfish, or regal angelfish",
+    "level": "species candidates in two families"
+   },
+   "id_source": {
+    "citations": [
+     "Cuvier and Valenciennes 1831, Histoire naturelle des poissons vol. 7, https://archive.org/details/histoirenaturell71831cuvi: 'le douwing-batard d'Haroke de Renard (t. II, pl. 16, fig. 77), qui est un chetodon proprement dit et probablement l'octolineatus', correcting Bloch",
+     "Lacepede, https://archive.org/details/histoirenaturell04lacs (pl. 16 fig. 77 under holacanthe duc; read as a full-text search snippet)"
+    ],
+    "basis": "Published, not Pietsch. Mapped via WoRMS REST lookup, https://www.marinespecies.org/rest/AphiaRecordsByName/. Cuvier is the critical voice, so I lead with him."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "conflict",
+   "social_behavior": "pairs",
+   "group_size": null,
+   "stage_or_context": "If C. octofasciatus: adults in pairs, juveniles in groups among Acropora. If P. diacanthus: solitary, pairs or groups.",
+   "behavior_level": "species, contingent on the Cuvier reading",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Chaetodon-octofasciatus.html",
+   "habitat_region": "If C. octofasciatus: East Indies to Solomons; sheltered coral reefs, 3-20 m.",
+   "striking": "C. octofasciatus eats coral polyps exclusively.",
+   "notes": "To my eye the banding and pink spines also recall the regal angelfish, which is why Bloch is not silly here. See FishBase species summary, https://www.fishbase.se/summary/Pygoplites-diacanthus.html"
+  },
+  {
+   "slug": "klip-visch-78",
+   "printed_name": "Klip-Visch",
+   "figure_number": 78,
+   "plate": "XVI. Planche",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198615).jpg",
+   "body_type": "wrasse",
+   "renard_claim": {
+    "transcription": "Renard's general note on all Klip Vischjes (II. Planche, Nos. 5 and 7): 'Il y en a plus de 500 sortes différentes. On les nomme poissons des Roches, parce qu'on les y voit nager par milliers pour sucer la mousse qui s'y attache. [...] Il n'y a point de famille à Amboine qui ne garde de ces petits poissons par plaisir dans des Bouteilles ou dans des vases de porcelaine. [...] Il n'y a qu'à sifler et ils accourrent par troupes avec un tumulte et un empressement qui divertiroit les personnes les plus mélancoliques.' Reading: high. Caption by this fish: Klip-Visch Voyez No. 5.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": "Gomphosus sp. (Bleeker: G. melanotus)",
+    "common_name": "a bird wrasse",
+    "level": "genus"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1862, Atlas ichthyologique vol. 1 (Labroids, Scaroids), https://archive.org/details/AtlasichthyologT1TeBlee: Klipvisch Ren., ib. II t. 16 fig. 78, under Gomphosus melanotus, 'C'est sans aucun doute cette espece'"
+    ],
+    "basis": "Published, not Pietsch. A search summary of the Australian Faunal Directory gives melanotus as a synonym of G. caeruleus (not opened); that is an Indian Ocean species today, so held at genus."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm at genus",
+   "social_behavior": "solitary",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "genus: both species pages say solitary",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Gomphosus-varius.html; FishBase species summary, https://www.fishbase.se/summary/Gomphosus-caeruleus.html",
+   "habitat_region": "Coral-rich lagoon and seaward reefs, to 30 m or more.",
+   "striking": null,
+   "notes": "The only one of the seven Klip-Visch with a confident published name. Renard's 'by thousands' note does not fit this solitary wrasse."
+  },
+  {
+   "slug": "speer-vischje",
+   "printed_name": "Speer-Vischje",
+   "figure_number": 79,
+   "plate": "XVI. Planche",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198615).jpg",
+   "body_type": "disc",
+   "renard_claim": {
+    "transcription": "Speer-Vischje, ou le petit Piquier.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": null,
+    "common_name": null,
+    "level": "none"
+   },
+   "id_source": {
+    "citations": [],
+    "basis": "No published identification of this figure found in the sources I could read. Pietsch 1995 may have one; his table was not accessible."
+   },
+   "id_confidence": "unidentified",
+   "id_strength": "none",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "none",
+   "behavior_source": null,
+   "habitat_region": null,
+   "striking": null,
+   "notes": "The Table lists this name at XVI. 75 although the plate numbers it 79, a Table misprint or a mix with Speer-Visch. The filament hints at a bannerfish or idol, but the spotted disc does not match; not inferred."
+  },
+  {
+   "slug": "benissje",
+   "printed_name": "Benissje",
+   "figure_number": 134,
+   "plate": "XXVII. Planche",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198732).jpg",
+   "body_type": "wrasse",
+   "renard_claim": {
+    "transcription": "Benissje, Petit Poisson; mais délicieux frais, ou sallé et aprêté comme on fait des Anchois en Italie.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": "Plectroglyphidodon lacrymatus?",
+    "common_name": "jewel damselfish, queried",
+    "level": "species, queried"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 926: Benissje Ren. II tab. 27 fig. 134?)",
+     "Bleeker 1877, Memoire sur les Chromides marins, https://archive.org/details/weberdebeaufort31blee"
+    ],
+    "basis": "Published with Bleeker's question mark, not Pietsch."
+   },
+   "id_confidence": "sourced",
+   "id_strength": "queried",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "none: FishBase gives no grouping statement",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Plectroglyphidodon-lacrymatus.html",
+   "habitat_region": "If correct: Indo-Pacific clear reefs in coral and rubble, 0-40 m.",
+   "striking": null,
+   "notes": "Number settled: the Table prints XXVII. 134, though the plate looks like 139. WoRMS and FishBase differ on genus (Stegastes vs Plectroglyphidodon)."
+  },
+  {
+   "slug": "tomtombo-135",
+   "printed_name": "Tomtombo",
+   "figure_number": 135,
+   "plate": "XXVII. Planche",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198732).jpg",
+   "body_type": "disc",
+   "renard_claim": {
+    "transcription": "135. Tomtombo, Poisson à écaille, différent de l'Espèce marquée No. 24, mais du même ordre. Il a le foie d'une grosseur extraordinaire et si gras, qu'on en tire presque autant d'huile qu'il pese.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": "Lactoria cornuta",
+    "common_name": "longhorn cowfish",
+    "level": "species"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 2086, Ostracion cornutus: Tomtombo Ren. II tab. 27 fig. 135)",
+     "Bleeker 1866, Ned. Tijdschr. Dierk. 3, https://archive.org/details/nederlandschtijd3186blee",
+     "Bleeker, https://archive.org/details/weberdebeaufort34blee (aetas adulta)"
+    ],
+    "basis": "Published, not Pietsch. Mapped via WoRMS REST lookup, https://www.marinespecies.org/rest/AphiaRecordsByName/"
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm",
+   "social_behavior": "solitary",
+   "group_size": "Juveniles in small groups",
+   "stage_or_context": "Adults solitary and shy; juveniles often form small groups, often near river mouths.",
+   "behavior_level": "species",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Lactoria-cornuta.html",
+   "habitat_region": "Indo-Pacific; inshore muddy or sandy bays, harbours, estuaries, 1-100 m.",
+   "striking": "Blows away sand to expose prey. Renard is right that it differs from No. 24 but is of the same order: another genus of the same boxfish family.",
+   "notes": null
+  },
+  {
+   "slug": "geep",
+   "printed_name": "Geep",
+   "figure_number": 175,
+   "plate": "XL. Planche",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198885).jpg",
+   "body_type": "fusiform",
+   "renard_claim": {
+    "transcription": "175. Geep de la Côte Alforeese. Il y en a de Six pieds de long et de diverses espèces, mais il sont mauvais, huileux et degoutant, et ils ont les arrestes vertes.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": "Tylosurus crocodilus",
+    "common_name": "hound needlefish",
+    "level": "species"
+   },
+   "id_source": {
+    "citations": [
+     "Bleeker 1859, Enumeratio specierum piscium hucusque in Archipelago indico observatarum, Verh. Natuurk. Ver. Ned.-Indie 6, full text https://archive.org/details/verhandelingende6185natu (second copy https://archive.org/details/weberdebeaufort15blee) (no. 1674, Belone crocodilus: Geep Ren. II tab. 40 fig. 175, sec. CV)"
+    ],
+    "basis": "Published, not Pietsch, on the authority of Cuvier and Valenciennes. Mapped via WoRMS REST lookup, https://www.marinespecies.org/rest/AphiaRecordsByName/"
+   },
+   "id_confidence": "sourced",
+   "id_strength": "firm",
+   "social_behavior": "varies",
+   "group_size": null,
+   "stage_or_context": "Solitary or in small groups.",
+   "behavior_level": "species",
+   "behavior_source": "FishBase species summary, https://www.fishbase.se/summary/Tylosurus-crocodilus.html",
+   "habitat_region": "Indo-West Pacific; pelagic over lagoon and seaward reefs, 0-13 m.",
+   "striking": "Renard's green bones are close to the truth: FishBase says the market is limited by green-colored flesh. Feared for puncture wounds when leaping, and reaches 150 cm against his six feet.",
+   "notes": null
+  },
+  {
+   "slug": "bilangh",
+   "printed_name": "Bilangh",
+   "figure_number": 176,
+   "plate": "XL. Planche",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198885).jpg",
+   "body_type": "eel",
+   "renard_claim": {
+    "transcription": "176. Bilangh fort-bon mais plein d'arrêtes et fort velu. Les Chinois l'aiment beaucoup étuvé avec de l'ail et du poivre. Il est long de trois pieds, large de trois pouces, et plus plat que rond.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": null,
+    "common_name": null,
+    "level": "none"
+   },
+   "id_source": {
+    "citations": [],
+    "basis": "No published identification of this figure found in the sources I could read. Pietsch 1995 may have one; his table was not accessible."
+   },
+   "id_confidence": "unidentified",
+   "id_strength": "none",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "none",
+   "behavior_source": null,
+   "habitat_region": null,
+   "striking": null,
+   "notes": "Bloch referred this to the band-fishes, Cepola, but Cuvier and Valenciennes rejected placing it: 'si c'est une cepole, il est bien incorrectement dessine, et il est impossible de l'inserer dans un catalogue regulier' (Cuvier and Valenciennes 1835, Histoire naturelle des poissons vol. 10, https://archive.org/details/histoirenaturell10cuvi). I count that as not identified."
+  },
+  {
+   "slug": "plattangh",
+   "printed_name": "Plattangh",
+   "figure_number": 177,
+   "plate": "XL. Planche",
+   "renard_part": "II",
+   "commons_file": "File:Poissons, ecrevisses et crabes 1754 (7198885).jpg",
+   "body_type": "fusiform",
+   "renard_claim": {
+    "transcription": "177. Plattangh long de trois pieds, et espais d'un pouce seulement. On en prend beaucoup à Hila. il est plein d'arrêtes, asses gras, et propre à être seché comme les Sorets.",
+    "language": "French",
+    "marked": "my reading of the plate, diacritics as best read, long s normalized to s",
+    "reading_confidence": "high"
+   },
+   "modern_identification": {
+    "scientific_name": null,
+    "common_name": null,
+    "level": "none"
+   },
+   "id_source": {
+    "citations": [],
+    "basis": "No published identification of this figure found in the sources I could read. Pietsch 1995 may have one; his table was not accessible."
+   },
+   "id_confidence": "unidentified",
+   "id_strength": "none",
+   "social_behavior": "unknown",
+   "group_size": null,
+   "stage_or_context": null,
+   "behavior_level": "none",
+   "behavior_source": null,
+   "habitat_region": null,
+   "striking": null,
+   "notes": "Name settled: the Table prints Plattangh in italic with a clean n, printed against XL. 171, likely a misprint of 177. 'On en prend beaucoup' suggests abundance only, not grouping."
+  }
+ ]
+}

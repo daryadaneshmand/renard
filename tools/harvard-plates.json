@@ -1,0 +1,604 @@
+{
+ "item": "PoissonsecrevisIRena",
+ "copy": "Harvard University, Museum of Comparative Zoology, Ernst Mayr Library. Public domain per the Biodiversity Heritage Library.",
+ "url": "https://archive.org/details/PoissonsecrevisIRena",
+ "leaf_url": "https://archive.org/download/PoissonsecrevisIRena/PoissonsecrevisIRena_jp2.zip/PoissonsecrevisIRena_jp2%2FPoissonsecrevisIRena_<leaf, four digits>.jp2",
+ "plates": {
+  "7197918": {
+   "leaf": null,
+   "score": 0.103,
+   "next": 0.089
+  },
+  "7197930": {
+   "leaf": null,
+   "score": 0.069,
+   "next": 0.064
+  },
+  "7197936": {
+   "leaf": null,
+   "score": 0.065,
+   "next": 0.059
+  },
+  "7197942": {
+   "leaf": null,
+   "score": 0.073,
+   "next": 0.066
+  },
+  "7197948": {
+   "leaf": null,
+   "score": 0.073,
+   "next": 0.068
+  },
+  "7197954": {
+   "leaf": null,
+   "score": 0.085,
+   "next": 0.078
+  },
+  "7197960": {
+   "leaf": null,
+   "score": 0.053,
+   "next": 0.053
+  },
+  "7197966": {
+   "leaf": null,
+   "score": 0.092,
+   "next": 0.089
+  },
+  "7197971": {
+   "leaf": null,
+   "score": 0.146,
+   "next": 0.128
+  },
+  "7197977": {
+   "leaf": null,
+   "score": 0.09,
+   "next": 0.07
+  },
+  "7197983": {
+   "leaf": null,
+   "score": 0.155,
+   "next": 0.147
+  },
+  "7197989": {
+   "leaf": null,
+   "score": 0.093,
+   "next": 0.073
+  },
+  "7197995": {
+   "leaf": null,
+   "score": 0.102,
+   "next": 0.092
+  },
+  "7198001": {
+   "leaf": null,
+   "score": 0.096,
+   "next": 0.082
+  },
+  "7198012": {
+   "leaf": 21,
+   "score": 0.714,
+   "next": 0.109
+  },
+  "7198025": {
+   "leaf": 23,
+   "score": 0.592,
+   "next": 0.119
+  },
+  "7198037": {
+   "leaf": 25,
+   "score": 0.537,
+   "next": 0.126,
+   "verified": "full scan",
+   "commons_px_per_harvard_px": 1.0207,
+   "rotation_deg": 0.22,
+   "plate_ncc": 0.8,
+   "folio": "Fol. 3"
+  },
+  "7198049": {
+   "leaf": 31,
+   "score": 0.466,
+   "next": 0.108
+  },
+  "7198058": {
+   "leaf": 35,
+   "score": 0.648,
+   "next": 0.249
+  },
+  "7198070": {
+   "leaf": 37,
+   "score": 0.736,
+   "next": 0.123
+  },
+  "7198081": {
+   "leaf": 39,
+   "score": 0.742,
+   "next": 0.147,
+   "verified": "full scan",
+   "commons_px_per_harvard_px": 1.0135,
+   "rotation_deg": 0.04,
+   "plate_ncc": 0.76,
+   "folio": "Fol. 10"
+  },
+  "7198093": {
+   "leaf": 41,
+   "score": 0.397,
+   "next": 0.089
+  },
+  "7198104": {
+   "leaf": 43,
+   "score": 0.522,
+   "next": 0.135,
+   "verified": "full scan",
+   "commons_px_per_harvard_px": 1.0177,
+   "rotation_deg": -1.1,
+   "plate_ncc": 0.77,
+   "folio": "Fol. 12"
+  },
+  "7198117": {
+   "leaf": 45,
+   "score": 0.486,
+   "next": 0.115
+  },
+  "7198129": {
+   "leaf": 49,
+   "score": 0.53,
+   "next": 0.116
+  },
+  "7198142": {
+   "leaf": 51,
+   "score": 0.63,
+   "next": 0.14
+  },
+  "7198154": {
+   "leaf": 53,
+   "score": 0.572,
+   "next": 0.12
+  },
+  "7198167": {
+   "leaf": 55,
+   "score": 0.684,
+   "next": 0.133,
+   "verified": "full scan",
+   "commons_px_per_harvard_px": 1.012,
+   "rotation_deg": -0.01,
+   "plate_ncc": 0.72,
+   "folio": "Fol. 18"
+  },
+  "7198179": {
+   "leaf": 57,
+   "score": 0.509,
+   "next": 0.163
+  },
+  "7198191": {
+   "leaf": 59,
+   "score": 0.506,
+   "next": 0.107
+  },
+  "7198202": {
+   "leaf": 61,
+   "score": 0.677,
+   "next": 0.103
+  },
+  "7198215": {
+   "leaf": 63,
+   "score": 0.718,
+   "next": 0.117
+  },
+  "7198228": {
+   "leaf": 65,
+   "score": 0.713,
+   "next": 0.101
+  },
+  "7198240": {
+   "leaf": 67,
+   "score": 0.656,
+   "next": 0.118,
+   "verified": "full scan",
+   "commons_px_per_harvard_px": 1.011,
+   "rotation_deg": 0.77,
+   "plate_ncc": 0.77,
+   "folio": "Fol. 24"
+  },
+  "7198252": {
+   "leaf": 71,
+   "score": 0.644,
+   "next": 0.119
+  },
+  "7198263": {
+   "leaf": 73,
+   "score": 0.658,
+   "next": 0.119
+  },
+  "7198275": {
+   "leaf": null,
+   "score": 0.109,
+   "next": 0.106
+  },
+  "7198287": {
+   "leaf": 77,
+   "score": 0.554,
+   "next": 0.11
+  },
+  "7198299": {
+   "leaf": 79,
+   "score": 0.475,
+   "next": 0.136
+  },
+  "7198312": {
+   "leaf": 81,
+   "score": 0.462,
+   "next": 0.153
+  },
+  "7198324": {
+   "leaf": null,
+   "score": 0.122,
+   "next": 0.111
+  },
+  "7198336": {
+   "leaf": null,
+   "score": 0.134,
+   "next": 0.094
+  },
+  "7198348": {
+   "leaf": null,
+   "score": 0.179,
+   "next": 0.174
+  },
+  "7198360": {
+   "leaf": null,
+   "score": 0.158,
+   "next": 0.13
+  },
+  "7198372": {
+   "leaf": null,
+   "score": 0.079,
+   "next": 0.073
+  },
+  "7198385": {
+   "leaf": null,
+   "score": 0.099,
+   "next": 0.09
+  },
+  "7198397": {
+   "leaf": null,
+   "score": 0.147,
+   "next": 0.121
+  },
+  "7198409": {
+   "leaf": null,
+   "score": 0.115,
+   "next": 0.103
+  },
+  "7198420": {
+   "leaf": null,
+   "score": 0.103,
+   "next": 0.098
+  },
+  "7198432": {
+   "leaf": null,
+   "score": 0.088,
+   "next": 0.088
+  },
+  "7198444": {
+   "leaf": null,
+   "score": 0.079,
+   "next": 0.079
+  },
+  "7198456": {
+   "leaf": null,
+   "score": 0.078,
+   "next": 0.073
+  },
+  "7198468": {
+   "leaf": null,
+   "score": 0.099,
+   "next": 0.091
+  },
+  "7198480": {
+   "leaf": 113,
+   "score": 0.452,
+   "next": 0.075
+  },
+  "7198492": {
+   "leaf": null,
+   "score": 0.085,
+   "next": 0.081
+  },
+  "7198504": {
+   "leaf": 117,
+   "score": 0.675,
+   "next": 0.082,
+   "verified": "full scan",
+   "commons_px_per_harvard_px": 1.0088,
+   "rotation_deg": 0.73,
+   "plate_ncc": 0.87,
+   "folio": "V. Planche"
+  },
+  "7198515": {
+   "leaf": 119,
+   "score": 0.558,
+   "next": 0.11,
+   "verified": "full scan",
+   "commons_px_per_harvard_px": 1.0123,
+   "rotation_deg": 0.58,
+   "plate_ncc": 0.81,
+   "folio": "VI. Planche"
+  },
+  "7198528": {
+   "leaf": 125,
+   "score": 0.55,
+   "next": 0.094,
+   "verified": "full scan",
+   "commons_px_per_harvard_px": 1.0134,
+   "rotation_deg": -0.26,
+   "plate_ncc": 0.82,
+   "folio": "Planche Neuvieme"
+  },
+  "7198539": {
+   "leaf": 127,
+   "score": 0.64,
+   "next": 0.114,
+   "verified": "full scan",
+   "commons_px_per_harvard_px": 1.0147,
+   "rotation_deg": 0.3,
+   "plate_ncc": 0.82,
+   "folio": "Planche Dixieme"
+  },
+  "7198551": {
+   "leaf": 129,
+   "score": 0.479,
+   "next": 0.083
+  },
+  "7198564": {
+   "leaf": 131,
+   "score": 0.699,
+   "next": 0.089
+  },
+  "7198576": {
+   "leaf": 133,
+   "score": 0.672,
+   "next": 0.11
+  },
+  "7198602": {
+   "leaf": 137,
+   "score": 0.665,
+   "next": 0.08
+  },
+  "7198615": {
+   "leaf": 139,
+   "score": 0.633,
+   "next": 0.102,
+   "verified": "full scan",
+   "commons_px_per_harvard_px": 1.0133,
+   "rotation_deg": 0.67,
+   "plate_ncc": 0.81,
+   "folio": "XVI. Planche"
+  },
+  "7198630": {
+   "leaf": 141,
+   "score": 0.668,
+   "next": 0.095
+  },
+  "7198642": {
+   "leaf": 143,
+   "score": 0.565,
+   "next": 0.102
+  },
+  "7198654": {
+   "leaf": 145,
+   "score": 0.644,
+   "next": 0.106
+  },
+  "7198666": {
+   "leaf": 147,
+   "score": 0.635,
+   "next": 0.088
+  },
+  "7198676": {
+   "leaf": 149,
+   "score": 0.723,
+   "next": 0.091
+  },
+  "7198686": {
+   "leaf": 153,
+   "score": 0.598,
+   "next": 0.085
+  },
+  "7198697": {
+   "leaf": 155,
+   "score": 0.572,
+   "next": 0.081
+  },
+  "7198708": {
+   "leaf": 157,
+   "score": 0.562,
+   "next": 0.097
+  },
+  "7198720": {
+   "leaf": 159,
+   "score": 0.51,
+   "next": 0.101
+  },
+  "7198732": {
+   "leaf": 161,
+   "score": 0.431,
+   "next": 0.092,
+   "verified": "full scan",
+   "commons_px_per_harvard_px": 1.0182,
+   "rotation_deg": -0.85,
+   "plate_ncc": 0.83,
+   "folio": "XXVII. Planche"
+  },
+  "7198745": {
+   "leaf": 163,
+   "score": 0.478,
+   "next": 0.083
+  },
+  "7198758": {
+   "leaf": 165,
+   "score": 0.433,
+   "next": 0.087
+  },
+  "7198770": {
+   "leaf": 169,
+   "score": 0.449,
+   "next": 0.073
+  },
+  "7198784": {
+   "leaf": 171,
+   "score": 0.451,
+   "next": 0.099
+  },
+  "7198798": {
+   "leaf": 173,
+   "score": 0.412,
+   "next": 0.115
+  },
+  "7198804": {
+   "leaf": null,
+   "score": 0.092,
+   "next": 0.09
+  },
+  "7198810": {
+   "leaf": 175,
+   "score": 0.495,
+   "next": 0.083
+  },
+  "7198822": {
+   "leaf": 177,
+   "score": 0.557,
+   "next": 0.095
+  },
+  "7198834": {
+   "leaf": 179,
+   "score": 0.529,
+   "next": 0.093
+  },
+  "7198846": {
+   "leaf": 181,
+   "score": 0.681,
+   "next": 0.082
+  },
+  "7198861": {
+   "leaf": 183,
+   "score": 0.515,
+   "next": 0.095
+  },
+  "7198872": {
+   "leaf": 185,
+   "score": 0.557,
+   "next": 0.09
+  },
+  "7198885": {
+   "leaf": 187,
+   "score": 0.455,
+   "next": 0.099,
+   "verified": "full scan",
+   "commons_px_per_harvard_px": 1.0153,
+   "rotation_deg": 1.04,
+   "plate_ncc": 0.7,
+   "folio": "XL. Planche"
+  },
+  "7198896": {
+   "leaf": 189,
+   "score": 0.51,
+   "next": 0.097
+  },
+  "7198908": {
+   "leaf": 191,
+   "score": 0.441,
+   "next": 0.117
+  },
+  "7198920": {
+   "leaf": 193,
+   "score": 0.384,
+   "next": 0.095
+  },
+  "7198933": {
+   "leaf": 195,
+   "score": 0.404,
+   "next": 0.09
+  },
+  "7198945": {
+   "leaf": 197,
+   "score": 0.399,
+   "next": 0.087
+  },
+  "7198957": {
+   "leaf": 201,
+   "score": 0.45,
+   "next": 0.082
+  },
+  "7198967": {
+   "leaf": 203,
+   "score": 0.594,
+   "next": 0.099
+  },
+  "7198982": {
+   "leaf": 205,
+   "score": 0.601,
+   "next": 0.1
+  },
+  "7198993": {
+   "leaf": 207,
+   "score": 0.366,
+   "next": 0.103
+  },
+  "7199006": {
+   "leaf": 209,
+   "score": 0.276,
+   "next": 0.223,
+   "note": "matched at scale .97, not checked at full size"
+  },
+  "7199017": {
+   "leaf": 211,
+   "score": 0.314,
+   "next": 0.068
+  },
+  "7199029": {
+   "leaf": 213,
+   "score": 0.283,
+   "next": 0.116
+  },
+  "7199041": {
+   "leaf": 215,
+   "score": 0.543,
+   "next": 0.085
+  },
+  "7199053": {
+   "leaf": 217,
+   "score": 0.451,
+   "next": 0.113
+  },
+  "7199065": {
+   "leaf": 219,
+   "score": 0.551,
+   "next": 0.07
+  },
+  "7199084": {
+   "leaf": null,
+   "score": 0.111,
+   "next": 0.084
+  },
+  "7199096": {
+   "leaf": null,
+   "score": 0.084,
+   "next": 0.069
+  },
+  "7199102": {
+   "leaf": null,
+   "score": 0.058,
+   "next": 0.055
+  },
+  "7199109": {
+   "leaf": null,
+   "score": 0.066,
+   "next": 0.065
+  },
+  "7199115": {
+   "leaf": null,
+   "score": 0.06,
+   "next": 0.059
+  }
+ }
+}

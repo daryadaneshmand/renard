@@ -2,15 +2,20 @@
  "title": "File:Poissons, ecrevisses et crabes 1754 (7198615).jpg",
  "id": "7198615",
  "paper": [
-  0.8941176533699036,
-  0.843137264251709,
-  0.7686274647712708
+  0.8901960849761963,
+  0.8549019694328308,
+  0.7568627595901489
  ],
  "ink": [
-  0.16862745583057404,
-  0.1764705926179886,
-  0.16862745583057404
+  0.19607843458652496,
+  0.250980406999588,
+  0.24313725531101227
  ],
+ "source": {
+  "copy": "harvard",
+  "item": "PoissonsecrevisIRena",
+  "leaf": 139
+ },
  "fish": [
   "coffer-de-nasselaw",
   "klip-visch-74",
@@ -20,5 +25,6 @@
   "klip-visch-78",
   "speer-vischje"
  ],
- "credit": "Louis Renard, 1754 edition, via Polona and Wikimedia Commons"
+ "hidden": [],
+ "credit": "Louis Renard, 1754 edition, Harvard Ernst Mayr Library copy, via Internet Archive"
 }

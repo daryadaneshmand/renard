@@ -318,14 +318,16 @@ def main():
     for meta in plates:
         if a.plate and meta['id'] != a.plate:
             continue
-        for slug in meta['fish']:
+        for slug in meta['fish'] + meta.get('hidden', []):
             if a.only and slug not in a.only:
                 continue
             bake_fish(f'{a.root}/{slug}')
     # Paper and ink stay the first plate's: they are what the bench and the line look print with.
+    # "hidden" fish are not in the water's bag, which only reads "fish". They load by slug: index.html?fish=<slug>.
     fish = [s for m in plates for s in m['fish']]
-    idx = dict(paper=plates[0]['paper'], ink=plates[0]['ink'], credit=plates[0]['credit'], fish=fish,
-               bytes={s: shipped_bytes(f'{a.root}/{s}') for s in fish if os.path.exists(f'{a.root}/{s}/mesh.bin')})
+    hidden = [s for m in plates for s in m.get('hidden', [])]
+    idx = dict(paper=plates[0]['paper'], ink=plates[0]['ink'], credit=plates[0]['credit'], fish=fish, hidden=hidden,
+               bytes={s: shipped_bytes(f'{a.root}/{s}') for s in fish + hidden if os.path.exists(f'{a.root}/{s}/mesh.bin')})
     with open(f'{a.root}/index.json', 'w') as fp:
         json.dump(idx, fp, indent=1)
 

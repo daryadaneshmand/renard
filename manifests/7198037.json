@@ -1,16 +1,107 @@
 {
-  "title": "File:Poissons, ecrevisses et crabes 1754 (7198037).jpg",
-  "folio": "Fol. 3",
-  "fish": [
-    {"name": "Bezaan", "number": 13, "facing": "left", "at": [1050, 1750], "type": "disc"},
-    {"name": "Arco-Fredje", "number": 14, "facing": "left", "at": [2340, 1420], "type": "wrasse"},
-    {"name": "Bongon", "number": 15, "facing": "left", "at": [2300, 1900], "type": "wrasse"},
-    {"name": "Ekorbiro", "number": 16, "facing": "left", "at": [900, 2600], "type": "deep"},
-    {"name": "Jacob-Everse Bigarre", "number": 17, "facing": "left", "at": [2100, 2550], "type": "deep"},
-    {"name": "Joulong-Joulong", "number": 18, "facing": "left", "at": [1500, 3100], "type": "eel"},
-    {"name": "Sambilang", "number": 19, "facing": "left", "at": [800, 3580], "type": "eel"},
-    {"name": "Kamboton", "number": 20, "facing": "left", "at": [2300, 3580], "type": "wrasse"},
-    {"name": "Gongiax", "number": 21, "facing": "left", "at": [800, 3980], "type": "wrasse"},
-    {"name": "Byenaneque", "number": 22, "facing": "left", "at": [2100, 3990], "type": "fusiform"}
-  ]
+ "title": "File:Poissons, ecrevisses et crabes 1754 (7198037).jpg",
+ "folio": "Fol. 3",
+ "fish": [
+  {
+   "name": "Bezaan",
+   "number": 13,
+   "facing": "left",
+   "at": [
+    906,
+    1455
+   ],
+   "type": "disc"
+  },
+  {
+   "name": "Arco-Fredje",
+   "number": 14,
+   "facing": "left",
+   "at": [
+    2160,
+    1129
+   ],
+   "type": "wrasse"
+  },
+  {
+   "name": "Bongon",
+   "number": 15,
+   "facing": "left",
+   "at": [
+    2121,
+    1605
+   ],
+   "type": "wrasse"
+  },
+  {
+   "name": "Ekorbiro",
+   "number": 16,
+   "facing": "left",
+   "at": [
+    753,
+    2291
+   ],
+   "type": "deep"
+  },
+  {
+   "name": "Jacob-Everse Bigarre",
+   "number": 17,
+   "facing": "left",
+   "at": [
+    1923,
+    2246
+   ],
+   "type": "deep"
+  },
+  {
+   "name": "Joulong-Joulong",
+   "number": 18,
+   "facing": "left",
+   "at": [
+    1334,
+    2789
+   ],
+   "type": "eel"
+  },
+  {
+   "name": "Sambilang",
+   "number": 19,
+   "facing": "left",
+   "at": [
+    645,
+    3250
+   ],
+   "type": "eel"
+  },
+  {
+   "name": "Kamboton",
+   "number": 20,
+   "facing": "left",
+   "at": [
+    2105,
+    3264
+   ],
+   "type": "wrasse"
+  },
+  {
+   "name": "Gongiax",
+   "number": 21,
+   "facing": "left",
+   "at": [
+    641,
+    3643
+   ],
+   "type": "wrasse"
+  },
+  {
+   "name": "Byenaneque",
+   "number": 22,
+   "facing": "left",
+   "at": [
+    1907,
+    3667
+   ],
+   "type": "fusiform"
+  }
+ ],
+ "leaf": 25
 }

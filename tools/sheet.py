@@ -36,7 +36,7 @@ def build(root, out, ground=(.16, .2, .42), paper=(.93, .89, .80), maxw=1500, pl
     rows, W = [], 0
     g = np.array(ground, np.float32); pap = np.array(paper, np.float32)
     meta = sorted(glob.glob(f'{root}/plate-{plate or "*"}.json'))
-    slugs = [s for m in meta for s in json.load(open(m))['fish']] if meta else sorted(os.listdir(root))
+    slugs = [s for m in meta for d_ in [json.load(open(m))] for s in d_['fish'] + d_.get('hidden', [])] if meta else sorted(os.listdir(root))
     for slug in slugs:
         d = f'{root}/{slug}'
         rig = json.load(open(f'{d}/rig.json'))

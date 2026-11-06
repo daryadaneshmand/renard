@@ -1,11 +1,54 @@
 {
-  "title": "File:Poissons, ecrevisses et crabes 1754 (7198732).jpg",
-  "folio": "XXVII. Planche",
-  "black_test": true,
-  "fish": [
-    {"name": "Cancre d'Amboine", "number": 132, "facing": "left", "at": [860, 1400], "type": "disc", "skip": true},
-    {"name": "Boots-haacks-Visch", "number": 133, "facing": "left", "at": [880, 2720], "type": "fusiform", "skip": true},
-    {"name": "Benissje", "number": 134, "facing": "left", "at": [957, 3830], "type": "wrasse"},
-    {"name": "Tomtombo", "slug": "tomtombo-135", "number": 135, "facing": "left", "rotate": 1, "at": [1914, 2392], "type": "disc"}
-  ]
+ "title": "File:Poissons, ecrevisses et crabes 1754 (7198732).jpg",
+ "folio": "XXVII. Planche",
+ "black_test": true,
+ "fish": [
+  {
+   "name": "Cancre d'Amboine",
+   "number": 132,
+   "facing": "left",
+   "at": [
+    686,
+    1109
+   ],
+   "type": "disc",
+   "hidden": true,
+   "rotate": 3
+  },
+  {
+   "name": "Boots-haacks-Visch",
+   "number": 133,
+   "facing": "left",
+   "at": [
+    725,
+    2417
+   ],
+   "type": "fusiform",
+   "hidden": true,
+   "rotate": 1
+  },
+  {
+   "name": "Benissje",
+   "number": 134,
+   "facing": "left",
+   "at": [
+    815,
+    3511
+   ],
+   "type": "wrasse"
+  },
+  {
+   "name": "Tomtombo",
+   "slug": "tomtombo-135",
+   "number": 135,
+   "facing": "left",
+   "rotate": 1,
+   "at": [
+    1726,
+    2076
+   ],
+   "type": "disc"
+  }
+ ],
+ "leaf": 161
 }

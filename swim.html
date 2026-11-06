@@ -113,7 +113,7 @@ async function setFish(slug) {
 // ---- the five knobs
 const panel = document.getElementById('p');
 const sel = document.createElement('select');
-index.fish.forEach(s => { const o = document.createElement('option'); o.textContent = s; sel.append(o); });
+[...index.fish, ...(index.hidden || [])].forEach(s => { const o = document.createElement('option'); o.textContent = s; sel.append(o); });
 sel.onchange = () => setFish(sel.value);
 panel.append(sel);
 const knobs = document.createElement('div');

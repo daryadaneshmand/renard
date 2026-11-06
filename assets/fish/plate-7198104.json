@@ -2,15 +2,20 @@
  "title": "File:Poissons, ecrevisses et crabes 1754 (7198104).jpg",
  "id": "7198104",
  "paper": [
-  0.8980392217636108,
+  0.8901960849761963,
   0.8470588326454163,
-  0.772549033164978
+  0.7450980544090271
  ],
  "ink": [
-  0.13725490868091583,
-  0.13333334028720856,
-  0.12941177189350128
+  0.20000000298023224,
+  0.19607843458652496,
+  0.1725490242242813
  ],
+ "source": {
+  "copy": "harvard",
+  "item": "PoissonsecrevisIRena",
+  "leaf": 43
+ },
  "fish": [
   "waboulang",
   "bouaya",
@@ -18,5 +23,6 @@
   "galioen-visch",
   "besaantie"
  ],
- "credit": "Louis Renard, 1754 edition, via Polona and Wikimedia Commons"
+ "hidden": [],
+ "credit": "Louis Renard, 1754 edition, Harvard Ernst Mayr Library copy, via Internet Archive"
 }

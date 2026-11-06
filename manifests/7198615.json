@@ -1,14 +1,81 @@
 {
-  "title": "File:Poissons, ecrevisses et crabes 1754 (7198615).jpg",
-  "folio": "XVI. Planche",
-  "black_test": true,
-  "fish": [
-    {"name": "Coffer de Nasselaw", "number": 73, "facing": "left", "at": [1542, 1285], "type": "deep"},
-    {"name": "Klip-Visch", "slug": "klip-visch-74", "number": 74, "facing": "left", "at": [1100, 1800], "type": "wrasse"},
-    {"name": "Speer-Visch", "number": 75, "facing": "left", "at": [2093, 2093], "type": "disc"},
-    {"name": "Dorade-Dauphin", "number": 76, "facing": "left", "at": [1285, 2790], "type": "fusiform"},
-    {"name": "Douwing bâtard d'Harocke", "slug": "douwing-batard-d-harocke", "number": 77, "facing": "left", "at": [2020, 3488], "type": "disc"},
-    {"name": "Klip-Visch", "slug": "klip-visch-78", "number": 78, "facing": "left", "at": [1762, 4039], "type": "wrasse"},
-    {"name": "Speer-Vischje", "number": 79, "facing": "left", "at": [918, 3672], "type": "disc"}
-  ]
+ "title": "File:Poissons, ecrevisses et crabes 1754 (7198615).jpg",
+ "folio": "XVI. Planche",
+ "black_test": true,
+ "fish": [
+  {
+   "name": "Coffer de Nasselaw",
+   "number": 73,
+   "facing": "left",
+   "at": [
+    1338,
+    890
+   ],
+   "type": "deep"
+  },
+  {
+   "name": "Klip-Visch",
+   "slug": "klip-visch-74",
+   "number": 74,
+   "facing": "left",
+   "at": [
+    903,
+    1397
+   ],
+   "type": "wrasse"
+  },
+  {
+   "name": "Speer-Visch",
+   "number": 75,
+   "facing": "left",
+   "at": [
+    1876,
+    1701
+   ],
+   "type": "disc"
+  },
+  {
+   "name": "Dorade-Dauphin",
+   "number": 76,
+   "facing": "left",
+   "at": [
+    1079,
+    2381
+   ],
+   "type": "fusiform"
+  },
+  {
+   "name": "Douwing b\u00e2tard d'Harocke",
+   "slug": "douwing-batard-d-harocke",
+   "number": 77,
+   "facing": "left",
+   "at": [
+    1793,
+    3086
+   ],
+   "type": "disc"
+  },
+  {
+   "name": "Klip-Visch",
+   "slug": "klip-visch-78",
+   "number": 78,
+   "facing": "left",
+   "at": [
+    1536,
+    3636
+   ],
+   "type": "wrasse"
+  },
+  {
+   "name": "Speer-Vischje",
+   "number": 79,
+   "facing": "left",
+   "at": [
+    712,
+    3251
+   ],
+   "type": "disc"
+  }
+ ],
+ "leaf": 139
 }

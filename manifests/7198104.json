@@ -1,12 +1,58 @@
 {
-  "title": "File:Poissons, ecrevisses et crabes 1754 (7198104).jpg",
-  "folio": "Fol. 12",
-  "black_test": true,
-  "fish": [
-    {"name": "Waboulang", "number": 72, "facing": "left", "at": [1350, 1290], "type": "wrasse"},
-    {"name": "Bouaya", "number": 73, "facing": "left", "at": [1500, 1830], "type": "eel"},
-    {"name": "Turbot de l'isle Maurice", "number": 74, "facing": "left", "at": [1170, 2490], "type": "deep"},
-    {"name": "Galioen Visch", "number": 75, "facing": "left", "at": [870, 3660], "type": "disc"},
-    {"name": "Besaantie", "number": 76, "facing": "left", "at": [1860, 3600], "type": "disc"}
-  ]
+ "title": "File:Poissons, ecrevisses et crabes 1754 (7198104).jpg",
+ "folio": "Fol. 12",
+ "black_test": true,
+ "fish": [
+  {
+   "name": "Waboulang",
+   "number": 72,
+   "facing": "left",
+   "at": [
+    1108,
+    1062
+   ],
+   "type": "wrasse"
+  },
+  {
+   "name": "Bouaya",
+   "number": 73,
+   "facing": "left",
+   "at": [
+    1264,
+    1596
+   ],
+   "type": "eel"
+  },
+  {
+   "name": "Turbot de l'isle Maurice",
+   "number": 74,
+   "facing": "left",
+   "at": [
+    946,
+    2252
+   ],
+   "type": "deep"
+  },
+  {
+   "name": "Galioen Visch",
+   "number": 75,
+   "facing": "left",
+   "at": [
+    660,
+    3407
+   ],
+   "type": "disc"
+  },
+  {
+   "name": "Besaantie",
+   "number": 76,
+   "facing": "left",
+   "at": [
+    1628,
+    3335
+   ],
+   "type": "disc"
+  }
+ ],
+ "leaf": 43
 }

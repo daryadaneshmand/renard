@@ -2,18 +2,27 @@
  "title": "File:Poissons, ecrevisses et crabes 1754 (7198732).jpg",
  "id": "7198732",
  "paper": [
-  0.9098039269447327,
-  0.8588235378265381,
-  0.7882353067398071
+  0.8784313797950745,
+  0.843137264251709,
+  0.7411764860153198
  ],
  "ink": [
   0.18039216101169586,
-  0.18431372940540314,
-  0.1725490242242813
+  0.239215686917305,
+  0.250980406999588
  ],
+ "source": {
+  "copy": "harvard",
+  "item": "PoissonsecrevisIRena",
+  "leaf": 161
+ },
  "fish": [
   "benissje",
   "tomtombo-135"
  ],
- "credit": "Louis Renard, 1754 edition, via Polona and Wikimedia Commons"
+ "hidden": [
+  "cancre-d-amboine",
+  "boots-haacks-visch"
+ ],
+ "credit": "Louis Renard, 1754 edition, Harvard Ernst Mayr Library copy, via Internet Archive"
 }

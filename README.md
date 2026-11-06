@@ -1,6 +1,6 @@
 # Renard
 
-Louis Renard's fish, cut from his 1754 plates and swimming live in the browser. Credit: Louis Renard, 1754 edition, via Polona and Wikimedia Commons (`Category:Poissons,_ecrevisses_et_crabes_(1754)`, public domain). Local only for now.
+Louis Renard's fish, cut from his 1754 plates and swimming live in the browser. Credit: Louis Renard, *Poissons, ecrevisses et crabes*, 1754 edition, public domain. Scans from the Harvard Ernst Mayr Library copy at Internet Archive (https://archive.org/details/PoissonsecrevisIRena), with Wikimedia Commons (`Category:Poissons,_ecrevisses_et_crabes_(1754)`) as the fallback source.
 
 Status: extraction, correction, rig and water are built for Fol. 3, Fol. 10, Fol. 12, Fol. 18, Fol. 24, V. Planche, VI. Planche, Planche Neuvieme, Planche Dixieme, XVI. Planche, XXVII. Planche and XL. Planche (64 fish). Open `/index.html`.
 
@@ -65,8 +65,14 @@ It fetches a fish only as its turn comes: `index.json` lists them all, one turn 
 
 `tools/buddy_check.cjs` is the check. It reads numbers from simulated time and cannot say how they look moving.
 
+**Schools.** A trial, since one species has one print and a school can only be copies of it. Five fish school, chosen from `research/fish-natural-history.json`, and `SCHOOLS` at the top of `water.js` says how sound each one is: Groot Half-Beck, Dorade-Dauphin, Eenhoorn, Sambilang, and Vliegende Harder, the softest, whose identity is firm only to family. Byenaneque and Carcasse are left out, as commented lines. `SCHOOL` holds every number, and they are Darya's call. A school is one turn in the bag, and all its members draw from one print on the GPU, so it is all there or none of it is. A print that fails, or does not answer in `PARTNER_WAIT` seconds, sits out the visit. It runs on the same code as a pair: the leader's route, each follower's route moved to its own place, `validate` and `alike` on every one, and the clock in water time. Each member has its own level, place along the route, size, depth, tail phase, tail rate and tail width. A school waits until `company` other fish are in the water, unless `keepCovered` needs it sooner, and then goes with fewer members rather than pass `most`, and never under 3. There are never two schools at once, and no company joins one. A tall window has 3 of each. `?school=<slug>` shows one school, and until it is gone there is nothing else to send, so the window is empty between crossings. `?fish=` never schools, and `?arrive=1` is one fish. With reduced motion a school starts in view, near still. `tools/school_check.cjs` is the check: `schools`, `normal`, `load`, `real`, `fps`. It reads numbers and cannot say how they look moving.
+
 - `i` switches color and ink.
 - Left and right arrows make everything slower or faster together, a tap at a time or by holding: 0.1x to 4x, eased in, tail beat and new arrivals included. `tools/speed_check.cjs` is the check.
 - `?arrive=1` is one fish, one crossing, then an empty, still window with the render loop stopped, and never a pair. `?fish=<slug>` picks the fish (a comma list without `?arrive`), `?credit` shows the credit line. Both of a pair in the list swim as a pair, so `?fish=sian-mamel,sian-femel` is how to look at one; either alone is just that fish. Until both are gone there is nothing else to send, so a list that short leaves the window empty between crossings.
 - `?seed=<n>` repeats a run. `?manual=1` is for tools/water_check.cjs: no loop, driven by script, every fish held from the start.
-- `prefers-reduced-motion` gives near-still drift with two fish.
+- `prefers-reduced-motion` gives near-still drift with two fish, or a school when one is out.
+
+## License
+
+The code is MIT, see `LICENSE`. Renard's plates are in the public domain, and so are the fish cut from them in `assets/`.

@@ -3,6 +3,10 @@
 
     python -I tools/extract.py "File:Poissons, ecrevisses et crabes 1754 (7198037).jpg"
 
+The title only names the plate. A manifest with "leaf" reads Harvard's scan of that plate, which is
+the default for every plate in tools/harvard-plates.json, and its coordinates are in that scan's pixels.
+A manifest without "leaf" reads the Commons scan, and says so.
+
 Reads   manifests/<id>.json      names and facing, written by hand
         corrections/<id>.json    hand-made fixes (optional), see correct.html
                                  body, head, tail, fins, cut and clear polygons, trim, solid, fill_body, ink, close_field
@@ -20,11 +24,35 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 UA = 'renard-water/0.1 (art piece; https://github.com/daryadaneshmand/renard) python-urllib'
 MAX_TEX = 2048
 TEX_QUALITY = 90
+# Harvard's copy (Ernst Mayr Library, Museum of Comparative Zoology), the source of her pdia- previews.
+# Public domain per the Biodiversity Heritage Library. https://archive.org/details/PoissonsecrevisIRena
+IA_ITEM = 'PoissonsecrevisIRena'
+CREDIT = dict(harvard='Louis Renard, 1754 edition, Harvard Ernst Mayr Library copy, via Internet Archive',
+              commons='Louis Renard, 1754 edition, via Polona and Wikimedia Commons')
 
 # ---------------------------------------------------------------- source
 def plate_id(title):
     m = re.search(r'\((\d+)\)', title)
     return m.group(1) if m else re.sub(r'\W+', '_', title)
+
+def fetch_leaf(leaf):
+    """Cached JP2 of one leaf from the Internet Archive. One request, not the whole 497 MB zip.
+
+    Pillow reads the numbers as they are, and the file's Adobe RGB tag is not applied. That reading is
+    what her previews and the Archive's own derivatives sit nearer to, so it is the color here. Measured
+    on VI. Planche against her preview: dE 6.8 as is, 8.7 converted.
+    """
+    name = f'{IA_ITEM}_{leaf:04d}.jp2'
+    path = os.path.join(ROOT, 'cache', 'harvard', name)
+    if os.path.exists(path):
+        return path
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    url = f'https://archive.org/download/{IA_ITEM}/{IA_ITEM}_jp2.zip/{IA_ITEM}_jp2%2F{name}'
+    rq = urllib.request.Request(url, headers={'User-Agent': UA})
+    data = urllib.request.urlopen(rq, timeout=300).read()
+    with open(path, 'wb') as f:
+        f.write(data)
+    return path
 
 def fetch(title):
     """Cached original from Commons. One request, descriptive agent."""
@@ -397,7 +425,8 @@ def cut_fish(A, lbl, prop, entry, corr, plate, outdir, ink_rgb):
     for poly in corr.get('clear', []):
         # Paper that a caption closed off from the page reads as fish. Inside this polygon anything
         # the color of paper goes, so the edge follows the engraving and no hand has to trace it.
-        m &= ~(poly_mask(m.shape, poly, origin) & (de < CLEAR_DE))
+        # "clear_de" lowers the bar for a fish whose pale paint sits close to its paper.
+        m &= ~(poly_mask(m.shape, poly, origin) & (de < corr.get('clear_de', CLEAR_DE)))
     if corr.get('trim'):
         # Paper that came along with the fish: scraps on thin parts, fringes, foxing. Walk in from
         # outside through anything the color of paper. The engraved outline stops it, and so does
@@ -506,13 +535,16 @@ def sample_ink(A):
 
 def run(title, only=None, out_root=None, report=True):
     pid = plate_id(title)
-    path = fetch(title)
     manifest = json.load(open(f'{ROOT}/manifests/{pid}.json'))
+    leaf = manifest.get('leaf')
+    path = fetch_leaf(leaf) if leaf else fetch(title)
+    if not leaf:
+        print(f'{pid}: no Harvard leaf in its manifest, reading the Commons scan')
     corrpath = f'{ROOT}/corrections/{pid}.json'
     corrections = json.load(open(corrpath)) if os.path.exists(corrpath) else {}
     # A plate can mix head-up and side-on fish, so a fish may set its own "rotate" over the plate's.
     rot = manifest.get('rotate', 0)
-    W0, _ = Image.open(path).size
+    W0, H0 = Image.open(path).size
     out_root = out_root or f'{ROOT}/assets/fish'
     results, problems, unclaimed, nprops, meta = [], [], [], 0, None
     for r in sorted({e.get('rotate', rot) for e in manifest['fish']}):
@@ -523,7 +555,8 @@ def run(title, only=None, out_root=None, report=True):
         fish = [e for e in manifest['fish'] if e.get('rotate', rot) == r]
         # claim components by the manifest's rough point
         # 'at' is always read off the plate as printed
-        at = [(e['at'][1], W0 - 1 - e['at'][0]) if r == 1 else tuple(e['at']) for e in fish]
+        turn = {1: lambda x, y: (y, W0 - 1 - x), 3: lambda x, y: (H0 - 1 - y, x)}
+        at = [turn[r](*e['at']) if r in turn else tuple(e['at']) for e in fish]
         pts = [(x - ox, y - oy) for x, y in at]
         used = {}
         for e, (x, y) in zip(fish, pts):
@@ -551,7 +584,10 @@ def run(title, only=None, out_root=None, report=True):
         if meta is None:
             paper_rgb = np.median(A['paper'].reshape(-1, 3), axis=0)
             meta = dict(title=title, id=pid, paper=[float(v) for v in paper_rgb], ink=[float(v) for v in ink_rgb],
-                        fish=[fish_slug(e) for e in manifest['fish'] if not e.get('skip')], credit='Louis Renard, 1754 edition, via Polona and Wikimedia Commons')
+                        source=dict(copy='harvard', item=IA_ITEM, leaf=leaf) if leaf else dict(copy='commons'),
+                        fish=[fish_slug(e) for e in manifest['fish'] if not e.get('skip') and not e.get('hidden')],
+                        hidden=[fish_slug(e) for e in manifest['fish'] if e.get('hidden') and not e.get('skip')],
+                        credit=CREDIT['harvard' if leaf else 'commons'])
     os.makedirs(out_root, exist_ok=True)
     with open(f'{out_root}/plate-{pid}.json', 'w') as fp:
         json.dump(meta, fp, indent=1)

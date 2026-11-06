@@ -2,15 +2,20 @@
  "title": "File:Poissons, ecrevisses et crabes 1754 (7198037).jpg",
  "id": "7198037",
  "paper": [
-  0.8823529481887817,
-  0.8274509906768799,
-  0.7411764860153198
+  0.8705882430076599,
+  0.8235294222831726,
+  0.7137255072593689
  ],
  "ink": [
-  0.16078431904315948,
-  0.15294118225574493,
-  0.14509804546833038
+  0.1568627506494522,
+  0.16470588743686676,
+  0.15294118225574493
  ],
+ "source": {
+  "copy": "harvard",
+  "item": "PoissonsecrevisIRena",
+  "leaf": 25
+ },
  "fish": [
   "bezaan",
   "arco-fredje",
@@ -23,5 +28,6 @@
   "gongiax",
   "byenaneque"
  ],
- "credit": "Louis Renard, 1754 edition, via Polona and Wikimedia Commons"
+ "hidden": [],
+ "credit": "Louis Renard, 1754 edition, Harvard Ernst Mayr Library copy, via Internet Archive"
 }

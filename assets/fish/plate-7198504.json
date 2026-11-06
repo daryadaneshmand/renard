@@ -2,15 +2,20 @@
  "title": "File:Poissons, ecrevisses et crabes 1754 (7198504).jpg",
  "id": "7198504",
  "paper": [
-  0.8901960849761963,
-  0.8313725590705872,
-  0.7529411911964417
+  0.8823529481887817,
+  0.8470588326454163,
+  0.7450980544090271
  ],
  "ink": [
-  0.16078431904315948,
-  0.16470588743686676,
-  0.14509804546833038
+  0.1882352977991104,
+  0.2078431397676468,
+  0.18431372940540314
  ],
+ "source": {
+  "copy": "harvard",
+  "item": "PoissonsecrevisIRena",
+  "leaf": 117
+ },
  "fish": [
   "tang-brasem",
   "touring-reuw",
@@ -18,5 +23,6 @@
   "sian-mamel",
   "sian-femel"
  ],
- "credit": "Louis Renard, 1754 edition, via Polona and Wikimedia Commons"
+ "hidden": [],
+ "credit": "Louis Renard, 1754 edition, Harvard Ernst Mayr Library copy, via Internet Archive"
 }

@@ -1,11 +1,39 @@
 {
-  "title": "File:Poissons, ecrevisses et crabes 1754 (7198885).jpg",
-  "folio": "XL. Planche",
-  "rotate": 1,
-  "black_test": true,
-  "fish": [
-    {"name": "Geep", "number": 175, "facing": "left", "at": [2570, 2570], "type": "fusiform"},
-    {"name": "Bilangh", "number": 176, "facing": "left", "at": [1800, 2570], "type": "eel"},
-    {"name": "Plattangh", "number": 177, "facing": "left", "at": [790, 2570], "type": "fusiform"}
-  ]
+ "title": "File:Poissons, ecrevisses et crabes 1754 (7198885).jpg",
+ "folio": "XL. Planche",
+ "rotate": 1,
+ "black_test": true,
+ "fish": [
+  {
+   "name": "Geep",
+   "number": 175,
+   "facing": "left",
+   "at": [
+    2312,
+    2328
+   ],
+   "type": "fusiform"
+  },
+  {
+   "name": "Bilangh",
+   "number": 176,
+   "facing": "left",
+   "at": [
+    1560,
+    2317
+   ],
+   "type": "eel"
+  },
+  {
+   "name": "Plattangh",
+   "number": 177,
+   "facing": "left",
+   "at": [
+    572,
+    2297
+   ],
+   "type": "fusiform"
+  }
+ ],
+ "leaf": 187
 }

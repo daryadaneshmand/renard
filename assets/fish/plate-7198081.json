@@ -3,19 +3,25 @@
  "id": "7198081",
  "paper": [
   0.8784313797950745,
-  0.8196078538894653,
+  0.8392156958580017,
   0.7372549176216125
  ],
  "ink": [
-  0.18431372940540314,
-  0.20000000298023224,
-  0.1921568661928177
+  0.16862745583057404,
+  0.2235294133424759,
+  0.21960784494876862
  ],
+ "source": {
+  "copy": "harvard",
+  "item": "PoissonsecrevisIRena",
+  "leaf": 39
+ },
  "fish": [
   "marlpriem",
   "lasacker",
   "terbang-boudjou",
   "vliegende-harder"
  ],
- "credit": "Louis Renard, 1754 edition, via Polona and Wikimedia Commons"
+ "hidden": [],
+ "credit": "Louis Renard, 1754 edition, Harvard Ernst Mayr Library copy, via Internet Archive"
 }

@@ -32,7 +32,7 @@ let rig, img, zoom = 1, plateId, all = {};
 let mode = 'edit', drag = null, box = null, lastFin = -1;
 const say = t => { $('msg').textContent = t; };
 
-for (const s of index.fish) { const o = document.createElement('option'); o.textContent = s; $('fish').append(o); }
+for (const s of [...index.fish, ...(index.hidden || [])]) { const o = document.createElement('option'); o.textContent = s; $('fish').append(o); }
 $('fish').onchange = () => load($('fish').value);
 document.querySelectorAll('[data-mode]').forEach(b => b.onclick = () => {
   mode = b.dataset.mode;

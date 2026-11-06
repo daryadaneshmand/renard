@@ -1,13 +1,73 @@
 {
-  "title": "File:Poissons, ecrevisses et crabes 1754 (7198515).jpg",
-  "folio": "VI. Planche",
-  "black_test": true,
-  "fish": [
-    {"name": "Ican Tomtombo", "number": 24, "facing": "left", "rotate": 1, "at": [975, 2054], "type": "disc"},
-    {"name": "Ican Dorion", "number": 25, "facing": "left", "rotate": 1, "at": [2182, 1797], "type": "disc"},
-    {"name": "Klip-visch", "slug": "klip-visch-26", "number": 26, "facing": "left", "rotate": 1, "at": [1720, 2900], "type": "wrasse"},
-    {"name": "Klip-visch", "slug": "klip-visch-27", "number": 27, "facing": "left", "at": [2259, 2900], "type": "deep"},
-    {"name": "Roos-visch", "number": 28, "facing": "left", "at": [1797, 3773], "type": "wrasse"},
-    {"name": "Carcasse", "number": 29, "facing": "left", "at": [847, 4081], "type": "wrasse"}
-  ]
+ "title": "File:Poissons, ecrevisses et crabes 1754 (7198515).jpg",
+ "folio": "VI. Planche",
+ "black_test": true,
+ "fish": [
+  {
+   "name": "Ican Tomtombo",
+   "number": 24,
+   "facing": "left",
+   "rotate": 1,
+   "at": [
+    793,
+    1621
+   ],
+   "type": "disc"
+  },
+  {
+   "name": "Ican Dorion",
+   "number": 25,
+   "facing": "left",
+   "rotate": 1,
+   "at": [
+    1978,
+    1374
+   ],
+   "type": "disc"
+  },
+  {
+   "name": "Klip-visch",
+   "slug": "klip-visch-26",
+   "number": 26,
+   "facing": "left",
+   "rotate": 1,
+   "at": [
+    1515,
+    2469
+   ],
+   "type": "wrasse"
+  },
+  {
+   "name": "Klip-visch",
+   "slug": "klip-visch-27",
+   "number": 27,
+   "facing": "left",
+   "at": [
+    2043,
+    2475
+   ],
+   "type": "deep"
+  },
+  {
+   "name": "Roos-visch",
+   "number": 28,
+   "facing": "left",
+   "at": [
+    1584,
+    3338
+   ],
+   "type": "wrasse"
+  },
+  {
+   "name": "Carcasse",
+   "number": 29,
+   "facing": "left",
+   "at": [
+    649,
+    3634
+   ],
+   "type": "wrasse"
+  }
+ ],
+ "leaf": 119
 }

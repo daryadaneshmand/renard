@@ -55,7 +55,7 @@ Checks, with Playwright installed outside the repo (`NODE_PATH=<dir>/node_module
 
 `index.html` is the piece. Its look is one block of constants at the top of that file: ground, line, strength, weight, motion. `water.js` holds the rest: each fish gets one long path that begins and ends where it cannot be seen, either past the window's side or so far off that haze has taken it. Nothing knows about the window's edges, so nothing can turn at one.
 
-The window is never left empty: `keepCovered` in `water.js` sends the next fish in early enough that at least one is always showing, and `coveredFor` works out how long the fish already out will last, allowing for their pace wandering. Other fish still come and go at random as company, where before the water was sometimes left alone. `?arrive=1` is the exception, below.
+The window is never left empty: `keepCovered` in `water.js` sends the next fish in early enough that at least one is always showing, and `coveredFor` works out how long the fish already out will last, allowing for their pace wandering. Other fish still come and go at random as company, where before the water was sometimes left alone. A fish sent as company takes the turn `keepCovered` was holding, so if its own route would reach the window too late, say the long way in out of the haze, it takes the crossing planned for it instead (`companyPlan`). `?arrive=1` is the exception, below.
 
 It fetches a fish only as its turn comes: `index.json` lists them all, one turn waits ready while the others swim, 6 fish are held on the GPU unless more than that are in use, and a fish that will not load sits out the visit. The first turn is from the lighter half of the catalog, by the sizes in `index.json`.
 

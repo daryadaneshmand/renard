@@ -690,6 +690,12 @@ export async function start(canvas, LOOK, q) {
     }
     return { until: t, coming: Infinity };
   }
+  // The latest a turn on this plan can be showing, in seconds from now. Of a pair, the leader is the one that arrives first.
+  // With reduced motion a fish starts partway along its path, already in view (see spawn).
+  function arrivesIn(party, pl, mot) {
+    const first = pl.lead || pl;
+    return reduced.matches ? 0 : first.path.showFrom / ((pl.v || speedOf(party[0], pl.L) * .88) * mot * .78);
+  }
   let nextUp = null;   // the path the next fish will take if the window needs it, planned once
   function keepCovered(mot) {
     if (MANUAL && !S.ready.length) { const h = heldNext(); if (h) S.ready.push(h); }
@@ -697,13 +703,23 @@ export async function start(canvas, LOOK, q) {
     if (!party) { pump(); return; }
     if (!nextUp || nextUp.party !== party) nextUp = { party, pl: planTurn(party, { kind: 'cross', show: true }) };
     if (!nextUp.pl) { nextUp = null; return; }     // tries again next step, with new random paths
-    const pl = nextUp.pl, first = pl.lead || pl;   // of a pair, the leader is the one that arrives first
-    // With reduced motion a fish starts partway along its path, already in view (see spawn).
-    const arrives = reduced.matches ? 0 : first.path.showFrom / ((pl.v || speedOf(party[0], pl.L) * .88) * mot * .78);
+    const pl = nextUp.pl;
+    const arrives = arrivesIn(party, pl, mot);
     const { until, coming } = coveredFor(mot);
     if (until > arrives + COVER_MARGIN / S.speed || arrives >= coming) return;     // the overlap keeps its length in the water, whatever the speed
     if (launch(party, { pl })) { S.ready.shift(); pump(); }
     nextUp = null;
+  }
+  // Company takes the turn keepCovered is holding, so that turn still has to reach the window before the fish
+  // already there have gone. Its own route if it does, by the same reckoning as keepCovered; if not, the crossing
+  // planned for it. Without this a fish sent the long way in, out of the haze, can leave the window empty while it comes.
+  function companyPlan(party, opts, mot) {
+    const own = planTurn(party, opts);
+    const { until } = coveredFor(mot);
+    if (!until || (own && until > arrivesIn(party, own, mot) + COVER_MARGIN / S.speed)) return own;
+    const held = nextUp && nextUp.party === party && nextUp.pl;
+    nextUp = null;
+    return held || planTurn(party, { kind: 'cross', show: true }) || own;
   }
 
   // ---- one step of the world. Nothing here depends on rendering.
@@ -729,7 +745,10 @@ export async function start(canvas, LOOK, q) {
         let f = showing() >= maxFish || S.parties.some(p => p.school) ? null : S.ready.shift() || (MANUAL ? heldNext() : null);
         // A school waits for the water to thin first. It holds the next turn, so nobody else sets off meanwhile.
         if (f && isSchool(f) && S.active.length > SCHOOL.company) { S.ready.unshift(f); f = null; }
-        if (f) launch(f, S.spawned === 0 ? { kind: 'cross' } : undefined);
+        if (f) {
+          const opts = S.spawned === 0 ? { kind: 'cross' } : undefined, pl = companyPlan(f, opts, reduced.matches ? .1 : S.speed);
+          launch(f, pl ? { pl } : opts);
+        }
         pump();
         // Company for the fish keepCovered guarantees: mostly a little while, sometimes it swims alone.
         S.nextSpawn = !f && showing() < maxFish ? .25 : R() < .28 ? 34 + 26 * R() : 10 + 18 * R();

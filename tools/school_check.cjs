@@ -398,9 +398,21 @@ const NORMAL = ({ minutes, SCHOOLED }) => {
       check(r.median < 18 && r.work[1] < 16 && !p.errs.length, `${w}x${h} dpr ${dpr} holds 60 fps at ${r.n} fish: median ${r.median} ms`);
       await p.context().close();
     }
-    // And the real thing: seed 202 opens on a school, whole catalog, the page's own loop for a minute, new fish loading as they do.
+    // And the real thing: whole catalog, the page's own loop for a minute, new fish loading as they do, opening on a school.
+    // Which seed opens on one depends on the catalog, so the page is asked: the first seed from 202 on whose school is among the
+    // first two turns, which both set off within seconds. A school can also come later, so it is waited for as before.
     {
-      const p = await open(b, 1600, 900, 'seed=202');
+      let p = null, seed = 202;
+      for (; seed < 202 + 80; seed++) {
+        p = await open(b, 1600, 900, `seed=${seed}`);
+        const opens = await p.waitForFunction('WATER.S.parties.some(q => q.school) || WATER.S.parties.length + WATER.S.active.filter(a => !a.party).length >= 2', null, { timeout: 30000 })
+          .then(() => p.evaluate(() => WATER.S.parties.some(q => q.school)), () => false);
+        if (opens) break;
+        await p.context().close(); p = null;
+      }
+      check(!!p, `a seed from 202 opens on a school: ${p ? seed : 'none in 80'}`);
+      if (!p) { await b.close(); console.log(`\n${fail.length} FAILED`); process.exit(1); }
+      console.log(`  seed ${seed} opens on a school`);
       await p.waitForFunction('WATER.S.parties.some(q => q.school)', null, { timeout: 60000 });
       await p.evaluate(() => { window.BUSY = []; const tick = () => { BUSY.push(WATER.S.active.length); requestAnimationFrame(tick); }; requestAnimationFrame(tick); });
       await p.waitForTimeout(60000);

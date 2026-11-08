@@ -2,7 +2,7 @@
 
 Louis Renard's fish, cut from his 1754 plates and swimming live in the browser. Credit: Louis Renard, *Poissons, ecrevisses et crabes*, 1754 edition, public domain. Scans from the Harvard Ernst Mayr Library copy at Internet Archive (https://archive.org/details/PoissonsecrevisIRena), with Wikimedia Commons (`Category:Poissons,_ecrevisses_et_crabes_(1754)`) as the fallback source.
 
-Status: extraction, correction, rig and water are built for Fol. 1, Fol. 2, Fol. 3, Fol. 6, Fol. 8, Fol. 9, Fol. 10, Fol. 12, Fol. 18, Fol. 24, V. Planche, VI. Planche, Planche Neuvieme, Planche Dixieme, XVI. Planche, XXVII. Planche and XL. Planche (94 fish). Open `/index.html`.
+Status: extraction, correction, rig and water are built for Fol. 1, 2, 3, 6, 8, 9, 10, 11, 12, 13, 15, 16, 17, 18, 19, 20, 21 and 24, and V., VI., IX., X., XVI., XXVII. and XL. Planche (129 fish, plus 3 hidden). Open `/index.html`.
 
 ## Run it
 

@@ -1,0 +1,43 @@
+{
+ "title": "File:Poissons, ecrevisses et crabes 1754 (7198179).jpg",
+ "folio": "Fol. 19",
+ "black_test": true,
+ "fish": [
+  {
+   "name": "Moron Boussouk",
+   "number": 104,
+   "facing": "left",
+   "at": [1320, 1200],
+   "type": "deep"
+  },
+  {
+   "name": "Galle Galle",
+   "number": 105,
+   "facing": "left",
+   "at": [1400, 1920],
+   "type": "fusiform"
+  },
+  {
+   "name": "Color Sousounam",
+   "number": 106,
+   "facing": "left",
+   "at": [880, 2600],
+   "type": "wrasse"
+  },
+  {
+   "name": "Courkipas",
+   "number": 107,
+   "facing": "left",
+   "at": [1760, 2920],
+   "type": "deep"
+  },
+  {
+   "name": "Sasawar",
+   "number": 108,
+   "facing": "left",
+   "at": [1000, 3600],
+   "type": "fusiform"
+  }
+ ],
+ "leaf": 57
+}

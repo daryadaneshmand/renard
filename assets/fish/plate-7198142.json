@@ -1,0 +1,28 @@
+{
+ "title": "File:Poissons, ecrevisses et crabes 1754 (7198142).jpg",
+ "id": "7198142",
+ "paper": [
+  0.8901960849761963,
+  0.8509804010391235,
+  0.7490196228027344
+ ],
+ "ink": [
+  0.16862745583057404,
+  0.20000000298023224,
+  0.20000000298023224
+ ],
+ "source": {
+  "copy": "harvard",
+  "item": "PoissonsecrevisIRena",
+  "leaf": 51
+ },
+ "fish": [
+  "sardine-de-malacca",
+  "pangay-ou-kapirat",
+  "pabia-ou-carbauw",
+  "douwing-admiral",
+  "douwing-cammus"
+ ],
+ "hidden": [],
+ "credit": "Louis Renard, 1754 edition, Harvard Ernst Mayr Library copy, via Internet Archive"
+}

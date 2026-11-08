@@ -1,0 +1,28 @@
+{
+ "title": "File:Poissons, ecrevisses et crabes 1754 (7198191).jpg",
+ "id": "7198191",
+ "paper": [
+  0.886274516582489,
+  0.843137264251709,
+  0.7450980544090271
+ ],
+ "ink": [
+  0.18431372940540314,
+  0.1764705926179886,
+  0.15294118225574493
+ ],
+ "source": {
+  "copy": "harvard",
+  "item": "PoissonsecrevisIRena",
+  "leaf": 59
+ },
+ "fish": [
+  "douwing-baron",
+  "marack",
+  "iacob-everse",
+  "kakatoua-capitano",
+  "benyt"
+ ],
+ "hidden": [],
+ "credit": "Louis Renard, 1754 edition, Harvard Ernst Mayr Library copy, via Internet Archive"
+}

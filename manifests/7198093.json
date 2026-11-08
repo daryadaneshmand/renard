@@ -1,0 +1,52 @@
+{
+ "title": "File:Poissons, ecrevisses et crabes 1754 (7198093).jpg",
+ "folio": "Fol. 11",
+ "black_test": true,
+ "fish": [
+  {
+   "name": "Ican Couda, ou Lauwd Femelle",
+   "slug": "ican-couda",
+   "number": 68,
+   "facing": "left",
+   "at": [
+    1560,
+    960
+   ],
+   "type": "deep",
+   "hidden": true,
+   "note": "Seahorse: hidden until Darya has seen it swim alone, ?fish=ican-couda. A side to side tail wave may not suit it."
+  },
+  {
+   "name": "Ewauwe Pangay ou Luey",
+   "slug": "ewauwe-pangay",
+   "number": 69,
+   "facing": "left",
+   "at": [
+    1200,
+    1700
+   ],
+   "type": "deep"
+  },
+  {
+   "name": "Canjounou",
+   "number": 70,
+   "facing": "left",
+   "at": [
+    1450,
+    2400
+   ],
+   "type": "wrasse"
+  },
+  {
+   "name": "Brigadier",
+   "number": 71,
+   "facing": "left",
+   "at": [
+    1450,
+    3350
+   ],
+   "type": "wrasse"
+  }
+ ],
+ "leaf": 41
+}

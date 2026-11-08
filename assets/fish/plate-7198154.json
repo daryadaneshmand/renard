@@ -1,0 +1,27 @@
+{
+ "title": "File:Poissons, ecrevisses et crabes 1754 (7198154).jpg",
+ "id": "7198154",
+ "paper": [
+  0.8823529481887817,
+  0.8470588326454163,
+  0.7450980544090271
+ ],
+ "ink": [
+  0.1568627506494522,
+  0.1764705926179886,
+  0.1725490242242813
+ ],
+ "source": {
+  "copy": "harvard",
+  "item": "PoissonsecrevisIRena",
+  "leaf": 53
+ },
+ "fish": [
+  "naouti",
+  "abaleeuw",
+  "kokenbouti",
+  "corbeille"
+ ],
+ "hidden": [],
+ "credit": "Louis Renard, 1754 edition, Harvard Ernst Mayr Library copy, via Internet Archive"
+}

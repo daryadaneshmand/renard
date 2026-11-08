@@ -1,0 +1,38 @@
+{
+ "title": "File:Poissons, ecrevisses et crabes 1754 (7198129).jpg",
+ "folio": "Fol. 15",
+ "black_test": true,
+ "fish": [
+  {
+   "name": "Toutetou-Mamel",
+   "number": 85,
+   "facing": "left",
+   "at": [1480, 1000],
+   "type": "deep"
+  },
+  {
+   "name": "St. Peters. ou poisson de cinq doigts",
+   "slug": "st-peters",
+   "number": 86,
+   "facing": "left",
+   "at": [1320, 1840],
+   "type": "fusiform"
+  },
+  {
+   "name": "Pesque Cavalle, Coblyn ou Lema",
+   "slug": "pesque-cavalle",
+   "number": 87,
+   "facing": "left",
+   "at": [1400, 2520],
+   "type": "fusiform"
+  },
+  {
+   "name": "Turin Saratse",
+   "number": 88,
+   "facing": "left",
+   "at": [1400, 3240],
+   "type": "deep"
+  }
+ ],
+ "leaf": 49
+}

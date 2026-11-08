@@ -1,0 +1,43 @@
+{
+ "title": "File:Poissons, ecrevisses et crabes 1754 (7198191).jpg",
+ "folio": "Fol. 20",
+ "black_test": true,
+ "fish": [
+  {
+   "name": "Douwing Baron",
+   "number": 109,
+   "facing": "left",
+   "at": [940, 1060],
+   "type": "disc"
+  },
+  {
+   "name": "Marack",
+   "number": 110,
+   "facing": "left",
+   "at": [1720, 1860],
+   "type": "wrasse"
+  },
+  {
+   "name": "Iacob Everse",
+   "number": 111,
+   "facing": "left",
+   "at": [1080, 2480],
+   "type": "deep"
+  },
+  {
+   "name": "Kakatoua Capitano",
+   "number": 112,
+   "facing": "left",
+   "at": [1840, 3080],
+   "type": "wrasse"
+  },
+  {
+   "name": "Benyt",
+   "number": 113,
+   "facing": "left",
+   "at": [920, 3520],
+   "type": "fusiform"
+  }
+ ],
+ "leaf": 59
+}

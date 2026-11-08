@@ -1,0 +1,12 @@
+{
+ "title": "File:Poissons, ecrevisses et crabes 1754 (7198154).jpg",
+ "folio": "Fol. 17",
+ "black_test": true,
+ "fish": [
+  {"name": "Naouti", "number": 94, "facing": "left", "at": [1443, 1139], "type": "fusiform"},
+  {"name": "Abaleeuw", "number": 95, "facing": "left", "at": [1341, 2025], "type": "deep"},
+  {"name": "Kokenbouti", "number": 96, "facing": "left", "at": [1341, 2987], "type": "deep"},
+  {"name": "Corbeille", "number": 97, "facing": "left", "at": [1392, 3620], "type": "wrasse"}
+ ],
+ "leaf": 53
+}

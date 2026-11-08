@@ -1,0 +1,43 @@
+{
+ "title": "File:Poissons, ecrevisses et crabes 1754 (7198202).jpg",
+ "folio": "Fol. 21",
+ "black_test": true,
+ "fish": [
+  {
+   "name": "Raven Bek",
+   "number": 114,
+   "facing": "left",
+   "at": [1040, 1000],
+   "type": "deep"
+  },
+  {
+   "name": "Formosa",
+   "number": 115,
+   "facing": "left",
+   "at": [1800, 1640],
+   "type": "wrasse"
+  },
+  {
+   "name": "Douwing Royal",
+   "number": 116,
+   "facing": "left",
+   "at": [880, 2200],
+   "type": "disc"
+  },
+  {
+   "name": "Brocade",
+   "number": 117,
+   "facing": "left",
+   "at": [1700, 2880],
+   "type": "fusiform"
+  },
+  {
+   "name": "Mauritius Oud Wyf",
+   "number": 118,
+   "facing": "left",
+   "at": [1000, 3500],
+   "type": "deep"
+  }
+ ],
+ "leaf": 61
+}

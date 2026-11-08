@@ -1,0 +1,13 @@
+{
+ "title": "File:Poissons, ecrevisses et crabes 1754 (7198142).jpg",
+ "folio": "Fol. 16",
+ "black_test": true,
+ "fish": [
+  {"name": "Sardine de Malacca", "number": 89, "facing": "left", "at": [1040, 860], "type": "fusiform"},
+  {"name": "Pangay ou Kapirat", "number": 90, "facing": "left", "at": [1800, 1320], "type": "fusiform"},
+  {"name": "Pabia ou Carbauw", "number": 91, "facing": "left", "at": [1280, 1840], "type": "fusiform"},
+  {"name": "Douwing Admiral", "number": 92, "facing": "left", "at": [1800, 2440], "type": "disc"},
+  {"name": "Douwing Cammus", "number": 93, "facing": "left", "at": [1160, 3280], "type": "disc"}
+ ],
+ "leaf": 51
+}

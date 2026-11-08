@@ -1,0 +1,48 @@
+{
+ "title": "File:Poissons, ecrevisses et crabes 1754 (7198025).jpg",
+ "folio": "Fol. 2",
+ "black_test": true,
+ "fish": [
+  {
+   "name": "Ican-Poeti",
+   "number": 9,
+   "facing": "left",
+   "at": [
+    1400,
+    1300
+   ],
+   "type": "deep"
+  },
+  {
+   "name": "Blanacq",
+   "number": 10,
+   "facing": "left",
+   "at": [
+    1300,
+    2090
+   ],
+   "type": "fusiform"
+  },
+  {
+   "name": "Reeme",
+   "number": 11,
+   "facing": "left",
+   "at": [
+    1500,
+    2780
+   ],
+   "type": "wrasse"
+  },
+  {
+   "name": "Passer",
+   "number": 12,
+   "facing": "left",
+   "at": [
+    1200,
+    3480
+   ],
+   "type": "wrasse"
+  }
+ ],
+ "leaf": 23
+}

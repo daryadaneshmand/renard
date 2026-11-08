@@ -39,6 +39,7 @@ TYPES = {
 }
 
 QUANT = 65535
+LOOK_PLATE = '7198037'   # whose paper and ink go in index.json, see main
 
 def write_part(keep, attrs):
     """Encode one mesh part. attrs: name to float array, one value per vertex."""
@@ -322,11 +323,13 @@ def main():
             if a.only and slug not in a.only:
                 continue
             bake_fish(f'{a.root}/{slug}')
-    # Paper and ink stay the first plate's: they are what the bench and the line look print with.
+    # Paper and ink stay Fol. 3's (7198037), the first plate rigged: they are what the bench and the line look
+    # print with. Fol. 1 and Fol. 2 sort ahead of it by id, so it is named here rather than taken as plates[0].
     # "hidden" fish are not in the water's bag, which only reads "fish". They load by slug: index.html?fish=<slug>.
+    look = next((m for m in plates if m['id'] == LOOK_PLATE), plates[0])
     fish = [s for m in plates for s in m['fish']]
     hidden = [s for m in plates for s in m.get('hidden', [])]
-    idx = dict(paper=plates[0]['paper'], ink=plates[0]['ink'], credit=plates[0]['credit'], fish=fish, hidden=hidden,
+    idx = dict(paper=look['paper'], ink=look['ink'], credit=look['credit'], fish=fish, hidden=hidden,
                bytes={s: shipped_bytes(f'{a.root}/{s}') for s in fish + hidden if os.path.exists(f'{a.root}/{s}/mesh.bin')})
     with open(f'{a.root}/index.json', 'w') as fp:
         json.dump(idx, fp, indent=1)

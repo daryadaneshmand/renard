@@ -1,0 +1,58 @@
+{
+ "title": "File:Poissons, ecrevisses et crabes 1754 (7198058).jpg",
+ "folio": "Fol. 8",
+ "black_test": true,
+ "fish": [
+  {
+   "name": "Parring of Chnees",
+   "number": 55,
+   "facing": "left",
+   "at": [
+    1200,
+    1040
+   ],
+   "type": "fusiform"
+  },
+  {
+   "name": "Geep Serooy",
+   "number": 56,
+   "facing": "left",
+   "at": [
+    1200,
+    1532
+   ],
+   "type": "fusiform"
+  },
+  {
+   "name": "Cambat",
+   "number": 57,
+   "facing": "left",
+   "at": [
+    1200,
+    2072
+   ],
+   "type": "eel"
+  },
+  {
+   "name": "Douwing Prins",
+   "number": 58,
+   "facing": "left",
+   "at": [
+    1920,
+    2720
+   ],
+   "type": "disc"
+  },
+  {
+   "name": "Douwing Princesse",
+   "number": 59,
+   "facing": "left",
+   "at": [
+    1080,
+    3360
+   ],
+   "type": "disc"
+  }
+ ],
+ "leaf": 35
+}

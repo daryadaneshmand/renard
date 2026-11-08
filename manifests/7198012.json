@@ -1,0 +1,89 @@
+{
+ "title": "File:Poissons, ecrevisses et crabes 1754 (7198012).jpg",
+ "folio": "Fol. 1",
+ "black_test": true,
+ "fish": [
+  {
+   "name": "Terkoekoe",
+   "number": 1,
+   "facing": "left",
+   "at": [
+    600,
+    860
+   ],
+   "type": "deep"
+  },
+  {
+   "name": "Bot",
+   "number": 2,
+   "facing": "left",
+   "at": [
+    2240,
+    860
+   ],
+   "type": "deep"
+  },
+  {
+   "name": "Koutoueuw Espece de Romora",
+   "slug": "koutoueuw",
+   "number": 3,
+   "facing": "left",
+   "at": [
+    1400,
+    1140
+   ],
+   "type": "fusiform"
+  },
+  {
+   "name": "Adder",
+   "number": 4,
+   "facing": "left",
+   "at": [
+    920,
+    1440
+   ],
+   "type": "wrasse"
+  },
+  {
+   "name": "Foetak",
+   "number": 5,
+   "facing": "left",
+   "at": [
+    1680,
+    1800
+   ],
+   "type": "fusiform"
+  },
+  {
+   "name": "Anniko-Moor",
+   "number": 6,
+   "facing": "left",
+   "at": [
+    1000,
+    2360
+   ],
+   "type": "wrasse"
+  },
+  {
+   "name": "Poupou-Noble",
+   "number": 7,
+   "facing": "left",
+   "at": [
+    1880,
+    2920
+   ],
+   "type": "deep"
+  },
+  {
+   "name": "Parringa",
+   "number": 8,
+   "facing": "left",
+   "at": [
+    920,
+    3400
+   ],
+   "type": "deep"
+  }
+ ],
+ "leaf": 21
+}

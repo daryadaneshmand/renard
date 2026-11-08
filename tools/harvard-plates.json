@@ -77,12 +77,22 @@
   "7198012": {
    "leaf": 21,
    "score": 0.714,
-   "next": 0.109
+   "next": 0.109,
+   "verified": "full scan",
+   "commons_px_per_harvard_px": 1.0049,
+   "rotation_deg": 0.8,
+   "plate_ncc": 0.81,
+   "folio": "Fol. 1"
   },
   "7198025": {
    "leaf": 23,
    "score": 0.592,
-   "next": 0.119
+   "next": 0.119,
+   "verified": "full scan",
+   "commons_px_per_harvard_px": 1.019,
+   "rotation_deg": 0.2,
+   "plate_ncc": 0.74,
+   "folio": "Fol. 2"
   },
   "7198037": {
    "leaf": 25,
@@ -97,17 +107,32 @@
   "7198049": {
    "leaf": 31,
    "score": 0.466,
-   "next": 0.108
+   "next": 0.108,
+   "verified": "full scan",
+   "commons_px_per_harvard_px": 1.0187,
+   "rotation_deg": 0.82,
+   "plate_ncc": 0.74,
+   "folio": "Fol. 6"
   },
   "7198058": {
    "leaf": 35,
    "score": 0.648,
-   "next": 0.249
+   "next": 0.249,
+   "verified": "full scan",
+   "commons_px_per_harvard_px": 1.0176,
+   "rotation_deg": -0.49,
+   "plate_ncc": 0.79,
+   "folio": "Fol. 8"
   },
   "7198070": {
    "leaf": 37,
    "score": 0.736,
-   "next": 0.123
+   "next": 0.123,
+   "verified": "full scan",
+   "commons_px_per_harvard_px": 1.0168,
+   "rotation_deg": -0.23,
+   "plate_ncc": 0.79,
+   "folio": "Fol. 9"
   },
   "7198081": {
    "leaf": 39,

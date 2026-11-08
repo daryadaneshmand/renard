@@ -1,0 +1,98 @@
+{
+ "title": "File:Poissons, ecrevisses et crabes 1754 (7198049).jpg",
+ "folio": "Fol. 6",
+ "black_test": true,
+ "fish": [
+  {
+   "name": "Iser Varken",
+   "number": 40,
+   "facing": "left",
+   "at": [
+    700,
+    1020
+   ],
+   "type": "deep"
+  },
+  {
+   "name": "Louw",
+   "number": 41,
+   "facing": "left",
+   "at": [
+    1800,
+    1150
+   ],
+   "type": "wrasse"
+  },
+  {
+   "name": "Caboes Laowf",
+   "number": 42,
+   "facing": "left",
+   "at": [
+    900,
+    1650
+   ],
+   "type": "fusiform"
+  },
+  {
+   "name": "Salkoutoec",
+   "number": 43,
+   "facing": "left",
+   "at": [
+    1600,
+    2150
+   ],
+   "type": "deep"
+  },
+  {
+   "name": "Mauritius Sardyn",
+   "number": 44,
+   "facing": "left",
+   "at": [
+    700,
+    2500
+   ],
+   "type": "fusiform"
+  },
+  {
+   "name": "Marquille",
+   "number": 45,
+   "facing": "left",
+   "at": [
+    1700,
+    2750
+   ],
+   "type": "wrasse"
+  },
+  {
+   "name": "Carreauw",
+   "number": 46,
+   "facing": "left",
+   "at": [
+    800,
+    3150
+   ],
+   "type": "fusiform"
+  },
+  {
+   "name": "Camail",
+   "number": 47,
+   "facing": "left",
+   "at": [
+    1700,
+    3420
+   ],
+   "type": "fusiform"
+  },
+  {
+   "name": "Byouw",
+   "number": 48,
+   "facing": "left",
+   "at": [
+    900,
+    3650
+   ],
+   "type": "wrasse"
+  }
+ ],
+ "leaf": 31
+}

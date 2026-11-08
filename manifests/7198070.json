@@ -1,0 +1,48 @@
+{
+ "title": "File:Poissons, ecrevisses et crabes 1754 (7198070).jpg",
+ "folio": "Fol. 9",
+ "black_test": true,
+ "fish": [
+  {
+   "name": "Macolor",
+   "number": 60,
+   "facing": "left",
+   "at": [
+    1320,
+    1160
+   ],
+   "type": "wrasse"
+  },
+  {
+   "name": "Cabbellaau de l'isle Maurice",
+   "number": 61,
+   "facing": "left",
+   "at": [
+    1800,
+    2140
+   ],
+   "type": "wrasse"
+  },
+  {
+   "name": "Voorn de l'isle Maurice",
+   "number": 62,
+   "facing": "left",
+   "at": [
+    1160,
+    2660
+   ],
+   "type": "wrasse"
+  },
+  {
+   "name": "Philosoophe",
+   "number": 63,
+   "facing": "left",
+   "at": [
+    1800,
+    3360
+   ],
+   "type": "deep"
+  }
+ ],
+ "leaf": 37
+}

@@ -1,0 +1,27 @@
+{
+ "title": "File:Poissons, ecrevisses et crabes 1754 (7198025).jpg",
+ "id": "7198025",
+ "paper": [
+  0.8784313797950745,
+  0.8352941274642944,
+  0.7254902124404907
+ ],
+ "ink": [
+  0.21176470816135406,
+  0.1882352977991104,
+  0.15294118225574493
+ ],
+ "source": {
+  "copy": "harvard",
+  "item": "PoissonsecrevisIRena",
+  "leaf": 23
+ },
+ "fish": [
+  "ican-poeti",
+  "blanacq",
+  "reeme",
+  "passer"
+ ],
+ "hidden": [],
+ "credit": "Louis Renard, 1754 edition, Harvard Ernst Mayr Library copy, via Internet Archive"
+}
